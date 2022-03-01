@@ -1,7 +1,7 @@
 # ICBlast
 
 # Purpose
-Made so I can easily test my canisters and Motoko Playground canisters without manually providing interface spec.
+Made for easy testing of any canisters, including Motoko Playground canisters without manually providing interface spec.
 
 If you use too high concurrency you may get IP blocked by gateways.
 
