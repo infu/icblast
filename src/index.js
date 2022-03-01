@@ -19,7 +19,7 @@ let counterCanJohn = await anycan("wfg2r-bqaaa-aaaab-qadfq-cai", identityJohn);
 const delay = (ms) => new Promise((resolve, _) => setTimeout(resolve, ms));
 
 // sends 10 requests with max concurrency 5 at a time
-let results = await blast(10, 10, async (idx) => {
+let results = await blast(10, 5, async (idx) => {
   await delay(1); //NOTE: for some unknown to me reason if there is no delay, things appear to be "grouped" into one call and we will get the same result
 
   return counterCanJohn.inc();
