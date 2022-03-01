@@ -1,4 +1,4 @@
-# icblast
+# ICBlast
 
 # Purpose
 Made so I can easily test my canisters and Motoko Playground canisters without manually providing interface spec.
