@@ -1,5 +1,16 @@
 # icblast
 
+# Purpose
+Made so I can easily test my canisters and Motoko Playground canisters without manually providing interface spec.
+If you use too high concurrency you may get IP blocked by gateways.
+By default works with production IC network.
+You can also make it work with your local replica if you specify NODE_ENV=development and IC_HOST in .env
+
+Easy as:
+```
+let output = await(await anycan("x2ojg-ciaaa-aaaab-qadba-cai")).anyfunc(input);
+```
+
 # Usage
 
 ```
@@ -21,9 +32,6 @@ let counterCanJohn = await anycan("x2ojg-ciaaa-aaaab-qadba-cai", identityJohn);
 let results = await blast(10, 5, (idx) => {
   return counterCanJohn.get();
 });
-
-
-
 ```
 
 # Security
