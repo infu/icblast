@@ -1,5 +1,8 @@
 # ICBlast
-
+                                         
+ |_|  _.     _     _.   |_  |  _.  _ _|_ 
+ | | (_| \/ (/_   (_|   |_) | (_| _>  |_ 
+                                         
 # Purpose
 Made for easy testing of any canisters, including Motoko Playground canisters without manually providing interface spec.
 
