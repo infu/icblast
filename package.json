@@ -1,0 +1,24 @@
+{
+  "name": "@infu/icblast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@dfinity/agent": "^0.10.3",
+    "@dfinity/auth-client": "^0.10.3",
+    "@dfinity/authentication": "^0.10.3",
+    "@dfinity/candid": "^0.10.3",
+    "@dfinity/identity": "^0.10.3",
+    "@dfinity/principal": "^0.10.3",
+    "dotenv": "^16.0.0",
+    "get-random-values": "^1.2.2",
+    "node-fetch": "^3.2.1",
+    "p-limit": "^4.0.0"
+  }
+}
