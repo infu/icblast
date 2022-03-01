@@ -8,15 +8,21 @@ let identityJohn = fileIdentity(0);
 // Choose "Counter" and deploy it
 // Take the canister id and put replace it in this code
 
-let counterCanJohn = await anycan("x2ojg-ciaaa-aaaab-qadba-cai", identityJohn);
+let counterCanJohn = await anycan("wfg2r-bqaaa-aaaab-qadfq-cai", identityJohn);
+
+// let counterCanJohn = await anycan("xblvd-yqaaa-aaaab-qaddq-cai", identityJohn);
 
 // If you need different callers
 // let identityPeter = fileIdentity(1);
 // let counterCanPeter = await anycan("x2ojg-ciaaa-aaaab-qadba-cai", identityPeter);
 
+const delay = (ms) => new Promise((resolve, _) => setTimeout(resolve, ms));
+
 // sends 10 requests with max concurrency 5 at a time
-let results = await blast(10, 5, (idx) => {
-  return counterCanJohn.get();
+let results = await blast(10, 10, async (idx) => {
+  await delay(1); //NOTE: for some unknown to me reason if there is no delay, things appear to be "grouped" into one call and we will get the same result
+
+  return counterCanJohn.inc();
 });
 
 console.log(results);

@@ -1,6 +1,7 @@
 import { Actor, HttpAgent } from "@dfinity/agent";
 
 import fetch from "node-fetch";
+
 import { ifhackCanister } from "./ifhack.js";
 const didc = import("./lib/didc_js.cjs");
 
