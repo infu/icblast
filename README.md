@@ -2,9 +2,13 @@
 
 # Purpose
 Made so I can easily test my canisters and Motoko Playground canisters without manually providing interface spec.
+
 If you use too high concurrency you may get IP blocked by gateways.
+
 By default works with production IC network.
+
 You can also make it work with your local replica if you specify NODE_ENV=development and IC_HOST in .env
+
 
 Easy as:
 ```
