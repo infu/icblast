@@ -38,6 +38,7 @@ let counterCanJohn = await anycan("x2ojg-ciaaa-aaaab-qadba-cai", identityJohn);
 
 // sends 10 requests with max concurrency 5 at a time
 let results = await blast(10, 5, (idx) => {
+  await delay(1);
   return counterCanJohn.get();
 });
 ```
