@@ -2,10 +2,10 @@
   "name": "@infu/icblast",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/sys/index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js"
+    "test": "node src/index.js"
   },
   "author": "",
   "license": "ISC",

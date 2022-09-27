@@ -1,28 +1,43 @@
 # ICBlast
-```                                        
-|_|  _.     _     _.   |_  |  _.  _ _|_ 
-| | (_| \/ (/_   (_|   |_) | (_| _>  |_ 
+
 ```
-                                         
+|_|  _.     _     _.   |_  |  _.  _ _|_
+| | (_| \/ (/_   (_|   |_) | (_| _>  |_
+```
+
 # Purpose
-Made for easy testing of any canisters, including Motoko Playground canisters without manually providing interface spec.
 
-If you use too high concurrency you may get IP blocked by gateways.
+Made for easy testing of any canisters, and maintenance scripts, including Motoko Playground canisters without manually providing interface spec.
 
-By default works with production IC network.
+By default works with the production IC network.
 
 You can also make it work with your local replica if you specify NODE_ENV=development and IC_HOST in .env
 
-
 Easy as:
+
 ```
 let output = await(await anycan("x2ojg-ciaaa-aaaab-qadba-cai")).anyfunc(input);
 ```
 
 # Usage
 
+## Simple
+
 ```
-import { anycan, fileIdentity, blast } from "./sys/index.js";
+import icblast, { fileIdentity, blast } from "@infu/icblast";
+
+let ic = icblast({ local: true });
+
+let can = await ic("r7inp-6aaaa-aaaaa-aaabq-cai");
+
+console.log( await can.config_get() );
+
+```
+
+## Advanced
+
+```
+import icblast, { fileIdentity, blast } from "@infu/icblast";
 
 let identityJohn = fileIdentity(0);
 
@@ -30,7 +45,9 @@ let identityJohn = fileIdentity(0);
 // Choose "Counter" and deploy it
 // Take the canister id and put replace it in this code
 
-let counterCanJohn = await anycan("x2ojg-ciaaa-aaaab-qadba-cai", identityJohn);
+let ic = icblast({identity : identityJohn});
+
+let counterCanJohn = await ic("x2ojg-ciaaa-aaaab-qadba-cai");
 
 // If you need different callers
 // let identityPeter = fileIdentity(1);
@@ -48,6 +65,5 @@ let results = await blast(10, 5, (idx) => {
 The outputs of didc wasm get evaluated for the purposes of creating js IDL. Which means, whatever is in there has full access to your OS and you need to trust the wasm binary. Unless you compile it on your own.
 
 I have taken it from https://github.com/ic-rocks/didc-js and compiled it with target nodejs.
-
 
 LICENSE MIT
