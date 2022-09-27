@@ -3,7 +3,6 @@ import dfidentity from "@dfinity/identity";
 import fs from "fs";
 import getRandomValues from "get-random-values";
 export const MAX_IDENTITIES = 3;
-import sha256 from "sha256";
 
 const newIdentity = () => {
   const entropy = getRandomValues(new Uint8Array(32));
