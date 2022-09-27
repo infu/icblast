@@ -11,14 +11,6 @@ Made for easy testing of any canisters, and maintenance scripts, including Motok
 
 By default works with the production IC network.
 
-You can also make it work with your local replica if you specify NODE_ENV=development and IC_HOST in .env
-
-Easy as:
-
-```
-let output = await(await anycan("x2ojg-ciaaa-aaaab-qadba-cai")).anyfunc(input);
-```
-
 # Usage
 
 ## Simple
