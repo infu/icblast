@@ -127,10 +127,10 @@
     "minimalistic-assert" "^1.0.1"
     "minimalistic-crypto-utils" "^1.0.1"
 
-"fetch-blob@^3.1.2", "fetch-blob@^3.1.4":
-  "integrity" "sha512-Eq5Xv5+VlSrYWEqKrusxY1C3Hm/hjeAsCGVG3ft7pZahlUAChpGZT/Ms1WmSLnEAisEXszjzu/s+ce6HZB2VHA=="
-  "resolved" "https://registry.npmjs.org/fetch-blob/-/fetch-blob-3.1.4.tgz"
-  "version" "3.1.4"
+"fetch-blob@^3.1.2", "fetch-blob@^3.1.4", "fetch-blob@^3.2.0":
+  "integrity" "sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ=="
+  "resolved" "https://registry.npmjs.org/fetch-blob/-/fetch-blob-3.2.0.tgz"
+  "version" "3.2.0"
   dependencies:
     "node-domexception" "^1.0.0"
     "web-streams-polyfill" "^3.0.3"

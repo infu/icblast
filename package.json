@@ -18,6 +18,7 @@
     "@dfinity/identity": "^0.10.3",
     "@dfinity/principal": "^0.10.3",
     "dotenv": "^16.0.0",
+    "fetch-blob": "^3.2.0",
     "get-random-values": "^1.2.2",
     "node-fetch": "^3.2.1",
     "p-limit": "^4.0.0"
