@@ -9,7 +9,7 @@ const didc = import("./lib/didc_js.cjs");
 let bindings = {};
 
 export const icblast =
-  ({ local = false, local_host = false, identity = false }) =>
+  ({ local = false, local_host = false, identity = false } = {}) =>
   async (canId) => {
     const IC_HOST = local
       ? local_host || "http://localhost:8000/"
@@ -45,7 +45,7 @@ export const icblast =
               });
 
               // Fetch root key for certificate validation during development
-              if (process.env.NODE_ENV !== "production") {
+              if (local) {
                 agent.fetchRootKey().catch((err) => {
                   console.warn(
                     "Unable to fetch root key. Check to ensure that your local replica is running"

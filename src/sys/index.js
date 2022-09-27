@@ -1,10 +1,13 @@
 import "dotenv/config";
 import { icblast } from "./anycan.js";
-import { fileIdentity } from "./identity.js";
+import { fileIdentity, pemIdentity } from "./identity.js";
 import pLimit from "p-limit";
 import { blobFrom } from "fetch-blob/from.js";
+import { cyclesCan } from "./cycles.js";
+import { aaaCan } from "./aaa.js";
+import { internetIdentity } from "./internetIdentity.js";
 
-export { fileIdentity };
+export { fileIdentity, pemIdentity, aaaCan, cyclesCan, internetIdentity };
 export default icblast;
 
 export const file = async (path) =>

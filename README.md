@@ -26,6 +26,16 @@ console.log( await can.config_get() );
 
 ```
 
+## InternetIdentity
+
+```
+let identity = await internetIdentity();
+
+console.log(identity.getPrincipal().toText());
+```
+
+It will open a window to InternetIdentity. It will not store the key anywhere. To be most secure, make sure your browser extensions with full permissions are set to manually activated "on click"
+
 ## Advanced
 
 ```
