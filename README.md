@@ -118,7 +118,7 @@ let response = await wallet.wallet_call({
 });
 
 // each method has also version with $ prefix. It will decode responses
-let decoded = aaa.$canister_status(Buffer.from(response.Ok.return));
+let decoded = aaa.$canister_status(response.Ok.return);
 
 console.log(decoded);
 ```

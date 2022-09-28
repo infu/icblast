@@ -27,22 +27,3 @@ let res = await walletCall(
 )({ canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai") });
 
 console.log(res);
-
-// let identity = fileIdentity(0);
-
-// console.log(identity.getPrincipal().toText());
-
-// let aaa = aaaCan({ agentOptions: { identity } });
-
-// let cy = cyclesCan("ryjl3-tyaaa-aaaaa-aaaba-cai", { agentOptions: { identity } });
-
-// console.log(Principal.fromText(`aaaaa-aa`));
-
-// let r = await aaa.canister_status({
-//   canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai"),
-// });
-
-// console.log(r);
-// let r = await can.config_get();
-// console.log(r);
-// // console.log("file", await file("./cool.txt"));

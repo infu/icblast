@@ -7,6 +7,7 @@ export const attachEncoders = (target, interfaceFactory) => {
     target[methodName + "$"] = (...args) => [
       ...IDL.encode(func.argTypes, args),
     ];
-    target["$" + methodName] = (payload) => IDL.decode(func.retTypes, payload);
+    target["$" + methodName] = (payload) =>
+      IDL.decode(func.retTypes, Buffer.from(payload));
   }
 };

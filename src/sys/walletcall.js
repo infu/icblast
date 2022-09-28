@@ -10,5 +10,5 @@ export const walletCall =
       canister: can.$principal,
     });
     if (!("Ok" in response)) throw response.Err;
-    return can["$" + method](Buffer.from(response.Ok.return));
+    return can["$" + method](response.Ok.return);
   };

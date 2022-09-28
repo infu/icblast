@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import icblast from "../src/sys/index.js";
+import icblast, { fileIdentity } from "../src/sys/index.js";
 
 // Note: This won't work unless the wallet is the controller of the canister you are checking
 // the status of. And also won't work if you don't have the current identity added as controller in
@@ -30,6 +30,6 @@ let response = await wallet.wallet_call({
 });
 
 // each method has also version with $ prefix. It will decode responses
-let decoded = aaa.$canister_status(Buffer.from(response.Ok.return));
+let decoded = aaa.$canister_status(response.Ok.return);
 
 console.log(decoded);
