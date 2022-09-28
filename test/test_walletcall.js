@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import icblast from "./sys/index.js";
+import icblast from "../src/sys/index.js";
 
 // Note: This won't work unless the wallet is the controller of the canister you are checking
 // the status of. And also won't work if you don't have the current identity added as controller in

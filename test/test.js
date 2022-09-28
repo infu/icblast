@@ -5,7 +5,7 @@ import icblast, {
   file,
   internetIdentity,
   walletCall,
-} from "./sys/index.js";
+} from "../src/sys/index.js";
 
 let identity = await fileIdentity(0);
 console.log(identity.getPrincipal().toText());
