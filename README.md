@@ -7,7 +7,11 @@
 
 # Purpose
 
-Made for easy testing of any canisters, and maintenance scripts, including Motoko Playground canisters without manually providing interface spec.
+Provide easy access to the Internet Computer from NodeJS.
+
+Made for maintenance scripts and testing.
+
+Tip: Use Motoko Playground canisters to play around with it.
 
 By default works with the production IC network.
 
@@ -16,11 +20,11 @@ By default works with the production IC network.
 ## Simple
 
 ```
-import icblast, { fileIdentity, blast } from "@infu/icblast";
+import icblast from "@infu/icblast";
 
 let ic = icblast({ local: true });
 
-let can = await ic("r7inp-6aaaa-aaaaa-aaabq-cai");
+let can = await ic("r7inp-6aaaa-aaaaa-aaabq-cai"); // It will fetch the IDL spec, no need to specify it manually
 
 console.log( await can.config_get() );
 
@@ -39,8 +43,10 @@ It will open a window to InternetIdentity. It will not store the key anywhere. T
 ## fileIdentity and concurrent async calls
 
 ```
-import icblast, { fileIdentity, blast } from "@infu/icblast";
+import icblast, { fileIdentity } from "@infu/icblast";
 
+// stores your private keys in a json file in ~/.icblast/identity.json
+// you have 10 identites you can switch 0-9
 let identityJohn = fileIdentity(0);
 
 // TIP: Go to Motoko Playground at https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/
@@ -117,10 +123,23 @@ let decoded = aaa.$canister_status(Buffer.from(response.Ok.return));
 console.log(decoded);
 ```
 
-# Security
+## File uploads
 
-The outputs of didc wasm get evaluated for the purposes of creating js IDL. Which means, whatever is in there has full access to your OS and you need to trust the wasm binary. Unless you compile it on your own.
+```
 
-I have taken it from https://github.com/ic-rocks/didc-js and compiled it with target nodejs.
+// Deploy a canister and take the canister_id
+// from this playground: https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=1212716285
+let canister_id = "6zfvq-kiaaa-aaaab-qacra-cai";
+
+let ic = icblast();
+let can = await ic(canister_id);
+
+await can.put(await file("./testfile.bin"));
+
+let fetched_file = await can.get();
+
+console.log(fetched_file);
+
+```
 
 LICENSE MIT

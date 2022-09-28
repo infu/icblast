@@ -1,8 +1,9 @@
 import path from "path";
 import dfidentity from "@dfinity/identity";
 import fs from "fs";
+import os from "os";
 import getRandomValues from "get-random-values";
-export const MAX_IDENTITIES = 3;
+export const MAX_IDENTITIES = 10;
 
 const newIdentity = () => {
   const entropy = getRandomValues(new Uint8Array(32));
@@ -24,9 +25,12 @@ export const pemIdentity = (path) => {
 export const fileIdentity = (num) => {
   if (num >= MAX_IDENTITIES) throw new Error("increase MAX identities");
 
+  let dir = os.homedir() + "/.icblast/";
+  let fn = path.resolve(dir, "identity.json");
+
   if (fileContents === null)
     try {
-      fileContents = JSON.parse(fs.readFileSync(path.resolve("identity.json")));
+      fileContents = JSON.parse(fs.readFileSync(fn));
     } catch (e) {
       console.log("Creating new identity and saving it in identity.json");
       fileContents = [];
@@ -36,10 +40,9 @@ export const fileIdentity = (num) => {
 
       fileContents = JSON.parse(JSON.stringify(fileContents));
 
-      fs.writeFileSync(
-        path.resolve("identity.json"),
-        JSON.stringify(fileContents)
-      );
+      fs.mkdir(dir, (err) => {
+        fs.writeFileSync(fn, JSON.stringify(fileContents));
+      });
     }
 
   return dfidentity.Ed25519KeyIdentity.fromParsedJson(fileContents[num]);
