@@ -10,6 +10,10 @@ Tip: Use Motoko Playground canisters to play around with it.
 
 By default works with the production IC network.
 
+# Features
+
+🦄 Auto Interface 🦄 InternetIdentity 🦄 Proxy Calls 🦄 AgentJS 🦄 Internet Computer
+
 <br clear=all />
 
 ## ✨ Reasons to use `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
