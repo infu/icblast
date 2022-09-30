@@ -1,5 +1,3 @@
-# IC Blast
-
 <img src="./icblast.svg" width="300" align="left">
 
 # Purpose ☮️
