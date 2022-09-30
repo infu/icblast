@@ -10,7 +10,7 @@ Tip: Use Motoko Playground canisters to play around with it.
 
 By default works with the production IC network.
 
-# Features
+## Features
 
 🦄 Auto Interface 🦄 InternetIdentity 🦄 Proxy Calls 🦄 AgentJS 🦄 Internet Computer
 
