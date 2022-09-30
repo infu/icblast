@@ -1,6 +1,6 @@
 import { Actor, HttpAgent } from "@dfinity/agent";
 
-import fetch from "node-fetch";
+import "isomorphic-fetch";
 
 import { ifhackCanister } from "./ifhack.js";
 import { attachEncoders } from "./encoders.js";
