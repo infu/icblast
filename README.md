@@ -1,39 +1,31 @@
-# ICBlast
+# IC Blast
 
-```
-|_|  _.     _     _.   |_  |  _.  _ _|_
-| | (_| \/ (/_   (_|   |_) | (_| _>  |_
-```
+<img src="./icblast.svg" width="300" align="left">
 
 # Purpose
 
-Provide easy access to the Internet Computer from NodeJS.
+Hacking, maintenance scripts, testing, exploring and learning.
 
-Made for hacking, maintenance scripts, testing, exploring and learning.
+Provide easy access to the Internet Computer from NodeJS.
 
 Tip: Use Motoko Playground canisters to play around with it.
 
 By default works with the production IC network.
 
-## Reasons to use it instead of `ic-repl` or bash scripts using `dfx`:
+<br clear=all />
 
-1. As dApp maker, you already know javascript or you can’t make your frontend
+## Reasons to use `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
 
-2. You already have all your transformation functions in JS. (AccountIdentifier, Token, etc.)
-
-3. You already got used to how AgentJs serializes objects. DFX and ic-repl use different syntax
-
-4. You can fetch something from a canister, modify and send it back easily
-
-5. You can use all the NPM libraries like ic-js, Principal, Lodash
-
-6. When testing if your canisters will upgrade well locally, you switch between git commits. You deploy the older code and switch back to the newer one, then run upgrade scripts. Your interface specs coming from files will be wrong. This fetches them from replica, so they will be the correct old ones.
-
-7. Easy for hacking one-time use scripts when there is an edge case
-
-8. You can handle asynchronicity and concurrency easily
-
-9. You value your time to be fetching the service interface specs manually, transforming them and messing with files, just to send a few calls with a script you may never run again.
+* As dApp maker, you already know javascript or you can’t make your frontend
+* You already have all your transformation functions in JS. (AccountIdentifier, Token, etc.)
+* You already got used to how AgentJs serializes objects. DFX and ic-repl use different syntax
+* You can fetch something from a canister, modify and send it back easily
+* You can use all the NPM libraries like ic-js, Principal, Lodash
+* When testing if your canisters will upgrade well locally, you switch between git commits. You deploy the older code and switch back to the newer one, then run upgrade scripts. Your interface specs coming from files will be wrong. This fetches them from replica, so they will be the correct old ones.
+* Easy for hacking one-time use scripts when there is an edge case
+* You can handle asynchronicity and concurrency easily
+* You value your time to be fetching the service interface specs manually, transforming them and messing with files, just to send a few calls with a script you may never run again.
+* Catch and handle exceptions
 
 # Usage
 
