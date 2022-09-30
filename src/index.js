@@ -5,8 +5,8 @@ import pLimit from "p-limit";
 import { blobFrom } from "fetch-blob/from.js";
 
 import { internetIdentity } from "./internetIdentity.js";
-import { walletCall } from "./walletcall.js";
-export { fileIdentity, internetIdentity, walletCall };
+import { walletCall, walletProxy } from "./walletcall.js";
+export { fileIdentity, internetIdentity, walletCall, walletProxy };
 export default icblast;
 
 export const file = async (path) =>

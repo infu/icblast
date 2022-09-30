@@ -110,6 +110,14 @@ let res = await walletCall(
   0 // you can also send cycles. Used when creating canisters
 )({ canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai") });
 
+// or 
+
+let res = await walletProxy(wallet, aaa).canister_status({ canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai") });
+
+// or 
+
+let res = await walletProxy(wallet, aaa, 100000).canister_status({ canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai") });
+
 ```
 
 ## Wallet calls (verbose) - useful when making your own proxy canisters

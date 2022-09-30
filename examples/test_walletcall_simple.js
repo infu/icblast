@@ -4,7 +4,7 @@ import icblast, {
   blast,
   file,
   internetIdentity,
-  walletCall,
+  walletProxy,
 } from "../src/index.js";
 
 let identity = await fileIdentity(0);
@@ -19,11 +19,6 @@ let ic = icblast({ identity }); // can switch identity or go local
 let aaa = await ic("aaaaa-aa", "ic");
 let wallet = await ic("vlgg5-pyaaa-aaaai-qaqba-cai", "wallet");
 
-let res = await walletCall(
-  wallet,
-  aaa,
-  "canister_status",
-  0 // you can also send cycles. Used when creating canisters
-)({ canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai") });
+let res = await walletProxy(wallet, aaa).canister_status({ canister_id: Principal.fromText("kbzti-laaaa-aaaai-qe2ma-cai") });
 
 console.log(res);
