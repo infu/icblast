@@ -2,7 +2,7 @@
 
 # Purpose ☮️
 
-Hacking, maintenance scripts, testing, exploring and learning.
+Hacking, maintenance, testing, exploring and learning.
 
 Provide easy access to the Internet Computer from NodeJS.
 
