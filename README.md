@@ -67,10 +67,6 @@ let ic = icblast({identity : identityJohn});
 
 let counterCanJohn = await ic("x2ojg-ciaaa-aaaab-qadba-cai");
 
-// If you need different callers
-// let identityPeter = fileIdentity(1);
-// let counterCanPeter = await anycan("x2ojg-ciaaa-aaaab-qadba-cai", identityPeter);
-
 // sends 10 requests with max concurrency 5 at a time
 let results = await blast(10, 5, (idx) => {
   await delay(1);
