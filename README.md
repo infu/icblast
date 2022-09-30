@@ -2,7 +2,7 @@
 
 <img src="./icblast.svg" width="300" align="left">
 
-# Purpose
+# Purpose ☮️
 
 Hacking, maintenance scripts, testing, exploring and learning.
 
@@ -14,7 +14,7 @@ By default works with the production IC network.
 
 <br clear=all />
 
-## Reasons to use `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
+## ✨ Reasons to use `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
 
 * As dApp maker, you already know javascript or you can’t make your frontend
 * You already have all your transformation functions in JS. (AccountIdentifier, Token, etc.)
@@ -29,7 +29,7 @@ By default works with the production IC network.
 
 # Usage
 
-## Simple
+## 🦄 Simple
 
 ```
 import icblast from "@infu/icblast";
@@ -42,7 +42,7 @@ console.log( await can.config_get() );
 
 ```
 
-## InternetIdentity
+## 🌈 InternetIdentity
 
 ```
 let identity = await internetIdentity();
@@ -52,7 +52,7 @@ console.log(identity.getPrincipal().toText());
 
 It will open a window to InternetIdentity. It will not store the key anywhere. To be most secure, make sure your browser extensions with full permissions are set to manually activated "on click"
 
-## fileIdentity and concurrent async calls
+## 🍭 fileIdentity and concurrent async calls
 
 ```
 import icblast, { fileIdentity } from "@infu/icblast";
@@ -80,7 +80,7 @@ let results = await blast(10, 5, (idx) => {
 });
 ```
 
-## Wallet calls (easy)
+## 🎠 Wallet calls (easy)
 
 ```
 let identity = await fileIdentity(0);
@@ -112,7 +112,7 @@ let res = await walletProxy(wallet, aaa, 100000).canister_status({ canister_id: 
 
 ```
 
-## Wallet calls (verbose) - useful when making your own proxy canisters
+## 🐉 Wallet calls (verbose) - useful when making your own proxy canisters
 
 ```
 let ic = icblast({ identity }); // can switch identity or go local
@@ -143,7 +143,7 @@ let decoded = aaa.$canister_status(response.Ok.return);
 console.log(decoded);
 ```
 
-## File uploads
+## 🏳️‍🌈 File uploads
 
 ```
 
@@ -162,4 +162,4 @@ console.log(fetched_file);
 
 ```
 
-LICENSE MIT
+LICENSE MIT ☮️
