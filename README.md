@@ -33,7 +33,7 @@ By default works with the production IC network.
 
 ## 🦄 Simple
 
-```
+```js
 import icblast from "@infu/icblast";
 
 let ic = icblast({ local: true });
@@ -46,7 +46,7 @@ console.log( await can.config_get() );
 
 ## 🌈 InternetIdentity
 
-```
+```js
 let identity = await internetIdentity();
 
 console.log(identity.getPrincipal().toText());
@@ -56,7 +56,7 @@ It will open a window to InternetIdentity. It will not store the key anywhere. T
 
 ## 🍭 fileIdentity and concurrent async calls
 
-```
+```js
 import icblast, { fileIdentity } from "@infu/icblast";
 
 // stores your private keys in a json file in ~/.icblast/identity.json
@@ -80,7 +80,7 @@ let results = await blast(10, 5, (idx) => {
 
 ## 🎠 Wallet calls (easy)
 
-```
+```js
 let identity = await fileIdentity(0);
 console.log(identity.getPrincipal().toText());
 
@@ -112,7 +112,7 @@ let res = await walletProxy(wallet, aaa, 100000).canister_status({ canister_id: 
 
 ## 🐉 Wallet calls (verbose) - useful when making your own proxy canisters
 
-```
+```js
 let ic = icblast({ identity }); // can switch identity or go local
 
 // we need to specify "ic" preset because this canister doesn't support downloading IDL spec
@@ -143,7 +143,7 @@ console.log(decoded);
 
 ## 🏳️‍🌈 File uploads
 
-```
+```js
 
 // Deploy a canister and take the canister_id
 // from this playground: https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=1212716285
