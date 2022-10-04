@@ -1,8 +1,11 @@
-<img src="./icblast.svg" width="300" align="left">
+<img src="./icblast.svg" width="300">
 
-# Purpose ☮️
+# BLAST Playground - dApp using the icblast library
+https://jglts-daaaa-aaaai-qnpma-cai.ic0.app/
 
-Hacking, maintenance, testing, exploring and learning.
+# Purpose 
+
+Operations, maintenance, testing, exploring and learning.
 
 Provide easy access to the Internet Computer from NodeJS.
 
