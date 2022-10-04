@@ -34,10 +34,24 @@ By default works with the production IC network.
 
 # Usage
 
-## 🦄 Simple
+## 🦄 Simple - Node
 
 ```js
 import icblast from "@infu/icblast";
+
+let ic = icblast({ local: true });
+
+let can = await ic("r7inp-6aaaa-aaaaa-aaabq-cai"); // It will fetch the IDL spec, no need to specify it manually
+
+console.log( await can.config_get() );
+
+```
+
+## Inside a browser
+
+For production dapps it's probably a better idea to use AgentJs directly, but if you want to hack something quick or need dynamic interface generation, use can use icblast.
+```js
+import icblast from "@infu/icblast/src/browser.js";
 
 let ic = icblast({ local: true });
 
