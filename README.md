@@ -1,7 +1,11 @@
 <img src="./icblast.svg" width="300">
 
-# BLAST Playground - dApp using the icblast library
+# BLAST Playground
 https://jglts-daaaa-aaaai-qnpma-cai.ic0.app/
+
+This repo here contains the library used by the playground
+
+```npm i @infu/icblast```
 
 # Purpose 
 
