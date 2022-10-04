@@ -1,4 +1,6 @@
 import "dotenv/config";
+import "isomorphic-fetch";
+
 import { icblast } from "./anycan.js";
 import { fileIdentity } from "./identity.js";
 import pLimit from "p-limit";

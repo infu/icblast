@@ -187,6 +187,10 @@
   "resolved" "https://registry.npmjs.org/destroy/-/destroy-1.2.0.tgz"
   "version" "1.2.0"
 
+"didc@github:ic-rocks/didc-js":
+  "resolved" "git+ssh://git@github.com/ic-rocks/didc-js.git#2f6a0d707de7993b21f7112c57adb3d9f6d289b5"
+  "version" "1.0.0"
+
 "dom-walk@^0.1.0":
   "integrity" "sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w=="
   "resolved" "https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz"

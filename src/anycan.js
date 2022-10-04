@@ -1,20 +1,31 @@
 import { Actor, HttpAgent } from "@dfinity/agent";
 
-import "isomorphic-fetch";
-
 import { ifhackCanister } from "./ifhack.js";
 import { attachEncoders } from "./encoders.js";
+
 const didc = import("./lib/didc_js.cjs");
 
-import * as preset_ic from "./ic/ic.did.js";
-import * as preset_wallet from "./wallet/wallet.did.js";
+import * as preset_ic from "./did/ic.did.js";
+import * as preset_wallet from "./did/wallet.did.js";
+import * as preset_pg from "./did/pg.did.js";
+import * as preset_evalcan from "./did/evalcan.did.js";
+import * as preset_ledger from "./did/ledger.did.js";
+import * as preset_nns from "./did/nns.did.js";
+import * as preset_nnsdapp from "./did/nnsdapp.did.js";
+import * as preset_sns from "./did/sns.did.js";
+import * as preset_cmc from "./did/cmc.did.js";
+
 import { Principal } from "@dfinity/principal";
 
-let bindings = {};
-
-export const icblast =
-  ({ local = false, local_host = false, identity = false } = {}) =>
-  async (canId, preset = false) => {
+export const icblast = ({
+  local = false,
+  local_host = false,
+  identity = false,
+} = {}) => {
+  let bindings = {};
+  return async (canId, preset = false) => {
+    if (canId === "aaaaa-aa") preset = "ic";
+    if (canId === "rkp4c-7iaaa-aaaaa-aaaca-cai") preset = "cmc";
     const IC_HOST = local
       ? local_host || "http://localhost:8000/"
       : "https://ic0.app";
@@ -27,7 +38,6 @@ export const icblast =
     const creator = (options) => {
       const agent = new HttpAgent({
         host: IC_HOST,
-        fetch,
         identity,
         ...options?.agentOptions,
       });
@@ -51,12 +61,14 @@ export const icblast =
 
       attachEncoders(actor, idlFactory);
       actor.$principal = Principal.fromText(canId);
+      actor.$idlFactory = idlFactory;
       return actor;
     };
 
     bindings[canId] = creator();
     return bindings[canId];
   };
+};
 
 const getLocal = (preset) => {
   switch (preset) {
@@ -64,16 +76,44 @@ const getLocal = (preset) => {
       return preset_ic.idlFactory;
     case "wallet":
       return preset_wallet.idlFactory;
+    case "pg":
+      return preset_pg.idlFactory;
+    case "evalcan":
+      return preset_evalcan.idlFactory;
+    case "nns":
+      return preset_nns.idlFactory;
+    case "nnsdapp":
+      return preset_nnsdapp.idlFactory;
+    case "ledger":
+      return preset_ledger.idlFactory;
+    case "sns":
+      return preset_sns.idlFactory;
+    case "cmc":
+      return preset_cmc.idlFactory;
     default:
       throw new Error("Available presets: ic, wallet");
   }
+};
+
+const didToJs = async (source) => {
+  let pg = await icblast()("a4gq6-oaaaa-aaaab-qaa4q-cai", "pg");
+  const js = await pg.did_to_js(source);
+
+  if (js === []) {
+    return undefined;
+  }
+  const dataUri =
+    "data:text/javascript;charset=utf-8," + encodeURIComponent(js[0]);
+  // eslint-disable-next-line no-eval
+  const candid = await eval('import("' + dataUri + '")');
+
+  return candid.idlFactory;
 };
 
 const downloadBindings = async (canId, IC_HOST) => {
   let ifcan = ifhackCanister(canId, {
     agentOptions: {
       host: IC_HOST,
-      fetch,
     },
   });
 
@@ -81,6 +121,11 @@ const downloadBindings = async (canId, IC_HOST) => {
 
   return new Promise((resolve, reject) => {
     didc.then((mod) => {
+      if (!mod.generate) {
+        // we are running in a browser probably and it doesn't know how to import .wasm
+        // so we will call the IC service used by the Motoko Playground
+        return didToJs(txt).then(resolve);
+      }
       const gen = mod.generate(txt);
       if (gen) {
         let jsCode = gen.js;
