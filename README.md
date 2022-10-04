@@ -7,7 +7,7 @@ https://jglts-daaaa-aaaai-qnpma-cai.ic0.app/
 
 Operations, maintenance, testing, exploring and learning.
 
-Provide easy access to the Internet Computer from NodeJS.
+Provide easy access to the Internet Computer from NodeJS & Browser.
 
 Tip: Use Motoko Playground canisters to play around with it.
 
