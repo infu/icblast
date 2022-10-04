@@ -49,7 +49,7 @@ console.log( await can.config_get() );
 
 ## Inside a browser
 
-For production dapps it's probably a better idea to use AgentJs directly, but if you want to hack something quick or need dynamic interface generation, use can use icblast.
+For production dapps it's probably a better idea to use AgentJs directly, but if you want to hack something quick or need dynamic interface generation, you can use icblast.
 ```js
 import icblast from "@infu/icblast/src/browser.js";
 
