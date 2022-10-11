@@ -15,7 +15,6 @@ export const file = async (blob) =>
   Array.from(new Uint8Array(await blob.arrayBuffer()));
 
 export const blast = (count, concurrency, func) => {
-  concurrency = concurrency > 10 ? 10 : Math.abs(concurrency); // script kiddie protection
   const limit = pLimit(concurrency); // max concurrency
 
   return Promise.all(

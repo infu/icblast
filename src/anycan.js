@@ -14,6 +14,7 @@ import * as preset_nns from "./did/nns.did.js";
 import * as preset_nnsdapp from "./did/nnsdapp.did.js";
 import * as preset_sns from "./did/sns.did.js";
 import * as preset_cmc from "./did/cmc.did.js";
+import * as preset_psy_wicp from "./did/psy_wicp.did.js";
 
 import { Principal } from "@dfinity/principal";
 
@@ -90,6 +91,8 @@ const getLocal = (preset) => {
       return preset_sns.idlFactory;
     case "cmc":
       return preset_cmc.idlFactory;
+    case "psy_wicp":
+      return preset_psy_wicp.idlFactory;
     default:
       throw new Error("Available presets: ic, wallet");
   }

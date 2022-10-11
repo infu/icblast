@@ -13,15 +13,6 @@ const newIdentity = () => {
 
 let fileContents = null;
 
-export const pemIdentity = (path) => {
-  // let myFile = fs.readFileSync(path).toString();
-  // const rawKey = myFile.replace(/---.*/gm, "").trim();
-  // let buff = new Buffer.from(rawKey, "base64");
-  // let rawBuffer = new Uint8Array(buff).buffer;
-  // const privKey = Uint8Array.from(sha256(rawBuffer, { asBytes: true }));
-  // return dfidentity.Secp256k1KeyIdentity.fromSecretKey(privKey);
-};
-
 export const fileIdentity = (num) => {
   if (num >= MAX_IDENTITIES) throw new Error("increase MAX identities");
 
