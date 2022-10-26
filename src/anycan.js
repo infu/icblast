@@ -32,9 +32,17 @@ export const icblast = ({
       : "https://ic0.app";
 
     if (bindings[canId]) return bindings[canId];
-    let idlFactory = preset
-      ? getLocal(preset)
-      : await downloadBindings(canId, IC_HOST);
+
+    let idlFactory;
+
+    if (preset) {
+      if (preset.length > 30) {
+        idlFactory = await didToJs(preset);
+      } else idlFactory = getLocal(preset);
+    } else {
+      let dl = await downloadBindings(canId, IC_HOST);
+      idlFactory = dl.idlFactory;
+    }
 
     const creator = (options) => {
       const agent = new HttpAgent({
@@ -120,16 +128,16 @@ const downloadBindings = async (canId, IC_HOST) => {
     },
   });
 
-  let txt = await ifcan.__get_candid_interface_tmp_hack();
+  let did = await ifcan.__get_candid_interface_tmp_hack();
 
   return new Promise((resolve, reject) => {
     didc.then((mod) => {
       if (!mod.generate) {
         // we are running in a browser probably and it doesn't know how to import .wasm
         // so we will call the IC service used by the Motoko Playground
-        return didToJs(txt).then(resolve);
+        return didToJs(did).then((idlFactory) => resolve({ idlFactory, did }));
       }
-      const gen = mod.generate(txt);
+      const gen = mod.generate(did);
       if (gen) {
         let jsCode = gen.js;
         const dataUri =
@@ -137,7 +145,7 @@ const downloadBindings = async (canId, IC_HOST) => {
 
         import(dataUri).then((ns) => {
           const idlFactory = ns.idlFactory;
-          resolve(idlFactory);
+          resolve({ idlFactory, did });
         });
       } else {
         console.warn("failed to generate bindings");
