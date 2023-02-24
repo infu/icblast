@@ -37,7 +37,10 @@ export const icblast = ({
 
     if (preset) {
       if (preset.length > 30) {
-        idlFactory = await didToJs(preset);
+        if (preset.indexOf("idlFactory") !== -1)
+          // not a very reliable way to tell js and candid apart
+          idlFactory = await didJsEval(preset);
+        else idlFactory = await didToJs(preset);
       } else idlFactory = getLocal(preset);
     } else {
       let dl = await downloadBindings(canId, IC_HOST);
@@ -118,6 +121,14 @@ const didToJs = async (source) => {
   // eslint-disable-next-line no-eval
   const candid = await eval('import("' + dataUri + '")');
 
+  return candid.idlFactory;
+};
+
+const didJsEval = async (content) => {
+  const dataUri =
+    "data:text/javascript;charset=utf-8," + encodeURIComponent(content);
+  // eslint-disable-next-line no-eval
+  const candid = await eval('import("' + dataUri + '")');
   return candid.idlFactory;
 };
 
