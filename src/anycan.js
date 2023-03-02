@@ -37,7 +37,8 @@ export const icblast = ({
     let idlFactory;
 
     if (preset) {
-      if (preset.length > 30) {
+      if (typeof preset === "function") idlFactory = preset;
+      else if (preset.length > 30) {
         if (preset.indexOf("idlFactory") !== -1)
           // not a very reliable way to tell js and candid apart
           idlFactory = await didJsEval(preset);
