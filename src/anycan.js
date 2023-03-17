@@ -37,6 +37,8 @@ export const icblast = ({
     let idlFactory;
 
     if (preset) {
+      if (typeof preset === "string" && preset.indexOf("https://") === 0)
+        preset = await fetch(preset).then((x) => x.text());
       if (typeof preset === "function") idlFactory = preset;
       else if (preset.length > 30) {
         if (preset.indexOf("idlFactory") !== -1)
