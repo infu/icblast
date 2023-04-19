@@ -1,8 +1,7 @@
 import { Actor, HttpAgent } from "@dfinity/agent";
 
 import { ifhackCanister } from "./ifhack.js";
-import { attachEncoders } from "./encoders.js";
-
+import { wrapActor } from "./actress.js";
 const didc = import("./lib/didc_js.cjs");
 
 import * as preset_ic from "./did/ic.did.js";
@@ -75,10 +74,11 @@ export const icblast = ({
         ...options?.actorOptions,
       });
 
-      attachEncoders(actor, idlFactory);
-      actor.$principal = Principal.fromText(canId);
-      actor.$idlFactory = idlFactory;
-      return actor;
+      let wrapped = wrapActor(actor, idlFactory);
+      wrapped.$principal = Principal.fromText(canId);
+      wrapped.$idlFactory = idlFactory;
+
+      return wrapped;
     };
 
     bindings[canId] = creator();
