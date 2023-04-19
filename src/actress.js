@@ -33,7 +33,7 @@ class IDLTree {
     return explainObj(o);
   }
   Tuple(...o) {
-    return explainObj(o);
+    return { __type: "tuple", val: explainObj(o) };
   }
   Rec() {
     var o = {
@@ -101,6 +101,13 @@ function convert(input, def) {
           throw "(array expected)";
         }
         return input.map((item, idx) => convertRecursive(idx, item, def.val));
+      } else if (def.__type === "tuple") {
+        if (!Array.isArray(input)) {
+          throw "(array expected)";
+        }
+        return input.map((item, idx) =>
+          convertRecursive(idx, item, def.val[idx])
+        );
       } else if (def.__type === "variant") {
         let key = Object.keys(input)[0];
         return { [key]: convertRecursive(key, input[key], def.val[key]) };
@@ -146,6 +153,13 @@ function convertBack(input, def) {
         return input.map((item, idx) =>
           convertBackRecursive(idx, item, def.val)
         );
+      } else if (def.__type === "tuple") {
+        if (!Array.isArray(input)) {
+          throw "(array expected)";
+        }
+        return input.map((item, idx) =>
+          convertBackRecursive(idx, item, def.val[idx])
+        );
       } else if (def.__type === "variant") {
         let key = Object.keys(input)[0];
         return { [key]: convertBackRecursive(key, input[key], def.val[key]) };
@@ -169,9 +183,17 @@ function convertBack(input, def) {
     }
   }
 
-  const output = input.map((item, idx) =>
-    convertBackRecursive("ret" + idx, item, def[idx])
-  );
+  const output = convertBackRecursive("ret", input, def);
+
+  if (
+    def.__type === "variant" &&
+    def.val.Ok &&
+    def.val.Err &&
+    Object.keys(def.val).length == 2
+  ) {
+    if ("Ok" in output) return output.Ok;
+    else throw output.Err;
+  }
   return output;
 }
 
@@ -179,7 +201,7 @@ const wrapFunction = (fn, key, xdl) => {
   return async (...args) => {
     const processedArgs = convert(args, xdl[key].input);
     const result = await fn(...processedArgs);
-    return convertBack([result], xdl[key].output);
+    return convertBack(result, xdl[key].output[0]);
   };
 };
 
@@ -209,8 +231,8 @@ const attachEncoders = (target, idlFactory, xdl) => {
     ];
     target["$" + methodName] = (payload) =>
       convertBack(
-        [IDL.decode(func.retTypes, Buffer.from(payload))],
-        xdl[methodName].output
+        IDL.decode(func.retTypes, Buffer.from(payload)),
+        xdl[methodName].output[0]
       );
   }
 };

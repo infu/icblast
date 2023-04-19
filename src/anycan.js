@@ -123,7 +123,7 @@ const didToJs = async (source) => {
     return undefined;
   }
   const dataUri =
-    "data:text/javascript;charset=utf-8," + encodeURIComponent(js[0]);
+    "data:text/javascript;charset=utf-8," + encodeURIComponent(js);
   // eslint-disable-next-line no-eval
   const candid = await eval('import("' + dataUri + '")');
 
@@ -146,7 +146,6 @@ const downloadBindings = async (canId, IC_HOST) => {
   });
 
   let did = await ifcan.__get_candid_interface_tmp_hack();
-
   return new Promise((resolve, reject) => {
     didc.then((mod) => {
       if (!mod.generate) {
