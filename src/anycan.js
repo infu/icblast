@@ -1,4 +1,4 @@
-import { Actor, HttpAgent } from "@dfinity/agent";
+import { Actor, HttpAgent, CanisterStatus } from "@dfinity/agent";
 
 import { ifhackCanister } from "./ifhack.js";
 import { wrapActor } from "./actress.js";
@@ -22,14 +22,33 @@ export const icblast = ({
   local = false,
   local_host = false,
   identity = false,
+  agentOptions = {},
 } = {}) => {
   let bindings = {};
+
+  const IC_HOST = local
+    ? local_host || "http://localhost:8000/"
+    : "https://ic0.app";
+
+  const agent = new HttpAgent({
+    host: IC_HOST,
+    identity,
+    ...agentOptions,
+  });
+
+  // Fetch root key for certificate validation during development
+  if (local) {
+    agent.fetchRootKey().catch((err) => {
+      console.warn(
+        "Unable to fetch root key. Check to ensure that your local replica is running"
+      );
+      console.error(err);
+    });
+  }
+
   return async (canId, preset = false) => {
     if (canId === "aaaaa-aa") preset = "ic";
     if (canId === "rkp4c-7iaaa-aaaaa-aaaca-cai") preset = "cmc";
-    const IC_HOST = local
-      ? local_host || "http://localhost:8000/"
-      : "https://ic0.app";
 
     if (bindings[canId]) return bindings[canId];
 
@@ -46,32 +65,16 @@ export const icblast = ({
         else idlFactory = await didToJs(preset);
       } else idlFactory = getLocal(preset);
     } else {
-      let dl = await downloadBindings(canId, IC_HOST);
+      let dl = await downloadBindings(agent, canId, IC_HOST);
       idlFactory = dl.idlFactory;
     }
 
-    const creator = (options) => {
-      const agent = new HttpAgent({
-        host: IC_HOST,
-        identity,
-        ...options?.agentOptions,
-      });
-
-      // Fetch root key for certificate validation during development
-      if (local) {
-        agent.fetchRootKey().catch((err) => {
-          console.warn(
-            "Unable to fetch root key. Check to ensure that your local replica is running"
-          );
-          console.error(err);
-        });
-      }
-
+    const creator = (actorOptions) => {
       // Creates an actor with using the candid interface and the HttpAgent
       let actor = Actor.createActor(idlFactory, {
         agent,
         canisterId: canId.toText ? canId.toText() : canId,
-        ...options?.actorOptions,
+        ...actorOptions,
       });
 
       let wrapped = wrapActor(actor, idlFactory);
@@ -138,14 +141,25 @@ const didJsEval = async (content) => {
   return candid.idlFactory;
 };
 
-const downloadBindings = async (canId, IC_HOST) => {
-  let ifcan = ifhackCanister(canId, {
-    agentOptions: {
-      host: IC_HOST,
-    },
+const downloadBindings = async (agent, canId, IC_HOST) => {
+  // Attempt to use canister metadata
+  const status = await CanisterStatus.request({
+    agent,
+    canisterId: Principal.fromText(canId),
+    paths: ["candid"],
   });
 
-  let did = await ifcan.__get_candid_interface_tmp_hack();
+  let did = status.get("candid");
+  if (!did) {
+    let ifcan = ifhackCanister(canId, {
+      agentOptions: {
+        host: IC_HOST,
+      },
+    });
+
+    did = await ifcan.__get_candid_interface_tmp_hack();
+  }
+
   return new Promise((resolve, reject) => {
     didc.then((mod) => {
       if (!mod.generate) {
