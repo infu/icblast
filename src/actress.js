@@ -183,9 +183,14 @@ function convertBack(input, def) {
     }
   }
 
-  const output = convertBackRecursive("ret", input, def);
+  const output = convertBackRecursive(
+    "ret",
+    input,
+    def !== null ? def[0] : true
+  );
 
   if (
+    def &&
     def.__type === "variant" &&
     def.val.Ok &&
     def.val.Err &&
@@ -200,8 +205,10 @@ function convertBack(input, def) {
 const wrapFunction = (fn, key, xdl) => {
   return async (...args) => {
     const processedArgs = convert(args, xdl[key].input);
+
     const result = await fn(...processedArgs);
-    return convertBack(result, xdl[key].output[0]);
+
+    return convertBack(result, xdl[key].output);
   };
 };
 
