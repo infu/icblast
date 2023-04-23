@@ -167,6 +167,7 @@ const downloadBindings = async (agent, canId, IC_HOST) => {
         // so we will call the IC service used by the Motoko Playground
         return didToJs(did).then((idlFactory) => resolve({ idlFactory, did }));
       }
+
       const gen = mod.generate(did);
       if (gen) {
         let jsCode = gen.js;
