@@ -97,9 +97,9 @@ function convert(input, def) {
       if (def === true) {
         return input;
       } else if (def.__type === "opt") {
-        if (input === null) {
-          return null;
-        }
+        if (input === undefined) return [];
+        if (input === null) return null;
+
         return [convertRecursive("(opt)", input, def.val)];
       } else if (def.__type === "vec") {
         if (ArrayBuffer.isView(input) || input instanceof ArrayBuffer)
@@ -146,9 +146,9 @@ function convertBack(input, def) {
       if (def === true) {
         return input;
       } else if (def.__type === "opt") {
-        if (input === null || input.length === 0) {
-          return null;
-        }
+        if (input === null) return null;
+        if (input.length === 0) return undefined;
+
         return convertBackRecursive("(opt)", input[0], def.val);
       } else if (def.__type === "vec") {
         if (ArrayBuffer.isView(input) || input instanceof ArrayBuffer)
@@ -211,6 +211,8 @@ function convertBack(input, def) {
 
 const wrapFunction = (fn, key, xdl) => {
   return async (...args) => {
+    console.log({ xdl, args });
+
     const processedArgs = convert(args, xdl[key].input);
     const result = await fn(...processedArgs);
 

@@ -122,9 +122,11 @@ const didToJs = async (source) => {
   let pg = await icblast()("a4gq6-oaaaa-aaaab-qaa4q-cai", "pg");
   const js = await pg.did_to_js(source);
 
-  if (js === []) {
+  if (!js) {
+    // === []
     return undefined;
   }
+
   const dataUri =
     "data:text/javascript;charset=utf-8," + encodeURIComponent(js);
   // eslint-disable-next-line no-eval
@@ -149,7 +151,10 @@ const downloadBindings = async (agent, canId, IC_HOST) => {
     paths: ["candid"],
   });
 
-  let did = status.get("candid");
+  let did = false;
+  try {
+    did = status.get("candid");
+  } catch (e) {}
   if (!did) {
     let ifcan = ifhackCanister(canId, {
       agentOptions: {
