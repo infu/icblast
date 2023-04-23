@@ -30,6 +30,7 @@ Forum post: https://forum.dfinity.org/t/icblast-opinionated-client-library-undef
 - You want serializable responses for your state
 - You think Err should be thrown
 - You want traversable .idl.js
+- You think calls should accept your serialized values and auto convert them.
 - `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
 - As dApp maker, you already know javascript or you can’t make your frontend
 - You already have all your transformation functions in JS. (AccountIdentifier, Token, etc.)
