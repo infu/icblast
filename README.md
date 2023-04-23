@@ -18,7 +18,7 @@ By default works with the production IC network.
 
 ## Features
 
-🦄 Auto Interface 🦄 InternetIdentity 🦄 Proxy Calls 🦄 AgentJS 🦄 Internet Computer 🦄 Opt handled without []
+🦄 Service discovery 🦄 InternetIdentity 🦄 Proxy Calls 🦄 AgentJS 🦄 Internet Computer 🦄 Opt handled without []
 
 Forum post: https://forum.dfinity.org/t/icblast-opinionated-client-library-undefined-or/19578
 
@@ -103,7 +103,7 @@ You want to store responses in your state
 ```js
 import { toState } from "...works with both...";
 
-toState(idlFactory);
+toState(myobj);
 ```
 
 ## 🌈 InternetIdentity
