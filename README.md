@@ -1,10 +1,11 @@
 <img src="./icblast.svg" width="300">
 
-# BLAST Playground
+# ICBlast client library
 
+Used in Blast Playground
 https://jglts-daaaa-aaaai-qnpma-cai.ic0.app/
 
-This repo here contains the library used by the playground
+# Install
 
 `npm i @infu/icblast`
 
