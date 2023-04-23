@@ -50,7 +50,7 @@ Forum post: https://forum.dfinity.org/t/icblast-opinionated-client-library-undef
 ```js
 import icblast from "@infu/icblast";
 
-let ic = icblast({ local: true });
+let ic = icblast({ local: true }); // you can also add local_host: "http://192.168.0.100:8000"
 
 let can = await ic("r7inp-6aaaa-aaaaa-aaabq-cai"); // It will fetch the IDL spec, no need to specify it manually
 
