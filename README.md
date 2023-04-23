@@ -24,12 +24,13 @@ Forum post: https://forum.dfinity.org/t/icblast-opinionated-client-library-undef
 
 <br clear=all />
 
-## ✨ Reasons to use `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
+## ✨ Reasons to use
 
 - You don't think optional values should be []
 - You want serializable responses for your state
 - You think Err should be thrown
 - You want traversable .idl.js
+- `JS` tooling instead of `ic-repl` or `bash` scripts using `dfx`:
 - As dApp maker, you already know javascript or you can’t make your frontend
 - You already have all your transformation functions in JS. (AccountIdentifier, Token, etc.)
 - You already got used to how AgentJs serializes objects. DFX and ic-repl use different syntax
