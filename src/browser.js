@@ -11,6 +11,9 @@ export { InternetIdentity };
 import { AnonymousIdentity } from "./browser/anon.js";
 export { AnonymousIdentity };
 
+import { toState, explainer } from "./actress.js";
+export { toState, explainer };
+
 export const file = async (blob) =>
   Array.from(new Uint8Array(await blob.arrayBuffer()));
 

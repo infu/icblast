@@ -1,133 +1,268 @@
 import { IDL } from "@dfinity/candid";
+import { Principal } from "@dfinity/principal";
 
-class IDLTree {
-  Text = true;
-  Null = true;
-  Principal = true;
-  Nat8 = true;
-  Nat16 = true;
-  Nat32 = true;
-  Nat64 = true;
-  Nat = true;
-  Int8 = true;
-  Int16 = true;
-  Int32 = true;
-  Int64 = true;
-  Int = true;
-  Float = true;
-  Bool = true;
-  Time = true;
+class xBase {
+  constructor(obj) {
+    this.val = obj;
+  }
+
+  static fromState(v) {
+    return v;
+  }
+}
+
+class xBigInt {
+  constructor(obj) {
+    this.val = obj;
+  }
+
+  static fromState(v) {
+    if (typeof v === "string") return BigInt(v);
+    else return v;
+  }
+}
+
+class xText extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xVec extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+
+  fromState(v) {
+    if (this.val.name === "xNat8") {
+      if (typeof v === "string" && isHexString(v)) {
+        return hexStringToUint8Array(v);
+      }
+    }
+    return v;
+  }
+}
+class xOpt extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xVariant extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xNull extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xPrincipal extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+
+  static fromState(v) {
+    if (typeof v === "string") return Principal.from(v);
+    else return v;
+  }
+}
+
+class xNat8 extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xNat16 extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xNat32 extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xInt8 extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xInt16 extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xInt32 extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+// start bigint
+class xNat64 extends xBigInt {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xInt64 extends xBigInt {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xNat extends xBigInt {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xInt extends xBigInt {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xTime extends xBigInt {
+  constructor(obj) {
+    super(obj);
+  }
+}
+// end bigint
+
+class xFloat extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xBool extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+
+class xRecord extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+class xTuple extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+}
+class xRec extends xBase {
+  constructor(obj) {
+    super(obj);
+  }
+  fill(newInstance) {
+    Object.setPrototypeOf(this, newInstance.constructor.prototype);
+    Object.assign(this, newInstance);
+  }
+}
+
+class IDLExplainer {
+  Text = xText;
+  Null = xNull;
+  Principal = xPrincipal;
+  Nat8 = xNat8;
+  Nat16 = xNat16;
+  Nat32 = xNat32;
+  Nat64 = xNat64;
+  Nat = xNat;
+  Int8 = xInt8;
+  Int16 = xInt16;
+  Int32 = xInt32;
+  Int64 = xInt64;
+  Int = xInt;
+  Float = xFloat;
+  Bool = xBool;
+  Time = xTime;
   Service(o) {
     return o;
   }
 
-  Func(arg, ret, opt) {
+  Func(arg, ret, _) {
     return {
-      input: explainObj(arg, { voi: true }),
-      output: explainObj(ret, {
-        voi: false,
-      }),
+      input: arg,
+      output: ret,
     };
   }
   Record(o) {
-    return explainObj(o);
+    return new xRecord(o);
   }
   Tuple(...o) {
-    return { __type: "tuple", val: explainObj(o) };
+    return new xTuple(o);
   }
   Rec() {
-    var o = {
-      _type: {},
-    };
-    o.fill = (s) => {
-      o._type = explainObj(s);
-    };
-    return o;
+    return new xRec();
   }
   Vec(o) {
-    return { __type: "vec", val: explainObj(o) };
+    return new xVec(o);
   }
 
   Variant(o) {
-    return { __type: "variant", val: explainObj(o) };
+    return new xVariant(o);
   }
   Opt(a) {
-    return { __type: "opt", val: explainObj(a) };
+    return new xOpt(a);
   }
 }
-const explainObj = (
-  x,
-  { voi = false, visitedNodes = new WeakSet(), cache = new WeakMap() } = {}
-) => {
-  if (Array.isArray(x)) {
-    if (!voi && !x.length) return null;
-    return x.map((el) => explainObj(el, { visitedNodes, cache, voi }));
-  }
-  if (typeof x === "object") {
-    if ("_type" in x) return x._type;
 
-    if (visitedNodes.has(x)) {
-      return cache.get(x);
-    }
-    visitedNodes.add(x);
-
-    const result = Object.assign(
-      {},
-      ...Object.keys(x).map((k) => ({
-        [k]: explainObj(x[k], { visitedNodes, cache, voi }),
-      }))
-    );
-
-    // Cache the result for this object.
-    cache.set(x, result);
-
-    return result;
-  }
-  return x;
-};
-
-const IDLO = new IDLTree();
+const IDLWalker = new IDLExplainer();
 
 export const explainer = (idlFactory) => {
-  return idlFactory({ IDL: IDLO });
+  return idlFactory({ IDL: IDLWalker });
 };
+
 function convert(input, def) {
   function convertRecursive(ekey, input, def) {
     try {
-      if (def === true) {
-        return input;
-      } else if (def.__type === "opt") {
+      if (def instanceof xOpt) {
         if (input === undefined) return [];
         if (input === null) return null;
 
         return [convertRecursive("(opt)", input, def.val)];
-      } else if (def.__type === "vec") {
+      } else if (def instanceof xVec) {
+        input = def.fromState(input);
         if (ArrayBuffer.isView(input) || input instanceof ArrayBuffer)
           return input;
+
         if (!Array.isArray(input)) {
           throw "(array expected)";
         }
         return input.map((item, idx) => convertRecursive(idx, item, def.val));
-      } else if (def.__type === "tuple") {
+      } else if (def instanceof xTuple) {
         if (!Array.isArray(input)) {
           throw "(array expected)";
         }
         return input.map((item, idx) =>
           convertRecursive(idx, item, def.val[idx])
         );
-      } else if (def.__type === "variant") {
+      } else if (def instanceof xVariant) {
         let key = Object.keys(input)[0];
         return { [key]: convertRecursive(key, input[key], def.val[key]) };
-      } else {
+      } else if (def instanceof xRecord) {
         const output = {};
-        for (const key in def) {
-          let opt = def[key]?.__type === "opt";
+        for (const key in def.val) {
+          let opt = def.val[key] instanceof xOpt;
           if (!input.hasOwnProperty(key)) {
             if (!opt) throw `${key} (missing)`;
             else output[key] = [];
-          } else output[key] = convertRecursive(key, input[key], def[key]);
+          } else output[key] = convertRecursive(key, input[key], def.val[key]);
         }
         return output;
+      } else {
+        return def.fromState(input);
       }
     } catch (e) {
       throw ekey + "." + e;
@@ -143,14 +278,12 @@ function convert(input, def) {
 function convertBack(input, def) {
   function convertBackRecursive(ekey, input, def) {
     try {
-      if (def === true) {
-        return input;
-      } else if (def.__type === "opt") {
+      if (def instanceof xOpt) {
         if (input === null) return null;
         if (input.length === 0) return undefined;
 
         return convertBackRecursive("(opt)", input[0], def.val);
-      } else if (def.__type === "vec") {
+      } else if (def instanceof xVec) {
         if (ArrayBuffer.isView(input) || input instanceof ArrayBuffer)
           return input;
 
@@ -160,30 +293,32 @@ function convertBack(input, def) {
         return input.map((item, idx) =>
           convertBackRecursive(idx, item, def.val)
         );
-      } else if (def.__type === "tuple") {
+      } else if (def instanceof xTuple) {
         if (!Array.isArray(input)) {
           throw "(array expected)";
         }
         return input.map((item, idx) =>
           convertBackRecursive(idx, item, def.val[idx])
         );
-      } else if (def.__type === "variant") {
+      } else if (def instanceof xVariant) {
         let key = Object.keys(input)[0];
         return { [key]: convertBackRecursive(key, input[key], def.val[key]) };
-      } else {
+      } else if (def instanceof xRecord) {
         const output = {};
-        for (const key in def) {
-          let opt = def[key]?.__type === "opt";
+        for (const key in def.val) {
+          let opt = def.val[key] instanceof xOpt;
           if (!input.hasOwnProperty(key)) {
             if (!opt) throw `${key} (missing)`;
           } else {
-            const value = convertBackRecursive(key, input[key], def[key]);
+            const value = convertBackRecursive(key, input[key], def.val[key]);
             if (value !== null) {
               output[key] = value;
             }
           }
         }
         return output;
+      } else {
+        return input;
       }
     } catch (e) {
       throw ekey + "." + e;
@@ -197,11 +332,11 @@ function convertBack(input, def) {
   );
 
   if (
-    def &&
-    def.__type === "variant" &&
-    def.val.Ok &&
-    def.val.Err &&
-    Object.keys(def.val).length == 2
+    def[0] &&
+    def[0] instanceof xVariant &&
+    "Ok" in def[0].val &&
+    "Err" in def[0].val &&
+    Object.keys(def[0].val).length == 2
   ) {
     if ("Ok" in output) return output.Ok;
     else throw output.Err;
@@ -211,12 +346,10 @@ function convertBack(input, def) {
 
 const wrapFunction = (fn, key, xdl) => {
   return async (...args) => {
-    console.log({ xdl, args });
-
     const processedArgs = convert(args, xdl[key].input);
     const result = await fn(...processedArgs);
-
-    return convertBack(result, xdl[key].output);
+    let cc = convertBack(result, xdl[key].output);
+    return cc;
   };
 };
 
@@ -251,3 +384,57 @@ const attachEncoders = (target, idlFactory, xdl) => {
       );
   }
 };
+
+export const toState = (x) => {
+  if (x === undefined || x === null) return x;
+  if (typeof x === "bigint") return x.toString();
+  if (x instanceof Uint8Array) return uint8ArrayToHexString(x);
+  if (ArrayBuffer.isView(x) || x instanceof ArrayBuffer) return [...x];
+
+  if (Array.isArray(x)) {
+    return x.map((y) => toState(y));
+  }
+
+  if (typeof x === "object") {
+    if (x.constructor?.name === "Principal") return x.toText();
+
+    return Object.fromEntries(
+      Object.keys(x).map((k) => {
+        return [k, toState(x[k])];
+      })
+    );
+  }
+  return x;
+};
+
+function isHexString(str) {
+  return /^[0-9a-fA-F]+$/.test(str);
+}
+
+function hexStringToUint8Array(hexString) {
+  if (hexString.length % 2 !== 0) {
+    throw new Error("Invalid hex string length.");
+  }
+
+  const numBytes = hexString.length / 2;
+  const uint8Array = new Uint8Array(numBytes);
+
+  for (let i = 0; i < numBytes; i++) {
+    const byteValue = parseInt(hexString.slice(i * 2, i * 2 + 2), 16);
+    uint8Array[i] = byteValue;
+  }
+
+  return uint8Array;
+}
+
+function uint8ArrayToHexString(uint8Array) {
+  let hexString = "";
+
+  for (let i = 0; i < uint8Array.length; i++) {
+    const byteValue = uint8Array[i];
+    const byteHex = byteValue.toString(16).padStart(2, "0");
+    hexString += byteHex;
+  }
+
+  return hexString;
+}
