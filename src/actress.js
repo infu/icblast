@@ -55,26 +55,33 @@ class IDLTree {
     return { __type: "opt", val: explainObj(a) };
   }
 }
-
-const explainObj = (x, { voi = false, visitedNodes = new WeakSet() } = {}) => {
+const explainObj = (
+  x,
+  { voi = false, visitedNodes = new WeakSet(), cache = new WeakMap() } = {}
+) => {
   if (Array.isArray(x)) {
     if (!voi && !x.length) return null;
-    return x.map((el) => explainObj(el, { visitedNodes, voi }));
+    return x.map((el) => explainObj(el, { visitedNodes, cache, voi }));
   }
   if (typeof x === "object") {
     if ("_type" in x) return x._type;
 
     if (visitedNodes.has(x)) {
-      return "<recursive>";
+      return cache.get(x);
     }
     visitedNodes.add(x);
 
-    return Object.assign(
+    const result = Object.assign(
       {},
       ...Object.keys(x).map((k) => ({
-        [k]: explainObj(x[k], { visitedNodes, voi }),
+        [k]: explainObj(x[k], { visitedNodes, cache, voi }),
       }))
     );
+
+    // Cache the result for this object.
+    cache.set(x, result);
+
+    return result;
   }
   return x;
 };
@@ -205,7 +212,6 @@ function convertBack(input, def) {
 const wrapFunction = (fn, key, xdl) => {
   return async (...args) => {
     const processedArgs = convert(args, xdl[key].input);
-
     const result = await fn(...processedArgs);
 
     return convertBack(result, xdl[key].output);
