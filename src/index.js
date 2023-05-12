@@ -11,6 +11,9 @@ export { toState, explainer };
 export { fileIdentity, internetIdentity, walletCall, walletProxy };
 export default icblast;
 
+import * as actress from "./actress.js";
+export { actress };
+
 export const file = async (path) =>
   Array.from(new Uint8Array(await (await blobFrom(path)).arrayBuffer()));
 

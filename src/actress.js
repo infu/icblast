@@ -1,7 +1,7 @@
 import { IDL } from "@dfinity/candid";
 import { Principal } from "@dfinity/principal";
 
-class xBase {
+export class xBase {
   constructor(obj) {
     this.val = obj;
   }
@@ -11,7 +11,7 @@ class xBase {
   }
 }
 
-class xBigInt {
+export class xBigInt {
   constructor(obj) {
     this.val = obj;
   }
@@ -22,13 +22,13 @@ class xBigInt {
   }
 }
 
-class xText extends xBase {
+export class xText extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xVec extends xBase {
+export class xVec extends xBase {
   constructor(obj) {
     super(obj);
   }
@@ -42,25 +42,25 @@ class xVec extends xBase {
     return v;
   }
 }
-class xOpt extends xBase {
+export class xOpt extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xVariant extends xBase {
+export class xVariant extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xNull extends xBase {
+export class xNull extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xPrincipal extends xBase {
+export class xPrincipal extends xBase {
   constructor(obj) {
     super(obj);
   }
@@ -71,96 +71,98 @@ class xPrincipal extends xBase {
   }
 }
 
-class xNat8 extends xBase {
+export class xNat8 extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xNat16 extends xBase {
+export class xNat16 extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xNat32 extends xBase {
+export class xNat32 extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xInt8 extends xBase {
+export class xInt8 extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xInt16 extends xBase {
+export class xInt16 extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xInt32 extends xBase {
+export class xInt32 extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 // start bigint
-class xNat64 extends xBigInt {
+export class xNat64 extends xBigInt {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xInt64 extends xBigInt {
+export class xInt64 extends xBigInt {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xNat extends xBigInt {
+export class xNat extends xBigInt {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xInt extends xBigInt {
+export class xInt extends xBigInt {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xTime extends xBigInt {
+export class xTime extends xBigInt {
   constructor(obj) {
     super(obj);
   }
 }
 // end bigint
 
-class xFloat extends xBase {
+export class xFloat extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xBool extends xBase {
+export class xBool extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
 
-class xRecord extends xBase {
+export class xRecord extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
-class xTuple extends xBase {
+
+export class xTuple extends xBase {
   constructor(obj) {
     super(obj);
   }
 }
-class xRec extends xBase {
+
+export class xRec extends xBase {
   constructor(obj) {
     super(obj);
   }

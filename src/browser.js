@@ -14,6 +14,9 @@ export { AnonymousIdentity };
 import { toState, explainer } from "./actress.js";
 export { toState, explainer };
 
+import * as actress from "./actress.js";
+export { actress };
+
 export const file = async (blob) =>
   Array.from(new Uint8Array(await blob.arrayBuffer()));
 
