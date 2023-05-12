@@ -65,7 +65,7 @@ export const icblast = ({
         else idlFactory = await didToJs(preset);
       } else idlFactory = getLocal(preset);
     } else {
-      let dl = await downloadBindings(agent, canId, IC_HOST);
+      let dl = await downloadBindings(agent, canId, IC_HOST, local);
       idlFactory = dl.idlFactory;
     }
 
@@ -143,7 +143,7 @@ const didJsEval = async (content) => {
   return candid.idlFactory;
 };
 
-const downloadBindings = async (agent, canId, IC_HOST) => {
+const downloadBindings = async (agent, canId, IC_HOST, local) => {
   // Attempt to use canister metadata
   const status = await CanisterStatus.request({
     agent,
@@ -156,11 +156,15 @@ const downloadBindings = async (agent, canId, IC_HOST) => {
     did = status.get("candid");
   } catch (e) {}
   if (!did) {
-    let ifcan = ifhackCanister(canId, {
-      agentOptions: {
-        host: IC_HOST,
+    let ifcan = ifhackCanister(
+      canId,
+      {
+        agentOptions: {
+          host: IC_HOST,
+        },
       },
-    });
+      local
+    );
 
     did = await ifcan.__get_candid_interface_tmp_hack();
   }

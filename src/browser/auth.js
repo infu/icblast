@@ -17,15 +17,6 @@ auth.create = async () => {
   return auth;
 };
 
-auth.getAgentOptions = async () => {
-  let identity = auth.client.getIdentity();
-
-  return {
-    identity: identity,
-    host: process.env.REACT_APP_IC_GATEWAY || "https://ic0.app",
-  };
-};
-
 auth.getIdentity = () => auth.client.getIdentity();
 auth.getPrincipal = () => auth.client.getIdentity()?.getPrincipal();
 auth.isAuthenticated = () => auth.client.isAuthenticated();
