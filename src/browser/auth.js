@@ -31,15 +31,13 @@ auth.getPrincipal = () => auth.client.getIdentity()?.getPrincipal();
 auth.isAuthenticated = () => auth.client.isAuthenticated();
 auth.logout = () => auth.client.logout();
 
-auth.login = () => {
+auth.login = (opts = {}) => {
   return new Promise(async (resolve, reject) => {
     auth.client.login({
       //maxTimeToLive: BigInt(90 * 24 * 60 * 60 * 1000 * 1000 * 1000),
       maxTimeToLive: BigInt(90 * 24 * 60 * 60 * 1000 * 1000 * 1000),
 
-      ...(process.env.REACT_APP_IDENTITY_PROVIDER
-        ? { identityProvider: process.env.REACT_APP_IDENTITY_PROVIDER }
-        : {}),
+      ...opts,
       idleTimeout: 1000 * 60 * 30,
       onSuccess: async (e) => {
         resolve();
