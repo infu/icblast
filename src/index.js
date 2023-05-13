@@ -8,7 +8,7 @@ import { blobFrom } from "fetch-blob/from.js";
 import { walletCall, walletProxy } from "./walletcall.js";
 import { toState, explainer } from "./actress.js";
 export { toState, explainer };
-export { fileIdentity, internetIdentity, walletCall, walletProxy };
+export { fileIdentity, walletCall, walletProxy };
 export default icblast;
 
 import * as actress from "./actress.js";
