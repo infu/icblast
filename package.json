@@ -1,6 +1,6 @@
 {
   "name": "@infu/icblast",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "description": "",
   "exports": {
     "node": {
@@ -20,8 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "get-random-values": "^1.2.2",
-    "isomorphic-fetch": "^3.0.0",
-    "p-limit": "^4.0.0"
+    "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.5",
