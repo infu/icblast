@@ -2,7 +2,7 @@ import { Actor, HttpAgent, CanisterStatus } from "@dfinity/agent";
 
 import { ifhackCanister } from "./ifhack.js";
 import { wrapActor } from "./actress.js";
-const didc = import("./lib/didc_js.cjs");
+const didc = import("./lib/didc_js.js");
 
 import * as preset_ic from "./did/ic.did.js";
 import * as preset_wallet from "./did/wallet.did.js";
