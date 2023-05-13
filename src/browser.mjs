@@ -1,20 +1,20 @@
-import { icblast } from "./anycan.js";
+import { icblast } from "./anycan.mjs";
 import pLimit from "p-limit";
 import { Ed25519KeyIdentity } from "@dfinity/identity";
 import getRandomValues from "get-random-values";
 
-import { walletCall, walletProxy } from "./walletcall.js";
+import { walletCall, walletProxy } from "./walletcall.mjs";
 export { walletCall, walletProxy };
 export default icblast;
-import { InternetIdentity } from "./browser/auth.js";
+import { InternetIdentity } from "./browser/auth.mjs";
 export { InternetIdentity };
-import { AnonymousIdentity } from "./browser/anon.js";
+import { AnonymousIdentity } from "./browser/anon.mjs";
 export { AnonymousIdentity };
 
-import { toState, explainer } from "./actress.js";
+import { toState, explainer } from "./actress.mjs";
 export { toState, explainer };
 
-import * as actress from "./actress.js";
+import * as actress from "./actress.mjs";
 export { actress };
 
 export const file = async (blob) =>

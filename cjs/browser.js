@@ -42,14 +42,14 @@ Object.defineProperty(exports, "walletProxy", {
     return _walletcall.walletProxy;
   }
 });
-var _anycan = require("./anycan.js");
+var _anycan = require("./anycan.mjs");
 var _pLimit = _interopRequireDefault(require("p-limit"));
 var _identity = require("@dfinity/identity");
 var _getRandomValues = _interopRequireDefault(require("get-random-values"));
-var _walletcall = require("./walletcall.js");
-var _auth = require("./browser/auth.js");
-var _anon = require("./browser/anon.js");
-var actress = _interopRequireWildcard(require("./actress.js"));
+var _walletcall = require("./walletcall.mjs");
+var _auth = require("./browser/auth.mjs");
+var _anon = require("./browser/anon.mjs");
+var actress = _interopRequireWildcard(require("./actress.mjs"));
 exports.actress = actress;
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }

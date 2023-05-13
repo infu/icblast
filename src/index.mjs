@@ -1,17 +1,17 @@
 import "isomorphic-fetch";
 
-import { icblast } from "./anycan.js";
-import { fileIdentity } from "./identity.js";
+import { icblast } from "./anycan.mjs";
+import { fileIdentity } from "./identity.mjs";
 import pLimit from "p-limit";
 import { blobFrom } from "fetch-blob/from.js";
 
-import { walletCall, walletProxy } from "./walletcall.js";
-import { toState, explainer } from "./actress.js";
+import { walletCall, walletProxy } from "./walletcall.mjs";
+import { toState, explainer } from "./actress.mjs";
 export { toState, explainer };
 export { fileIdentity, walletCall, walletProxy };
 export default icblast;
 
-import * as actress from "./actress.js";
+import * as actress from "./actress.mjs";
 export { actress };
 
 export const file = async (path) =>

@@ -1,7 +1,7 @@
 import { Actor, HttpAgent } from "@dfinity/agent";
 
-import { idlFactory } from "./ifhack.did.js";
-export { idlFactory } from "./ifhack.did.js";
+import { idlFactory } from "./ifhack.did.mjs";
+export { idlFactory } from "./ifhack.did.mjs";
 
 export const ifhackCanister = (canisterId, options, local = false) => {
   const agent = new HttpAgent({ ...options?.agentOptions });
