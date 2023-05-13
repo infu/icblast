@@ -2,7 +2,7 @@ import { Actor, HttpAgent, CanisterStatus } from "@dfinity/agent";
 
 import { ifhackCanister } from "./ifhack.js";
 import { wrapActor } from "./actress.js";
-const didc = import("./lib/didc_js.js");
+// const didc = import("./lib/didc_js.js");
 
 import * as preset_ic from "./did/ic.did.js";
 import * as preset_wallet from "./did/wallet.did.js";
@@ -118,6 +118,19 @@ const getLocal = (preset) => {
   }
 };
 
+let IDLpattern = /\({ IDL }\)\s*=>\s*{.*?(?=export const|$)/s;
+const didJsEval = (content) => {
+  let match = content.match(IDLpattern);
+
+  if (match) {
+    let replaced_js = match[0];
+    let idlFactory = eval(replaced_js);
+    return idlFactory;
+  }
+
+  return false;
+};
+
 const didToJs = async (source) => {
   let pg = await icblast()("a4gq6-oaaaa-aaaab-qaa4q-cai", "pg");
   const js = await pg.did_to_js(source);
@@ -127,21 +140,22 @@ const didToJs = async (source) => {
     return undefined;
   }
 
-  const dataUri =
-    "data:text/javascript;charset=utf-8," + encodeURIComponent(js);
-  // eslint-disable-next-line no-eval
-  const candid = await eval('import("' + dataUri + '")');
+  return didJsEval(js);
+  // const dataUri =
+  //   "data:text/javascript;charset=utf-8," + encodeURIComponent(js);
+  // // eslint-disable-next-line no-eval
+  // const candid = await eval('import("' + dataUri + '")');
 
-  return candid.idlFactory;
+  // return candid.idlFactory;
 };
 
-const didJsEval = async (content) => {
-  const dataUri =
-    "data:text/javascript;charset=utf-8," + encodeURIComponent(content);
-  // eslint-disable-next-line no-eval
-  const candid = await eval('import("' + dataUri + '")');
-  return candid.idlFactory;
-};
+// const didJsEval = async (content) => {
+//   const dataUri =
+//     "data:text/javascript;charset=utf-8," + encodeURIComponent(content);
+//   // eslint-disable-next-line no-eval
+//   const candid = await eval('import("' + dataUri + '")');
+//   return candid.idlFactory;
+// };
 
 const downloadBindings = async (agent, canId, IC_HOST, local) => {
   // Attempt to use canister metadata
@@ -169,28 +183,31 @@ const downloadBindings = async (agent, canId, IC_HOST, local) => {
     did = await ifcan.__get_candid_interface_tmp_hack();
   }
 
-  return new Promise((resolve, reject) => {
-    didc.then((mod) => {
-      if (!mod.generate) {
-        // we are running in a browser probably and it doesn't know how to import .wasm
-        // so we will call the IC service used by the Motoko Playground
-        return didToJs(did).then((idlFactory) => resolve({ idlFactory, did }));
-      }
+  // return new Promise((resolve, reject) => {
+  //   didc.then((mod) => {
+  // if (!mod.generate) {
+  // we are running in a browser probably and it doesn't know how to import .wasm
+  // so we will call the IC service used by the Motoko Playground
+  let idlFactory = await didToJs(did);
+  return { idlFactory, did };
+  // }
 
-      const gen = mod.generate(did);
-      if (gen) {
-        let jsCode = gen.js;
-        const dataUri =
-          "data:text/javascript;charset=utf-8," + encodeURIComponent(jsCode);
+  // const gen = mod.generate(did);
+  // if (gen) {
+  //   let jsCode = gen.js;
 
-        import(dataUri).then((ns) => {
-          const idlFactory = ns.idlFactory;
-          resolve({ idlFactory, did });
-        });
-      } else {
-        console.warn("failed to generate bindings");
-        reject();
-      }
-    });
-  });
+  //   const idlFactory = didJsEval(jsCode);
+  //   // const dataUri =
+  //   //   "data:text/javascript;charset=utf-8," + encodeURIComponent(jsCode);
+
+  //   // import(dataUri).then((ns) => {
+  //   //   const idlFactory = ns.idlFactory;
+  //   resolve({ idlFactory, did });
+  //   // });
+  // } else {
+  //   console.warn("failed to generate bindings");
+  //   reject();
+  // }
+  //   });
+  // });
 };
