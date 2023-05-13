@@ -63,7 +63,7 @@ console.log(await can.config_get());
 For production dapps it's probably a better idea to use AgentJs directly, but if you want to hack something quick or need dynamic interface generation, you can use icblast.
 
 ```js
-import icblast from "@infu/icblast/src/browser.js";
+import icblast from "@infu/icblast";
 
 let ic = icblast({ local: true });
 
@@ -93,7 +93,7 @@ let can = await ic("r7inp-6aaaa-aaaaa-aaabq-cai", text_did); // it will transpil
 If you want traversable interface (Perhaps making a browser)
 
 ```js
-import { explainer } from "...works with both...";
+import { explainer } from "@infu/icblast";
 explainer(idlFactory);
 ```
 
@@ -102,7 +102,7 @@ explainer(idlFactory);
 You want to store responses in your state
 
 ```js
-import { toState } from "...works with both...";
+import { toState } from "@infu/icblast";
 
 toState(myobj);
 ```
