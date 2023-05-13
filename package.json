@@ -2,7 +2,6 @@
   "name": "@infu/icblast",
   "version": "2.0.11",
   "description": "",
-  "main": "./cjs/index.js",
   "exports": {
     "node": {
       "import": "./src/index.mjs",

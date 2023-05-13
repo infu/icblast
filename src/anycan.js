@@ -1,20 +1,20 @@
 import { Actor, HttpAgent, CanisterStatus } from "@dfinity/agent";
 
-import { ifhackCanister } from "./ifhack.mjs";
-import { wrapActor } from "./actress.mjs";
+import { ifhackCanister } from "./ifhack.js";
+import { wrapActor } from "./actress.js";
 const didc = import("./lib/didc_js.cjs");
 
-import * as preset_ic from "./did/ic.did.mjs";
-import * as preset_wallet from "./did/wallet.did.mjs";
-import * as preset_pg from "./did/pg.did.mjs";
-import * as preset_evalcan from "./did/evalcan.did.mjs";
-import * as preset_ledger from "./did/ledger.did.mjs";
-import * as preset_nns from "./did/nns.did.mjs";
-import * as preset_nnsdapp from "./did/nnsdapp.did.mjs";
-import * as preset_sns from "./did/sns.did.mjs";
-import * as preset_cmc from "./did/cmc.did.mjs";
-import * as preset_psy_wicp from "./did/psy_wicp.did.mjs";
-import * as preset_psy_xtc from "./did/psy_xtc.did.mjs";
+import * as preset_ic from "./did/ic.did.js";
+import * as preset_wallet from "./did/wallet.did.js";
+import * as preset_pg from "./did/pg.did.js";
+import * as preset_evalcan from "./did/evalcan.did.js";
+import * as preset_ledger from "./did/ledger.did.js";
+import * as preset_nns from "./did/nns.did.js";
+import * as preset_nnsdapp from "./did/nnsdapp.did.js";
+import * as preset_sns from "./did/sns.did.js";
+import * as preset_cmc from "./did/cmc.did.js";
+import * as preset_psy_wicp from "./did/psy_wicp.did.js";
+import * as preset_psy_xtc from "./did/psy_xtc.did.js";
 
 import { Principal } from "@dfinity/principal";
 
