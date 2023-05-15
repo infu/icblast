@@ -9,6 +9,10 @@ https://jglts-daaaa-aaaai-qnpma-cai.ic0.app/
 
 `npm i @infu/icblast`
 
+If you are adding it to a project with @dfinity/agent already installed, you will need > 0.14
+if not already installed, you may want to install these packages manually:
+`npm i @dfinity/agent@0.14.0 @dfinity/candid@0.14.0 @dfinity/principal@0.14.0 @dfinity/auth-client@0.14.0 @dfinity/authentication@0.14.0 @dfinity/identity@0.14.0`
+
 # Purpose
 
 Convenience, Operations, maintenance, testing, exploring and learning.
