@@ -1,6 +1,6 @@
 {
   "name": "@infu/icblast",
-  "version": "2.0.20",
+  "version": "2.0.22",
   "description": "",
   "exports": {
     "node": {
@@ -29,11 +29,10 @@
     "@babel/preset-env": "^7.21.5"
   },
   "peerDependencies": {
-    "@dfinity/agent": "^0.14.0",
-    "@dfinity/auth-client": "^0.14.0",
-    "@dfinity/authentication": "^0.14.0",
-    "@dfinity/candid": "^0.14.0",
-    "@dfinity/identity": "^0.14.0",
-    "@dfinity/principal": "^0.14.0"
+    "@dfinity/agent": "*",
+    "@dfinity/auth-client": "*",
+    "@dfinity/candid": "*",
+    "@dfinity/identity": "*",
+    "@dfinity/principal": "*"
   }
 }
