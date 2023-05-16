@@ -391,10 +391,14 @@ export const toState = (x) => {
   if (x === undefined || x === null) return x;
   if (typeof x === "bigint") return x.toString();
   if (x instanceof Uint8Array) return uint8ArrayToHexString(x);
+  if (x instanceof Uint16Array) return Array.from(x);
+  if (x instanceof Int16Array) return Array.from(x);
+  if (x instanceof Uint32Array) return Array.from(x);
+  if (x instanceof Int32Array) return Array.from(x);
   if (x instanceof BigInt64Array)
-    return uint8ArrayToHexString(x).map((x) => x.toString());
+    return Array.from(x, (bigInt) => bigInt.toString());
   if (x instanceof BigUint64Array)
-    return uint8ArrayToHexString(x).map((x) => x.toString());
+    return Array.from(x, (bigInt) => bigInt.toString());
   if (ArrayBuffer.isView(x) || x instanceof ArrayBuffer) return [...x];
 
   if (Array.isArray(x)) {
