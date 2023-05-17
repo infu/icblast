@@ -114,7 +114,7 @@ const getLocal = (preset) => {
     case "psy_xtc":
       return preset_psy_xtc.idlFactory;
     default:
-      throw new Error("Available presets: ic, wallet");
+      throw new Error("Unable to find IDL");
   }
 };
 
