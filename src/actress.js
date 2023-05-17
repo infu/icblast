@@ -34,7 +34,7 @@ export class xVec extends xBase {
   }
 
   fromState(v) {
-    if (this.val instanceof xNat8) {
+    if (this.val === xNat8) {
       if (typeof v === "string" && isHexString(v)) {
         return hexStringToUint8Array(v);
       }
