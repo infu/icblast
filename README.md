@@ -117,7 +117,7 @@ console.log(identity.getPrincipal().toText());
 
 It will open a window to InternetIdentity. It will not store the key anywhere. To be most secure, make sure your browser extensions with full permissions are set to manually activated "on click"
 
-## 🍭 fileIdentity and concurrent async calls
+## 🍭 fileIdentity, hashIdentity and concurrent async calls
 
 ```js
 import icblast, { fileIdentity } from "@infu/icblast";
@@ -125,6 +125,7 @@ import icblast, { fileIdentity } from "@infu/icblast";
 // stores your private keys in a json file in ~/.icblast/identity.json
 // you have 10 identites you can switch 0-9
 let identityJohn = fileIdentity(0);
+// In browsers you can use hashIdentity('a secret that will get hashed')
 
 // TIP: Go to Motoko Playground at https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/
 // Choose "Counter" and deploy it

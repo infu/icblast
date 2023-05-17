@@ -23,7 +23,7 @@ Object.defineProperty(exports, "explainer", {
     return actress.explainer;
   }
 });
-exports.tempIdentity = exports.file = void 0;
+exports.tempIdentity = exports.hashIdentity = exports.file = void 0;
 Object.defineProperty(exports, "toState", {
   enumerable: true,
   get: function get() {
@@ -51,6 +51,7 @@ var _auth = require("./browser/auth.js");
 var _anon = require("./browser/anon.js");
 var actress = _interopRequireWildcard(require("./actress.js"));
 exports.actress = actress;
+var _jsSha = require("js-sha256");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -93,6 +94,14 @@ var blast = function blast(count, concurrency, func) {
   }));
 };
 exports.blast = blast;
+var hashIdentity = function hashIdentity(pass) {
+  var hash = _jsSha.sha256.create();
+  hash.update(pass);
+  var entropy = new Uint8Array(hash.digest());
+  var identity = _identity.Ed25519KeyIdentity.generate(entropy);
+  return identity;
+};
+exports.hashIdentity = hashIdentity;
 var tempIdentity = function tempIdentity(key) {
   var idk = window.localStorage.getItem("tmpid" + key);
   if (!idk) {

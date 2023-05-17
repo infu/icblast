@@ -14,6 +14,8 @@ export { AnonymousIdentity };
 import { toState, explainer } from "./actress.js";
 export { toState, explainer };
 
+import { sha256 } from "js-sha256";
+
 import * as actress from "./actress.js";
 export { actress };
 
@@ -30,6 +32,14 @@ export const blast = (count, concurrency, func) => {
         return limit(() => func(idx));
       })
   );
+};
+
+export const hashIdentity = (pass) => {
+  const hash = sha256.create();
+  hash.update(pass);
+  let entropy = new Uint8Array(hash.digest());
+  let identity = Ed25519KeyIdentity.generate(entropy);
+  return identity;
 };
 
 export const tempIdentity = (key) => {

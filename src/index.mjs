@@ -7,6 +7,9 @@ import { fileIdentity } from "./identity.js";
 
 import { walletCall, walletProxy } from "./walletcall.js";
 import { toState, explainer } from "./actress.js";
+import { sha256 } from "js-sha256";
+import { Ed25519KeyIdentity } from "@dfinity/identity";
+
 export { toState, explainer };
 export { fileIdentity, walletCall, walletProxy };
 export default icblast;
@@ -17,6 +20,14 @@ export { actress };
 // Doesn't work in Electron
 // export const file = async (path) =>
 //   Array.from(new Uint8Array(await (await blobFrom(path)).arrayBuffer()));
+
+export const hashIdentity = (pass) => {
+  const hash = sha256.create();
+  hash.update(pass);
+  let entropy = new Uint8Array(hash.digest());
+  let identity = Ed25519KeyIdentity.generate(entropy);
+  return identity;
+};
 
 export const file = async (blob) =>
   Array.from(new Uint8Array(await blob.arrayBuffer()));
