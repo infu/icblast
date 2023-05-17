@@ -34,7 +34,7 @@ export class xVec extends xBase {
   }
 
   fromState(v) {
-    if (this.val.name === "xNat8") {
+    if (this.val instanceof xNat8) {
       if (typeof v === "string" && isHexString(v)) {
         return hexStringToUint8Array(v);
       }
@@ -406,7 +406,8 @@ export const toState = (x) => {
   }
 
   if (typeof x === "object") {
-    if (x.constructor?.name === "Principal") return x.toText();
+    if (x instanceof Principal || x.constructor?.name === "Principal")
+      return x.toText();
 
     return Object.fromEntries(
       Object.keys(x).map((k) => {

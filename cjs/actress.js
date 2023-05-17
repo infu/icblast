@@ -82,7 +82,7 @@ var xVec = /*#__PURE__*/function (_xBase2) {
   _createClass(xVec, [{
     key: "fromState",
     value: function fromState(v) {
-      if (this.val.name === "xNat8") {
+      if (this.val instanceof xNat8) {
         if (typeof v === "string" && isHexString(v)) {
           return hexStringToUint8Array(v);
         }
@@ -576,7 +576,7 @@ var toState = function toState(x) {
   }
   if (_typeof(x) === "object") {
     var _x$constructor;
-    if (((_x$constructor = x.constructor) === null || _x$constructor === void 0 ? void 0 : _x$constructor.name) === "Principal") return x.toText();
+    if (x instanceof _principal.Principal || ((_x$constructor = x.constructor) === null || _x$constructor === void 0 ? void 0 : _x$constructor.name) === "Principal") return x.toText();
     return Object.fromEntries(Object.keys(x).map(function (k) {
       return [k, toState(x[k])];
     }));
