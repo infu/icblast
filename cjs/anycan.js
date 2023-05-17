@@ -41,7 +41,7 @@ var icblast = function icblast() {
     _ref$agentOptions = _ref.agentOptions,
     agentOptions = _ref$agentOptions === void 0 ? {} : _ref$agentOptions;
   var bindings = {};
-  var IC_HOST = local ? local_host || "http://localhost:8000/" : "https://ic0.app";
+  var IC_HOST = local ? local_host || "http://localhost:4943/" : "https://ic0.app";
   var agent = new _agent.HttpAgent(_objectSpread({
     host: IC_HOST,
     identity: identity
@@ -180,7 +180,7 @@ var getLocal = function getLocal(preset) {
     case "psy_xtc":
       return preset_psy_xtc.idlFactory;
     default:
-      throw new Error("Available presets: ic, wallet");
+      throw new Error("Unable to find IDL");
   }
 };
 var IDLpattern = /\(\{ IDL \}\)\s*=>\s*\{[\s\S]*?(?=export const|$)/;

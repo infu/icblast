@@ -27,7 +27,7 @@ export const icblast = ({
   let bindings = {};
 
   const IC_HOST = local
-    ? local_host || "http://localhost:8000/"
+    ? local_host || "http://localhost:4943/"
     : "https://ic0.app";
 
   const agent = new HttpAgent({
