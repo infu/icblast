@@ -542,7 +542,7 @@ var attachEncoders = function attachEncoders(target, idlFactory, xdl) {
         return _toConsumableArray(_candid.IDL.encode(func.argTypes, convert(args, xdl[methodName].input)));
       };
       target["$" + methodName] = function (payload) {
-        return convertBack(_candid.IDL.decode(func.retTypes, Buffer.from(payload)), xdl[methodName].output[0]);
+        return convertBack(_candid.IDL.decode(func.retTypes, Buffer.from(payload)), xdl[methodName].output);
       };
     };
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
