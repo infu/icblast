@@ -382,7 +382,7 @@ const attachEncoders = (target, idlFactory, xdl) => {
     target["$" + methodName] = (payload) =>
       convertBack(
         IDL.decode(func.retTypes, Buffer.from(payload)),
-        xdl[methodName].output
+        xdl[methodName].output[0]
       );
   }
 };
