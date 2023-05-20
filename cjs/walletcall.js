@@ -27,14 +27,8 @@ var walletCall = function walletCall(wallet, can, method) {
           });
         case 3:
           response = _context.sent;
-          if ("Ok" in response) {
-            _context.next = 6;
-            break;
-          }
-          throw response.Err;
-        case 6:
-          return _context.abrupt("return", can["$" + method](response.Ok["return"]));
-        case 7:
+          return _context.abrupt("return", can["$" + method](response["return"]));
+        case 5:
         case "end":
           return _context.stop();
       }
@@ -65,14 +59,8 @@ var walletProxy = function walletProxy(wallet, can) {
               });
             case 3:
               response = _context2.sent;
-              if ("Ok" in response) {
-                _context2.next = 6;
-                break;
-              }
-              throw response.Err;
-            case 6:
-              return _context2.abrupt("return", can["$" + method](response.Ok["return"]));
-            case 7:
+              return _context2.abrupt("return", can["$" + method](response["return"]));
+            case 5:
             case "end":
               return _context2.stop();
           }
