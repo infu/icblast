@@ -9,7 +9,7 @@ export const walletCall =
       method_name: method,
       canister: can.$principal,
     });
-    return can["$" + method](response.return);
+    return can["$" + method](response.return)[0];
   };
 
 export const walletProxy = (wallet, can, cycles = 0) => {
@@ -26,7 +26,7 @@ export const walletProxy = (wallet, can, cycles = 0) => {
           method_name: method,
           canister: can.$principal,
         });
-        return can["$" + method](response.return);
+        return can["$" + method](response.return)[0];
       };
     } else proxy[prop] = can[prop];
   }
