@@ -27,7 +27,7 @@ var walletCall = function walletCall(wallet, can, method) {
           });
         case 3:
           response = _context.sent;
-          return _context.abrupt("return", can["$" + method](response["return"][0]));
+          return _context.abrupt("return", can["$" + method](response["return"]));
         case 5:
         case "end":
           return _context.stop();
@@ -59,7 +59,7 @@ var walletProxy = function walletProxy(wallet, can) {
               });
             case 3:
               response = _context2.sent;
-              return _context2.abrupt("return", can["$" + method](response["return"][0]));
+              return _context2.abrupt("return", can["$" + method](response["return"]));
             case 5:
             case "end":
               return _context2.stop();

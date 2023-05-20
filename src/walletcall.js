@@ -9,6 +9,7 @@ export const walletCall =
       method_name: method,
       canister: can.$principal,
     });
+
     return can["$" + method](response.return);
   };
 
