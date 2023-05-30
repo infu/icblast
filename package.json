@@ -1,14 +1,15 @@
 {
   "name": "@infu/icblast",
-  "version": "2.0.39",
+  "version": "2.0.40",
   "description": "",
+  "type": "module",
   "exports": {
     "node": {
-      "import": "./src/index.mjs",
+      "import": "./esm/index.js",
       "require": "./cjs/index.js"
     },
     "default": {
-      "import": "./src/browser.mjs",
+      "import": "./esm/browser.js",
       "require": "./cjs/browser.js"
     }
   },
@@ -18,22 +19,22 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "get-random-values": "^1.2.2",
-    "isomorphic-fetch": "^3.0.0",
-    "js-sha256": "^0.9.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.8",
     "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.21.5"
+    "@babel/preset-env": "^7.21.5",
+    "esbuild": "^0.17.19"
   },
   "peerDependencies": {
     "@dfinity/agent": "*",
     "@dfinity/auth-client": "*",
     "@dfinity/candid": "*",
     "@dfinity/identity": "*",
-    "@dfinity/principal": "*"
+    "@dfinity/principal": "*",
+    "get-random-values": "^1.2.2",
+    "isomorphic-fetch": "^3.0.0",
+    "js-sha256": "^0.9.0",
+    "p-limit": "^4.0.0"
   }
 }

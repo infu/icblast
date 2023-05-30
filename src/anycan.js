@@ -47,6 +47,7 @@ export const icblast = ({
   }
 
   return async (canId, preset = false) => {
+    if (canId instanceof Principal) canId = canId.toText();
     if (canId === "aaaaa-aa") preset = "ic";
     if (canId === "rkp4c-7iaaa-aaaaa-aaaca-cai") preset = "cmc";
 
