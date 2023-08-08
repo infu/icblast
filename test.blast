@@ -1,0 +1,1 @@
+{"cells":[{"kind":2,"language":"javascript","value":"let can = await ic(\"yoizw-hyaaa-aaaab-qacea-cai\");\n\nawait can.test([[\"BTC\", 2],[\"XTC\", 5]]).then(log);"}]}
