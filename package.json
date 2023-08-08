@@ -1,6 +1,6 @@
 {
   "name": "@infu/icblast",
-  "version": "2.0.41",
+  "version": "2.0.42",
   "description": "",
   "type": "module",
   "exports": {
@@ -32,7 +32,7 @@
     "@dfinity/candid": "*",
     "@dfinity/identity": "*",
     "@dfinity/principal": "*",
-    "get-random-values": "^1.2.2",
+    "get-random-values": "^2.1.0",
     "isomorphic-fetch": "^3.0.0",
     "js-sha256": "^0.9.0",
     "p-limit": "^4.0.0"

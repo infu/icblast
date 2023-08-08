@@ -2338,10 +2338,10 @@
   "resolved" "https://registry.npmjs.org/get-package-type/-/get-package-type-0.1.0.tgz"
   "version" "0.1.0"
 
-"get-random-values@^1.2.2":
-  "integrity" "sha512-lMyPjQyl0cNNdDf2oR+IQ/fM3itDvpoHy45Ymo2r0L1EjazeSl13SfbKZs7KtZ/3MDCeueiaJiuOEfKqRTsSgA=="
-  "resolved" "https://registry.npmjs.org/get-random-values/-/get-random-values-1.2.2.tgz"
-  "version" "1.2.2"
+"get-random-values@^2.1.0":
+  "integrity" "sha512-q2yOLpLyA8f9unfv2LV8KVRUFeOIrQVS5cnqpbv6N+ea9j1rmW5dFKj/2Q7CK3juEfDYQgPxGt941VJcmw0jKg=="
+  "resolved" "https://registry.npmjs.org/get-random-values/-/get-random-values-2.1.0.tgz"
+  "version" "2.1.0"
   dependencies:
     "global" "^4.4.0"
 
