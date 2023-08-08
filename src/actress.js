@@ -186,7 +186,7 @@ class IDLExplainer {
   Int32 = xInt32;
   Int64 = xInt64;
   Int = xInt;
-  Float = xFloat;
+  Float64 = xFloat;
   Bool = xBool;
   Time = xTime;
   Service(o) {
