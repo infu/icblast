@@ -1,6 +1,6 @@
 {
   "name": "@infu/icblast",
-  "version": "2.0.42",
+  "version": "2.0.43",
   "description": "",
   "type": "module",
   "exports": {
@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/infu/icblast",
   "scripts": {
-    "build": "babel -d cjs src --copy-files"
+    "build": "node build.js"
   },
   "author": "",
   "license": "ISC",
