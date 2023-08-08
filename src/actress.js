@@ -231,7 +231,7 @@ function convert(input, def) {
     try {
       if (def instanceof xOpt) {
         if (input === undefined) return [];
-        if (input === null) return null;
+        if (input === null) return [];
 
         return [convertRecursive("(opt)", input, def.val)];
       } else if (def instanceof xVec) {
