@@ -23,6 +23,7 @@ export const icblast = ({
   local_host = false,
   identity = false,
   agentOptions = {},
+  actorOptions = {},
 } = {}) => {
   let bindings = {};
 
@@ -70,7 +71,7 @@ export const icblast = ({
       idlFactory = dl.idlFactory;
     }
 
-    const creator = (actorOptions) => {
+    const creator = () => {
       // Creates an actor with using the candid interface and the HttpAgent
       let actor = Actor.createActor(idlFactory, {
         agent,
