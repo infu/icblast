@@ -226,7 +226,7 @@ export const explainer = (idlFactory) => {
   return idlFactory({ IDL: IDLWalker });
 };
 
-function convert(input, def) {
+export function convert(input, def) {
   function convertRecursive(ekey, input, def) {
     try {
       if (def instanceof xOpt) {
@@ -277,7 +277,7 @@ function convert(input, def) {
   return output;
 }
 
-function convertBack(input, def) {
+export function convertBack(input, def) {
   function convertBackRecursive(ekey, input, def) {
     try {
       if (def instanceof xOpt) {
