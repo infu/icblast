@@ -1,4 +1,4 @@
-import { explainer, convert } from "../src/index.js";
+import { explainer, convert, initArg } from "../src/index.js";
 import { IDL } from "@dfinity/candid";
 import { init, idlFactory } from "./ledger.idl.js";
 
@@ -22,9 +22,4 @@ let ledger_args = {
   },
 };
 
-const xdl = explainer(init);
-const processedArgs = convert([ledger_args], xdl);
-const interm = init({ IDL });
-let result = IDL.encode(interm, processedArgs);
-console.log(result);
-console.log(processedArgs);
+console.log(initArg(init, [ledger_args]));

@@ -449,3 +449,16 @@ function uint8ArrayToHexString(uint8Array) {
 
   return hexString;
 }
+
+export function initArg(initIdl, args) {
+  const xdl = explainer(initIdl);
+
+  // if args is not array throw error
+  if (!Array.isArray(args)) {
+    throw new Error("args is not array");
+  }
+
+  const processedArgs = convert(args, xdl);
+  const interm = initIdl({ IDL });
+  return IDL.encode(interm, processedArgs);
+}

@@ -6,11 +6,17 @@ import { fileIdentity } from "./identity.js";
 // import { blobFrom } from "fetch-blob/from.js";
 
 import { walletCall, walletProxy } from "./walletcall.js";
-import { toState, explainer, convert, convertBack } from "./actress.js";
+import {
+  toState,
+  explainer,
+  convert,
+  convertBack,
+  initArg,
+} from "./actress.js";
 import { sha256 } from "js-sha256";
 import { Ed25519KeyIdentity } from "@dfinity/identity";
 
-export { toState, explainer, convert, convertBack };
+export { toState, explainer, convert, convertBack, initArg };
 export { fileIdentity, walletCall, walletProxy };
 export default icblast;
 
