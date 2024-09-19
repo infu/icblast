@@ -29,9 +29,9 @@ export const icblast = ({
 
   const IC_HOST = local
     ? local_host || "http://localhost:4943/"
-    : "https://ic0.app";
+    : "https://icp0.io";
 
-  const agent = new HttpAgent({
+  const agent = HttpAgent.createSync({
     host: IC_HOST,
     identity,
     ...agentOptions,

@@ -4,7 +4,7 @@ import { idlFactory } from "./ifhack.did.js";
 export { idlFactory } from "./ifhack.did.js";
 
 export const ifhackCanister = (canisterId, options, local = false) => {
-  const agent = new HttpAgent({ ...options?.agentOptions });
+  const agent = HttpAgent.createSync({ ...options?.agentOptions });
 
   // Fetch root key for certificate validation during development
   if (local) {
