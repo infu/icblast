@@ -1,0 +1,1040 @@
+{
+  "include_ballots_by_caller": true,
+  "proposals": [
+    {
+      "id": {
+        "id": "295"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "594",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1754225288",
+      "proposal_creation_timestamp_seconds": "1753793640",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "50788213877",
+        "yes": "36618122871944",
+        "total": "51981882152025",
+        "timestamp_seconds": "1754110283"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1753807987",
+      "proposal": {
+        "url": "https://github.com/Neutrinomic/neuron_pylon/commit/ca99bd1aeec5c2cca1a8f58ddd12989fe8d027a9",
+        "title": "Upgrade Neuron Pylon",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "6jvpj-sqaaa-aaaaj-azwnq-cai"
+          }
+        },
+        "summary": "GitHub commit:\n\nhttps://github.com/Neutrinomic/neuron_pylon/commit/ca99bd1aeec5c2cca1a8f58ddd12989fe8d027a9\n\nUpgrades pylon to latest Devefi 2.0.5 with new ledger mem.\n\n## Adds NTC Mint vector\n- Exchange ICP for NTC so you can set aside compute today and redeem them whenever you need cycles.\n\n- Buy cycles in advance to keep budgets on course and avoid surprise price swings.\n\n- Slot Mint Vector into neuron vectors, exchange vectors, or other ICP processes (e.g., ckBTC → ICP → NTC → cycles) to automate top‑ups.\n\n- Ideal for bulk buying or trading systems that must convert large amounts of cycles on demand (DAO treasuries).\n\n## Adds NTC Redeem vector\n- Split NTC among multiple canisters, each with its own label and percentage share.\n\n- Manage all top ups from one place instead of juggling individual canister balances.\n\n- Build pipelines that top up canisters as soon as they need cycles no manual checks required.\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "a8a84b57c3faef493ed5399edbbc46663aa78740477f7c2d8bfacd0f339292ad"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1754139240"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1753807991"
+    },
+    {
+      "id": {
+        "id": "294"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "593",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1754138888",
+      "proposal_creation_timestamp_seconds": "1753792196",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "50783393395",
+        "yes": "36612622877262",
+        "total": "51976363409437",
+        "timestamp_seconds": "1754110287"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1753807978",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "7ew52-sqaaa-aaaal-qsrda-cai",
+            "canister_upgrade_arg": "4449444c016c01e4c3bcb201680100010a00000000017094470101"
+          }
+        },
+        "summary": "\nUpgrade NTN mint. Uses RQQ. Adds a new call feature. Uses latest DeVeFi libraries.\n\n\nhttps://github.com/Neutrinomic/NTC"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1754137796"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1753807982"
+    },
+    {
+      "id": {
+        "id": "293"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "593",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1754138888",
+      "proposal_creation_timestamp_seconds": "1753791974",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "21093193083427",
+        "yes": "15576698848465",
+        "total": "51976959161147",
+        "timestamp_seconds": "1754110291"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1754137583",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "7ew52-sqaaa-aaaal-qsrda-cai"
+          }
+        },
+        "summary": "\nUpgrade NTN mint. Uses RQQ. Adds a new call feature. Uses latest DeVeFi libraries.\n\n\nhttps://github.com/Neutrinomic/NTC"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1754137574"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "0"
+    },
+    {
+      "id": {
+        "id": "292"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "589",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1753793288",
+      "proposal_creation_timestamp_seconds": "1753382903",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "25861340110",
+        "yes": "36504142748178",
+        "total": "51845273256663",
+        "timestamp_seconds": "1753720240"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1753383077",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "nzsmr-6iaaa-aaaal-qsnea-cai"
+          }
+        },
+        "summary": "\nUpgrade cICP mint to use the latest devefi libraries.\n\n\nhttps://github.com/Neutrinomic/cICPmint"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1753728503"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1753383081"
+    },
+    {
+      "id": {
+        "id": "291"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "10",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "588",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1753706888",
+      "proposal_creation_timestamp_seconds": "1753305257",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "26852953281",
+        "yes": "36453309104546",
+        "total": "51832765671005",
+        "timestamp_seconds": "1753611734"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1753342233",
+      "proposal": {
+        "url": "",
+        "title": "Register NTC Minter",
+        "action": {
+          "RegisterDappCanisters": {
+            "canister_ids": [
+              "7ew52-sqaaa-aaaal-qsrda-cai"
+            ]
+          }
+        },
+        "summary": "More about NTC https://github.com/Neutrinomic/NTC\nThe NTC ledger is already governed by NTN canister - the deployer, which limits possible actions to upgrade to next SNS canister version.\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "283ec7096a7e2206623818bce84d7d55ed001ca4fb4173e01009c7277645aa49"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1753650857"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1753342244"
+    },
+    {
+      "id": {
+        "id": "290"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "578",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1752842888",
+      "proposal_creation_timestamp_seconds": "1752417696",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "49590961236",
+        "yes": "36744843918194",
+        "total": "52069241313316",
+        "timestamp_seconds": "1752756533"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1752418131",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "toj6n-haaaa-aaaal-qdika-cai"
+          }
+        },
+        "summary": "\nUpgrade Ledger Deployer. \n- Add the new CycleOps blackhole and a function which sets it\n- Restrict installation of ledgers only to admin. NNS will soon provide this service. Previous ledger installers can still upgrade their ledgers.\n- Send cycles function\n\n\nhttps://github.com/Neutrinomic/deployer\n"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1752763296"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1752418136"
+    },
+    {
+      "id": {
+        "id": "289"
+      },
+      "topic": {
+        "TreasuryAssetManagement": null
+      },
+      "action": "9",
+      "action_auxiliary": {
+        "TransferSnsTreasuryFunds": {
+          "valuation": {
+            "token": 1,
+            "account": {
+              "owner": "eqsml-lyaaa-aaaaq-aacdq-cai"
+            },
+            "valuation_factors": {
+              "xdrs_per_icp": {
+                "human_readable": "3.7585"
+              },
+              "icps_per_token": {
+                "human_readable": "1"
+              },
+              "tokens": {
+                "e8s": "3082423389244"
+              }
+            },
+            "timestamp_seconds": "1751910882"
+          }
+        }
+      },
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "2000"
+      },
+      "reward_event_round": "573",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1752410888",
+      "proposal_creation_timestamp_seconds": "1751910882",
+      "initial_voting_period_seconds": "432000",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "39254107938",
+        "yes": "36622156360896",
+        "total": "51929648462077",
+        "timestamp_seconds": "1752318545"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "216000",
+      "decided_timestamp_seconds": "1752318515",
+      "proposal": {
+        "url": "",
+        "title": "Automated Treasury Transfer: Threshold below 25 ICP detected, Transfer to Cycleops account for 100 ICP from Neutrinite DAO Treasury - Bitcorn Labs Automated Service",
+        "action": {
+          "TransferSnsTreasuryFunds": {
+            "from_treasury": 1,
+            "to_principal": "v6hxe-jaaaa-aaaap-aawpq-cai",
+            "to_subaccount": {
+              "subaccount": "f3aa809e9f794e1409706b5c7d0354409238805f0e51b1310abe966ceb903ca6"
+            },
+            "amount_e8s": "10000000000"
+          }
+        },
+        "summary": "Automated Treasury Transfer: Threshold below 25 ICP detected, Transfer to Cycleops account for 100 ICP from Neutrinite DAO Treasury - Bitcorn Labs Automated Service"
+      },
+      "proposer": {
+        "id": "a1cb103bfd5d3180c52f2138d4afb4cc66923eb0d1f14514376de5766a87a923"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1752342882"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "6700"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1752318519"
+    },
+    {
+      "id": {
+        "id": "288"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "568",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1751978888",
+      "proposal_creation_timestamp_seconds": "1751631025",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "57653584013",
+        "yes": "36127037458657",
+        "total": "51846715464924",
+        "timestamp_seconds": "1751962028"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1751911408",
+      "proposal": {
+        "url": "https://github.com/Neutrinomic/neuron_pylon/commit/dfcaf214497f0633ec63d7d86d0f0f84e1559dbe",
+        "title": "Upgrade Neuron Pylon",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "6jvpj-sqaaa-aaaaj-azwnq-cai"
+          }
+        },
+        "summary": "GitHub commit:\n\nhttps://github.com/Neutrinomic/neuron_pylon/commit/dfcaf214497f0633ec63d7d86d0f0f84e1559dbe\n\nNew Features\n\n- Adds latest ICP neuron vector which removes claim maturity functionality in favour of the new disburse maturity.\n- Adds a minimum send threshold to splitters.\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "a8a84b57c3faef493ed5399edbbc46663aa78740477f7c2d8bfacd0f339292ad"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1751976625"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1751911412"
+    },
+    {
+      "id": {
+        "id": "287"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "565",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1751719688",
+      "proposal_creation_timestamp_seconds": "1751309637",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "27237787908",
+        "yes": "36472846148433",
+        "total": "51789581227274",
+        "timestamp_seconds": "1751645802"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1751310875",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "u45jl-liaaa-aaaam-abppa-cai"
+          }
+        },
+        "summary": "\nRestart timers. Optimize memory usage.\n\n## Verify build\n\nhttps://github.com/Neutrinomic/defi_aggregator\nOpen in Github Codespaces and run: ./verify.sh"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1751655237"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1751310879"
+    },
+    {
+      "id": {
+        "id": "286"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "559",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1751201288",
+      "proposal_creation_timestamp_seconds": "1750774579",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "48953853917",
+        "yes": "39481804485537",
+        "total": "54828930280659",
+        "timestamp_seconds": "1751117666"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1751022111",
+      "proposal": {
+        "url": "https://github.com/Neutrinomic/neuron_pylon/commit/959b48dfd7df39ec83cccf0c67c93c505296017c",
+        "title": "Upgrade Neuron Pylon",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "6jvpj-sqaaa-aaaaj-azwnq-cai"
+          }
+        },
+        "summary": "GitHub commit:\n\nhttps://github.com/Neutrinomic/neuron_pylon/commit/959b48dfd7df39ec83cccf0c67c93c505296017c\n\nThis update includes the new Disburse Maturity functionality for NNS neurons.\n\nNew Features\n- New V3 memory with `maturity_disbursements_in_progress`.\n- New `disburse_maturity function` added to the cycle.\n\nBenefits\n\nDisburse maturity only requires a single call and in future versions we will no longer have to track spawning neurons for each vector.\n\nNotes\n\n`claim_maturity` and it's related functionality is kept for backwards compatibility and will be removed in the next version.\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "a8a84b57c3faef493ed5399edbbc46663aa78740477f7c2d8bfacd0f339292ad"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1751120179"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1751022115"
+    },
+    {
+      "id": {
+        "id": "285"
+      },
+      "topic": {
+        "CriticalDappOperations": null
+      },
+      "action": "11",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "2000"
+      },
+      "reward_event_round": "552",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750596488",
+      "proposal_creation_timestamp_seconds": "1750158507",
+      "initial_voting_period_seconds": "432000",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "48241552393",
+        "yes": "39241975614608",
+        "total": "54622628034604",
+        "timestamp_seconds": "1750575947"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "216000",
+      "decided_timestamp_seconds": "1750158932",
+      "proposal": {
+        "url": "",
+        "title": "Deregister NTN pylon",
+        "action": {
+          "DeregisterDappCanisters": {
+            "canister_ids": [
+              "togwv-zqaaa-aaaal-qr7aa-cai"
+            ],
+            "new_controllers": [
+              "v6ksx-vfv66-dlpks-agv2k-2pafk-yjlow-5fesr-dxigk-rzvzp-xrfbg-tae",
+              "wdemt-l7zz7-o2deb-yzfhf-bfwui-zfngu-fqtad-pagsk-hg4ol-uq6oq-mqe"
+            ]
+          }
+        },
+        "summary": "Temporary move controller back to developers\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "283ec7096a7e2206623818bce84d7d55ed001ca4fb4173e01009c7277645aa49"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750590507"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "6700"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1750158940"
+    },
+    {
+      "id": {
+        "id": "284"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "551",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750510088",
+      "proposal_creation_timestamp_seconds": "1750157316",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "48241190013",
+        "yes": "38365636343031",
+        "total": "54622470513693",
+        "timestamp_seconds": "1750502414"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1750157614",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "togwv-zqaaa-aaaal-qr7aa-cai",
+            "canister_upgrade_arg": "4449444c056e016c07e8f1cf9f057193f888f8057ce7a1fb9c087edbdeffac097c9bd6f7eb0d02c7988fb60e71bceefbe20e7c6c08a5d18781027cb6edfedb027ce689ba83047cdad5bb8b0803a9cbadc30968e1e7e9ee0b04d0ccf9a40d04f0a4e2c30d7f6c04b3e5e6bf067c8bd5ef9b077ccd86c2cc0b7ca2bcb8e90c7c6c02b3b0dac30368ad86ca83057f0100010d5472616e7363656e64656e6365901c0080c6868f01a09c010a8084afdf0014281414010a00000000020000880101010a00000000020000870101010a000000000200008701010e4e65757472696e6974652044414f901c"
+          }
+        },
+        "summary": "\nUpgrade Transcendence Pylon. \nFix visibility.\n\n\nhttps://github.com/Neutrinomic/ntn_pylon\n"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750502916"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1750157618"
+    },
+    {
+      "id": {
+        "id": "283"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "551",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750510088",
+      "proposal_creation_timestamp_seconds": "1750156602",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "25108418914",
+        "yes": "38386768282218",
+        "total": "54622376080504",
+        "timestamp_seconds": "1750472753"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1750156808",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "togwv-zqaaa-aaaal-qr7aa-cai",
+            "canister_upgrade_arg": "4449444c056e016c07e8f1cf9f057193f888f8057ce7a1fb9c087edbdeffac097c9bd6f7eb0d02c7988fb60e71bceefbe20e7c6c08a5d18781027cb6edfedb027ce689ba83047cdad5bb8b0803a9cbadc30968e1e7e9ee0b04d0ccf9a40d04f0a4e2c30d7f6c04b3e5e6bf067c8bd5ef9b077ccd86c2cc0b7ca2bcb8e90c7c6c02b3b0dac30368ad86ca83057f0100010d5472616e7363656e64656e6365901c0080c6868f01a09c010a8084afdf0014281414010a00000000020000880101010a00000000020000870101010a000000000200008701010e4e65757472696e6974652044414f901c"
+          }
+        },
+        "summary": "\nUpgrade Transcendence Pylon. \nRem Switcher vector.\n\n\nhttps://github.com/Neutrinomic/ntn_pylon\n"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750502202"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1750156812"
+    },
+    {
+      "id": {
+        "id": "282"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "551",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750510088",
+      "proposal_creation_timestamp_seconds": "1750155818",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "25108316286",
+        "yes": "38338936599585",
+        "total": "54572272419154",
+        "timestamp_seconds": "1750472805"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1750155876",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "togwv-zqaaa-aaaal-qr7aa-cai",
+            "canister_upgrade_arg": "4449444c056e016c07e8f1cf9f057193f888f8057ce7a1fb9c087edbdeffac097c9bd6f7eb0d02c7988fb60e71bceefbe20e7c6c08a5d18781027cb6edfedb027ce689ba83047cdad5bb8b0803a9cbadc30968e1e7e9ee0b04d0ccf9a40d04f0a4e2c30d7f6c04b3e5e6bf067c8bd5ef9b077ccd86c2cc0b7ca2bcb8e90c7c6c02b3b0dac30368ad86ca83057f0100010d5472616e7363656e64656e6365901c0080c6868f01a09c010a8084afdf0014281414010a00000000020000880101010a00000000020000870101010a000000000200008701010e4e65757472696e6974652044414f901c"
+          }
+        },
+        "summary": "\nUpgrade Transcendence Pylon. \nAdd Switcher vector.\n\n\nhttps://github.com/Neutrinomic/ntn_pylon\n"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750501418"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1750155880"
+    },
+    {
+      "id": {
+        "id": "281"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "551",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750510088",
+      "proposal_creation_timestamp_seconds": "1750086758",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "27053109911",
+        "yes": "38330902015554",
+        "total": "54562559880083",
+        "timestamp_seconds": "1750398003"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1750088987",
+      "proposal": {
+        "url": "https://github.com/Neutrinomic/neuron_pylon/commit/77852379b62188dcb4d7e4b139c098a4c4b3c847",
+        "title": "Upgrade Neuron Pylon",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "6jvpj-sqaaa-aaaaj-azwnq-cai"
+          }
+        },
+        "summary": "GitHub commit:\n\nhttps://github.com/Neutrinomic/neuron_pylon/commit/77852379b62188dcb4d7e4b139c098a4c4b3c847\n\nChanges:\n\n- uses devefi v4\n- adds chrono\n- bumps vector creation fee to 2 NTN\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "a8a84b57c3faef493ed5399edbbc46663aa78740477f7c2d8bfacd0f339292ad"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750432358"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1750088991"
+    },
+    {
+      "id": {
+        "id": "280"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "549",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750337288",
+      "proposal_creation_timestamp_seconds": "1749922467",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "25741606873",
+        "yes": "38283551273745",
+        "total": "54445502328430",
+        "timestamp_seconds": "1750224201"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1749974127",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "togwv-zqaaa-aaaal-qr7aa-cai",
+            "canister_upgrade_arg": "4449444c056e016c07e8f1cf9f057193f888f8057ce7a1fb9c087edbdeffac097c9bd6f7eb0d02c7988fb60e71bceefbe20e7c6c08a5d18781027cb6edfedb027ce689ba83047cdad5bb8b0803a9cbadc30968e1e7e9ee0b04d0ccf9a40d04f0a4e2c30d7f6c04b3e5e6bf067c8bd5ef9b077ccd86c2cc0b7ca2bcb8e90c7c6c02b3b0dac30368ad86ca83057f0100010d5472616e7363656e64656e6365901c0080c6868f01a09c010a8084afdf0014281414010a00000000020000880101010a00000000020000870101010a000000000200008701010e4e65757472696e6974652044414f901c"
+          }
+        },
+        "summary": "\nUpgrade Transcendence Pylon. \nAdd Switcher vector.\n\n\nhttps://github.com/Neutrinomic/ntn_pylon\n"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750268067"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1749974131"
+    },
+    {
+      "id": {
+        "id": "279"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "548",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750250888",
+      "proposal_creation_timestamp_seconds": "1749903948",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "27025369354",
+        "yes": "38264453099633",
+        "total": "54441925402494",
+        "timestamp_seconds": "1750224204"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1749909728",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "togwv-zqaaa-aaaal-qr7aa-cai"
+          }
+        },
+        "summary": "\nUpgrade Transcendence Pylon. \nAdd Switcher vector.\n\n\nhttps://github.com/Neutrinomic/ntn_pylon\n"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1750249548"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1749909732"
+    },
+    {
+      "id": {
+        "id": "278"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "10",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "546",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750078088",
+      "proposal_creation_timestamp_seconds": "1749653476",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "48545594575",
+        "yes": "37917987489150",
+        "total": "54165283083452",
+        "timestamp_seconds": "1749984241"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1749655901",
+      "proposal": {
+        "url": "",
+        "title": "Register NTN canister",
+        "action": {
+          "RegisterDappCanisters": {
+            "canister_ids": [
+              "nzsmr-6iaaa-aaaal-qsnea-cai"
+            ]
+          }
+        },
+        "summary": "Register cICP related canister\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "283ec7096a7e2206623818bce84d7d55ed001ca4fb4173e01009c7277645aa49"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1749999076"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1749655919"
+    },
+    {
+      "id": {
+        "id": "277"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "10",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "546",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750078088",
+      "proposal_creation_timestamp_seconds": "1749653420",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "25037410363",
+        "yes": "37941612749552",
+        "total": "54165900791490",
+        "timestamp_seconds": "1749984245"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1749655911",
+      "proposal": {
+        "url": "",
+        "title": "Register NTN canisters",
+        "action": {
+          "RegisterDappCanisters": {
+            "canister_ids": [
+              "togwv-zqaaa-aaaal-qr7aa-cai"
+            ]
+          }
+        },
+        "summary": "Register Transcendence Pylon\n--------------------------------\n<br><br>\nThis proposal was created using [https://ic-toolkit.app](https://ic-toolkit.app)\n<br><br>\n"
+      },
+      "proposer": {
+        "id": "283ec7096a7e2206623818bce84d7d55ed001ca4fb4173e01009c7277645aa49"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1749999020"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1749655927"
+    },
+    {
+      "id": {
+        "id": "276"
+      },
+      "topic": {
+        "DappCanisterManagement": null
+      },
+      "action": "3",
+      "ballots": [],
+      "minimum_yes_proportion_of_total": {
+        "basis_points": "300"
+      },
+      "reward_event_round": "546",
+      "failed_timestamp_seconds": "0",
+      "reward_event_end_timestamp_seconds": "1750078088",
+      "proposal_creation_timestamp_seconds": "1749652231",
+      "initial_voting_period_seconds": "345600",
+      "reject_cost_e8s": "500000000",
+      "latest_tally": {
+        "no": "25037254725",
+        "yes": "37940966322790",
+        "total": "54165245967424",
+        "timestamp_seconds": "1749989106"
+      },
+      "wait_for_quiet_deadline_increase_seconds": "86400",
+      "decided_timestamp_seconds": "1749652355",
+      "proposal": {
+        "url": "",
+        "title": "Upgrade Canister",
+        "action": {
+          "UpgradeSnsControlledCanister": {
+            "new_canister_wasm": "",
+            "mode": 3,
+            "canister_id": "u45jl-liaaa-aaaam-abppa-cai"
+          }
+        },
+        "summary": "\nRestart timers. Optimize memory usage.\n\n## Verify build\n\nhttps://github.com/Neutrinomic/defi_aggregator\nOpen in Github Codespaces and run: ./verify.sh"
+      },
+      "proposer": {
+        "id": "824f1a1df2652fb26c0fe1c03ab5ce69f2561570fb4d042cdc32dcb4604a4f03"
+      },
+      "wait_for_quiet_state": {
+        "current_deadline_timestamp_seconds": "1749997831"
+      },
+      "minimum_yes_proportion_of_exercised": {
+        "basis_points": "5000"
+      },
+      "is_eligible_for_rewards": true,
+      "executed_timestamp_seconds": "1749652359"
+    }
+  ],
+  "include_topic_filtering": true
+}

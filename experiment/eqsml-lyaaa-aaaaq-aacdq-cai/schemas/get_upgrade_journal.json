@@ -1,0 +1,1552 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "prefixItems": [
+      {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "limit": {
+            "type": "string",
+            "description": "bigint as string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "minItems": 1,
+    "maxItems": 1
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "upgrade_journal": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "event": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "TargetVersionSet": {
+                          "type": "object",
+                          "properties": {
+                            "old_target_version": {
+                              "type": "object",
+                              "properties": {
+                                "archive_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "root_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "swap_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "ledger_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "governance_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "index_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "archive_wasm_hash",
+                                "root_wasm_hash",
+                                "swap_wasm_hash",
+                                "ledger_wasm_hash",
+                                "governance_wasm_hash",
+                                "index_wasm_hash"
+                              ]
+                            },
+                            "new_target_version": {
+                              "type": "object",
+                              "properties": {
+                                "archive_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "root_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "swap_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "ledger_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "governance_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "index_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "archive_wasm_hash",
+                                "root_wasm_hash",
+                                "swap_wasm_hash",
+                                "ledger_wasm_hash",
+                                "governance_wasm_hash",
+                                "index_wasm_hash"
+                              ]
+                            },
+                            "is_advanced_automatically": {
+                              "type": "boolean"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "TargetVersionSet"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "UpgradeStepsReset": {
+                          "type": "object",
+                          "properties": {
+                            "human_readable": {
+                              "type": "string"
+                            },
+                            "upgrade_steps": {
+                              "type": "object",
+                              "properties": {
+                                "versions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "archive_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "root_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "swap_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "ledger_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "governance_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "index_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "archive_wasm_hash",
+                                      "root_wasm_hash",
+                                      "swap_wasm_hash",
+                                      "ledger_wasm_hash",
+                                      "governance_wasm_hash",
+                                      "index_wasm_hash"
+                                    ]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "versions"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "UpgradeStepsReset"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "UpgradeOutcome": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "oneOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "Success": {
+                                      "type": "object",
+                                      "properties": {},
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "Success"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "Timeout": {
+                                      "type": "object",
+                                      "properties": {},
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "Timeout"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "ExternalFailure": {
+                                      "type": "object",
+                                      "properties": {},
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "ExternalFailure"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "InvalidState": {
+                                      "type": "object",
+                                      "properties": {
+                                        "version": {
+                                          "type": "object",
+                                          "properties": {
+                                            "archive_wasm_hash": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "string",
+                                                  "description": "hex-encoded bytes"
+                                                },
+                                                {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "number"
+                                                  },
+                                                  "description": "byte array"
+                                                }
+                                              ]
+                                            },
+                                            "root_wasm_hash": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "string",
+                                                  "description": "hex-encoded bytes"
+                                                },
+                                                {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "number"
+                                                  },
+                                                  "description": "byte array"
+                                                }
+                                              ]
+                                            },
+                                            "swap_wasm_hash": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "string",
+                                                  "description": "hex-encoded bytes"
+                                                },
+                                                {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "number"
+                                                  },
+                                                  "description": "byte array"
+                                                }
+                                              ]
+                                            },
+                                            "ledger_wasm_hash": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "string",
+                                                  "description": "hex-encoded bytes"
+                                                },
+                                                {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "number"
+                                                  },
+                                                  "description": "byte array"
+                                                }
+                                              ]
+                                            },
+                                            "governance_wasm_hash": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "string",
+                                                  "description": "hex-encoded bytes"
+                                                },
+                                                {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "number"
+                                                  },
+                                                  "description": "byte array"
+                                                }
+                                              ]
+                                            },
+                                            "index_wasm_hash": {
+                                              "oneOf": [
+                                                {
+                                                  "type": "string",
+                                                  "description": "hex-encoded bytes"
+                                                },
+                                                {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "number"
+                                                  },
+                                                  "description": "byte array"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "additionalProperties": false,
+                                          "required": [
+                                            "archive_wasm_hash",
+                                            "root_wasm_hash",
+                                            "swap_wasm_hash",
+                                            "ledger_wasm_hash",
+                                            "governance_wasm_hash",
+                                            "index_wasm_hash"
+                                          ]
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "InvalidState"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            },
+                            "human_readable": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "UpgradeOutcome"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "UpgradeStarted": {
+                          "type": "object",
+                          "properties": {
+                            "current_version": {
+                              "type": "object",
+                              "properties": {
+                                "archive_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "root_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "swap_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "ledger_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "governance_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "index_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "archive_wasm_hash",
+                                "root_wasm_hash",
+                                "swap_wasm_hash",
+                                "ledger_wasm_hash",
+                                "governance_wasm_hash",
+                                "index_wasm_hash"
+                              ]
+                            },
+                            "expected_version": {
+                              "type": "object",
+                              "properties": {
+                                "archive_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "root_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "swap_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "ledger_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "governance_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "index_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "archive_wasm_hash",
+                                "root_wasm_hash",
+                                "swap_wasm_hash",
+                                "ledger_wasm_hash",
+                                "governance_wasm_hash",
+                                "index_wasm_hash"
+                              ]
+                            },
+                            "reason": {
+                              "oneOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "UpgradeSnsToNextVersionProposal": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string",
+                                          "description": "bigint as string"
+                                        }
+                                      },
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "id"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "UpgradeSnsToNextVersionProposal"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "BehindTargetVersion": {
+                                      "type": "object",
+                                      "properties": {},
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "BehindTargetVersion"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "UpgradeStarted"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "UpgradeStepsRefreshed": {
+                          "type": "object",
+                          "properties": {
+                            "upgrade_steps": {
+                              "type": "object",
+                              "properties": {
+                                "versions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "archive_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "root_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "swap_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "ledger_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "governance_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      },
+                                      "index_wasm_hash": {
+                                        "oneOf": [
+                                          {
+                                            "type": "string",
+                                            "description": "hex-encoded bytes"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "number"
+                                            },
+                                            "description": "byte array"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "archive_wasm_hash",
+                                      "root_wasm_hash",
+                                      "swap_wasm_hash",
+                                      "ledger_wasm_hash",
+                                      "governance_wasm_hash",
+                                      "index_wasm_hash"
+                                    ]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "versions"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "UpgradeStepsRefreshed"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "TargetVersionReset": {
+                          "type": "object",
+                          "properties": {
+                            "human_readable": {
+                              "type": "string"
+                            },
+                            "old_target_version": {
+                              "type": "object",
+                              "properties": {
+                                "archive_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "root_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "swap_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "ledger_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "governance_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "index_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "archive_wasm_hash",
+                                "root_wasm_hash",
+                                "swap_wasm_hash",
+                                "ledger_wasm_hash",
+                                "governance_wasm_hash",
+                                "index_wasm_hash"
+                              ]
+                            },
+                            "new_target_version": {
+                              "type": "object",
+                              "properties": {
+                                "archive_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "root_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "swap_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "ledger_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "governance_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                },
+                                "index_wasm_hash": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "archive_wasm_hash",
+                                "root_wasm_hash",
+                                "swap_wasm_hash",
+                                "ledger_wasm_hash",
+                                "governance_wasm_hash",
+                                "index_wasm_hash"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "TargetVersionReset"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "timestamp_seconds": {
+                  "type": "string",
+                  "description": "bigint as string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "entries"
+        ]
+      },
+      "upgrade_steps": {
+        "type": "object",
+        "properties": {
+          "versions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "archive_wasm_hash": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "hex-encoded bytes"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "description": "byte array"
+                    }
+                  ]
+                },
+                "root_wasm_hash": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "hex-encoded bytes"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "description": "byte array"
+                    }
+                  ]
+                },
+                "swap_wasm_hash": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "hex-encoded bytes"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "description": "byte array"
+                    }
+                  ]
+                },
+                "ledger_wasm_hash": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "hex-encoded bytes"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "description": "byte array"
+                    }
+                  ]
+                },
+                "governance_wasm_hash": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "hex-encoded bytes"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "description": "byte array"
+                    }
+                  ]
+                },
+                "index_wasm_hash": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "hex-encoded bytes"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "description": "byte array"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "archive_wasm_hash",
+                "root_wasm_hash",
+                "swap_wasm_hash",
+                "ledger_wasm_hash",
+                "governance_wasm_hash",
+                "index_wasm_hash"
+              ]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "versions"
+        ]
+      },
+      "response_timestamp_seconds": {
+        "type": "string",
+        "description": "bigint as string"
+      },
+      "deployed_version": {
+        "type": "object",
+        "properties": {
+          "archive_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "root_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "swap_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "ledger_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "governance_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "index_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "archive_wasm_hash",
+          "root_wasm_hash",
+          "swap_wasm_hash",
+          "ledger_wasm_hash",
+          "governance_wasm_hash",
+          "index_wasm_hash"
+        ]
+      },
+      "target_version": {
+        "type": "object",
+        "properties": {
+          "archive_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "root_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "swap_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "ledger_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "governance_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "index_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "archive_wasm_hash",
+          "root_wasm_hash",
+          "swap_wasm_hash",
+          "ledger_wasm_hash",
+          "governance_wasm_hash",
+          "index_wasm_hash"
+        ]
+      },
+      "upgrade_journal_entry_count": {
+        "type": "string",
+        "description": "bigint as string"
+      }
+    },
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

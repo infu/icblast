@@ -1,0 +1,10 @@
+{
+  "deployed_version": {
+    "archive_wasm_hash": "50adf544839d3e9f6f51cae4aad4baa028ef536e0e2714984389c5c989e55fae",
+    "root_wasm_hash": "e67def627b401aa1fd31f1904f67d647a7bf755e42c96802916f99f81a04c530",
+    "swap_wasm_hash": "ef16e47eed62566387902227e04b16782a5c3f719bbff7a1bc53e883259fc243",
+    "ledger_wasm_hash": "da09eb07393d5068879cdf212f47012cd23aaddc0fa49122cab2da657135f06e",
+    "governance_wasm_hash": "eb2c828469a3058fa1e5ee68d9c7391a7af487798712ba58e1a0e7ab8cfaca44",
+    "index_wasm_hash": "b2795770be28a8962c953a8b44ff26ea5a61995828ba15c3812793c8670801f4"
+  }
+}

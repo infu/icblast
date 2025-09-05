@@ -1,0 +1,179 @@
+Expected to find result for path [object Object], but instead found nothing.
+RejectError: The replica returned a rejection error:
+  Request ID: f9fc05e164002ddc70b23a59fb4baaaa3062f315650592fe4ee77b329b22a65b
+  Reject code: 5
+  Reject text: Error from Canister eqsml-lyaaa-aaaaq-aacdq-cai: Canister called `ic0.trap` with message: 'Panicked at 'GetNeuron must have neuron_id', rs/sns/governance/src/governance.rs:1031:14'.
+Consider gracefully handling failures from this canister or altering the canister to handle exceptions. See documentation: https://internetcomputer.org/docs/current/references/execution-errors#trapped-explicitly
+  Error code: IC0503
+
+Call context:
+  Canister ID: eqsml-lyaaa-aaaaq-aacdq-cai
+  Method name: get_neuron
+  HTTP details: {
+  "ok": true,
+  "status": 200,
+  "statusText": "OK",
+  "headers": [
+    [
+      "access-control-allow-origin",
+      "*"
+    ],
+    [
+      "access-control-expose-headers",
+      "accept-ranges,content-length,content-range,x-request-id,x-ic-canister-id"
+    ],
+    [
+      "content-length",
+      "611"
+    ],
+    [
+      "content-type",
+      "application/cbor"
+    ],
+    [
+      "date",
+      "Sun, 31 Aug 2025 16:43:20 GMT"
+    ],
+    [
+      "strict-transport-security",
+      "max-age=31536000; includeSubDomains"
+    ],
+    [
+      "vary",
+      "origin, access-control-request-method, access-control-request-headers"
+    ],
+    [
+      "x-content-type-options",
+      "nosniff"
+    ],
+    [
+      "x-frame-options",
+      "DENY"
+    ],
+    [
+      "x-ic-canister-id",
+      "eqsml-lyaaa-aaaaq-aacdq-cai"
+    ],
+    [
+      "x-request-id",
+      "01990103-0bb9-7212-9588-acf0d5cf1fb8"
+    ]
+  ],
+  "requestDetails": {
+    "request_type": "query",
+    "canister_id": {
+      "__principal__": "eqsml-lyaaa-aaaaq-aacdq-cai"
+    },
+    "method_name": "get_neuron",
+    "arg": {
+      "0": 68,
+      "1": 73,
+      "2": 68,
+      "3": 76,
+      "4": 4,
+      "5": 109,
+      "6": 123,
+      "7": 108,
+      "8": 1,
+      "9": 219,
+      "10": 183,
+      "11": 1,
+      "12": 0,
+      "13": 110,
+      "14": 1,
+      "15": 108,
+      "16": 1,
+      "17": 231,
+      "18": 182,
+      "19": 227,
+      "20": 232,
+      "21": 15,
+      "22": 2,
+      "23": 1,
+      "24": 3,
+      "25": 0
+    },
+    "sender": {
+      "__principal__": "hznkk-fizbu-zwbpv-plpqq-dmo6v-llotj-hmmta-tskxn-ulc3d-tnvlj-kae"
+    },
+    "ingress_expiry": {
+      "__expiry__": "1756658880000000000"
+    }
+  }
+}
+    at e.fromCode (https://esm.sh/@dfinity/agent@3.2.3/denonext/agent.mjs:11:555)
+    at s (https://esm.sh/@dfinity/agent@3.2.3/denonext/agent.mjs:55:11054)
+    at eventLoopTick (ext:core/01_core.js:179:7)
+    at async file:///tmp/deno-compile-blast/icb_deno.ts:162:20
+    at async cmdCall (file:///tmp/deno-compile-blast/icb_cli.ts:87:15)
+    at async file:///tmp/deno-compile-blast/icb_cli.ts:149:9
+Caused by {
+  code: e {
+    isCertified: false,
+    requestId: Uint8Array(32) [
+      249, 252,   5, 225, 100,  0,  45, 220,
+      112, 178,  58,  89, 251, 75, 170, 170,
+       48,  98, 243,  21, 101,  5, 146, 254,
+       78, 231, 123,  50, 155, 34, 166,  91
+    ],
+    rejectCode: 5,
+    rejectMessage: Error from Canister eqsml-lyaaa-aaaaq-aacdq-cai: Canister called `ic0.trap` with message: 'Panicked at 'GetNeuron must have neuron_id', rs/sns/governance/src/governance.rs:1031:14'.\n +
+      Consider gracefully handling failures from this canister or altering the canister to handle exceptions. See documentation: https://internetcomputer.org/docs/current/references/execution-errors#trapped-explicitly,
+    rejectErrorCode: IC0503,
+    signatures: [
+      {
+        timestamp: 1756658599937127095n,
+        signature: Uint8Array(64) [
+          140,  50,   6, 114,   6,  44, 250,  19, 224, 122, 100,
+          108, 202, 183, 181, 122,  57, 195, 234,  42,  45, 148,
+          146,  47,  79,  15,  15, 115, 114, 119, 175,  39, 106,
+          136, 163, 154,  49,   8, 231, 130,  36, 225, 237, 160,
+           63,  54,  12, 160,  95, 143, 201,  76, 191, 108,  73,
+           40, 194,  64,  21, 255, 119, 197, 111,  12
+        ],
+        identity: Uint8Array(29) [
+          139, 156, 173, 104, 235, 159, 217,
+          207,   2, 174, 178, 128, 255, 131,
+          237, 120, 234, 209,  31,  10,  87,
+          236, 197, 149,  89,  79,  22, 250,
+            2
+        ]
+      }
+    ],
+    name: UncertifiedRejectErrorCode,
+    callContext: {
+      canisterId: a {
+        _arr: Uint8Array(10) [
+          0, 0,   0, 0, 2,
+          0, 0, 135, 1, 1
+        ],
+        _isPrincipal: true
+      },
+      methodName: get_neuron,
+      httpDetails: {
+        ok: true,
+        status: 200,
+        statusText: OK,
+        headers: [
+          [Array], [Array],
+          [Array], [Array],
+          [Array], [Array],
+          [Array], [Array],
+          [Array], [Array],
+          [Array]
+        ],
+        requestDetails: {
+          request_type: query,
+          canister_id: [a],
+          method_name: get_neuron,
+          arg: [Uint8Array],
+          sender: [a],
+          ingress_expiry: [e]
+        }
+      }
+    }
+  },
+  kind: Reject
+} {
+  name: "RejectError"
+}

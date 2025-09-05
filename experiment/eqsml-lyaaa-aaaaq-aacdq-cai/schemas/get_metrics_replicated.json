@@ -1,0 +1,169 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "prefixItems": [
+      {
+        "type": "object",
+        "properties": {
+          "time_window_seconds": {
+            "type": "string",
+            "description": "bigint as string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "minItems": 1,
+    "maxItems": 1
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "get_metrics_result": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "Ok": {
+                "type": "object",
+                "properties": {
+                  "treasury_metrics": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "original_amount_e8s": {
+                          "type": "string",
+                          "description": "bigint as string"
+                        },
+                        "amount_e8s": {
+                          "type": "string",
+                          "description": "bigint as string"
+                        },
+                        "account": {
+                          "type": "object",
+                          "properties": {
+                            "owner": {
+                              "type": "string",
+                              "description": "principal text"
+                            },
+                            "subaccount": {
+                              "type": "object",
+                              "properties": {
+                                "subaccount": {
+                                  "oneOf": [
+                                    {
+                                      "type": "string",
+                                      "description": "hex-encoded bytes"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "description": "byte array"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false,
+                              "required": [
+                                "subaccount"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "ledger_canister_id": {
+                          "type": "string",
+                          "description": "principal text"
+                        },
+                        "treasury": {
+                          "type": "number"
+                        },
+                        "timestamp_seconds": {
+                          "type": "string",
+                          "description": "bigint as string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "treasury"
+                      ]
+                    }
+                  },
+                  "voting_power_metrics": {
+                    "type": "object",
+                    "properties": {
+                      "governance_total_potential_voting_power": {
+                        "type": "string",
+                        "description": "bigint as string"
+                      },
+                      "timestamp_seconds": {
+                        "type": "string",
+                        "description": "bigint as string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "last_ledger_block_timestamp": {
+                    "type": "string",
+                    "description": "bigint as string"
+                  },
+                  "num_recently_executed_proposals": {
+                    "type": "string",
+                    "description": "bigint as string"
+                  },
+                  "num_recently_submitted_proposals": {
+                    "type": "string",
+                    "description": "bigint as string"
+                  },
+                  "genesis_timestamp_seconds": {
+                    "type": "string",
+                    "description": "bigint as string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "Ok"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Err": {
+                "type": "object",
+                "properties": {
+                  "error_message": {
+                    "type": "string"
+                  },
+                  "error_type": {
+                    "type": "number"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "error_message",
+                  "error_type"
+                ]
+              }
+            },
+            "required": [
+              "Err"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

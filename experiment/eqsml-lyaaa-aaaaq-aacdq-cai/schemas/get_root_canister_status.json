@@ -1,0 +1,193 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "prefixItems": [
+      {
+        "type": "null"
+      }
+    ],
+    "minItems": 1,
+    "maxItems": 1
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "memory_metrics": {
+        "type": "object",
+        "properties": {
+          "wasm_binary_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "wasm_chunk_store_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "canister_history_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "stable_memory_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "snapshots_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "wasm_memory_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "global_memory_size": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "custom_sections_size": {
+            "type": "string",
+            "description": "bigint as string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "stopped": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "stopped"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stopping": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "stopping"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "running": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "running"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "memory_size": {
+        "type": "string",
+        "description": "bigint as string"
+      },
+      "cycles": {
+        "type": "string",
+        "description": "bigint as string"
+      },
+      "settings": {
+        "type": "object",
+        "properties": {
+          "freezing_threshold": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "wasm_memory_threshold": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "controllers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "principal text"
+            }
+          },
+          "wasm_memory_limit": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "memory_allocation": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "compute_allocation": {
+            "type": "string",
+            "description": "bigint as string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "freezing_threshold",
+          "controllers",
+          "memory_allocation",
+          "compute_allocation"
+        ]
+      },
+      "query_stats": {
+        "type": "object",
+        "properties": {
+          "response_payload_bytes_total": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "num_instructions_total": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "num_calls_total": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "request_payload_bytes_total": {
+            "type": "string",
+            "description": "bigint as string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "idle_cycles_burned_per_day": {
+        "type": "string",
+        "description": "bigint as string"
+      },
+      "module_hash": {
+        "oneOf": [
+          {
+            "type": "string",
+            "description": "hex-encoded bytes"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "byte array"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "status",
+      "memory_size",
+      "cycles",
+      "settings",
+      "idle_cycles_burned_per_day"
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

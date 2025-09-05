@@ -1,0 +1,8 @@
+Expected to find result for path [object Object], but instead found nothing.
+Error: Wrong number of message arguments
+    at Object.bt (https://esm.sh/@dfinity/candid@3.2.3/denonext/candid.mjs:12:6421)
+    at s (https://esm.sh/@dfinity/agent@3.2.3/denonext/agent.mjs:55:10717)
+    at i (https://esm.sh/@dfinity/agent@3.2.3/denonext/agent.mjs:55:13060)
+    at file:///tmp/deno-compile-blast/icb_deno.ts:162:26
+    at cmdCall (file:///tmp/deno-compile-blast/icb_cli.ts:87:21)
+    at async file:///tmp/deno-compile-blast/icb_cli.ts:149:9

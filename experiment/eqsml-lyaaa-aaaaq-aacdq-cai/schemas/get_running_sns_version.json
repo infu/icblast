@@ -1,0 +1,253 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "prefixItems": [
+      {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    ],
+    "minItems": 1,
+    "maxItems": 1
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "deployed_version": {
+        "type": "object",
+        "properties": {
+          "archive_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "root_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "swap_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "ledger_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "governance_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          },
+          "index_wasm_hash": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "hex-encoded bytes"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "byte array"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "archive_wasm_hash",
+          "root_wasm_hash",
+          "swap_wasm_hash",
+          "ledger_wasm_hash",
+          "governance_wasm_hash",
+          "index_wasm_hash"
+        ]
+      },
+      "pending_version": {
+        "type": "object",
+        "properties": {
+          "mark_failed_at_seconds": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "checking_upgrade_lock": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "proposal_id": {
+            "type": "string",
+            "description": "bigint as string"
+          },
+          "target_version": {
+            "type": "object",
+            "properties": {
+              "archive_wasm_hash": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "hex-encoded bytes"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "byte array"
+                  }
+                ]
+              },
+              "root_wasm_hash": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "hex-encoded bytes"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "byte array"
+                  }
+                ]
+              },
+              "swap_wasm_hash": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "hex-encoded bytes"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "byte array"
+                  }
+                ]
+              },
+              "ledger_wasm_hash": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "hex-encoded bytes"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "byte array"
+                  }
+                ]
+              },
+              "governance_wasm_hash": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "hex-encoded bytes"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "byte array"
+                  }
+                ]
+              },
+              "index_wasm_hash": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "description": "hex-encoded bytes"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "byte array"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "archive_wasm_hash",
+              "root_wasm_hash",
+              "swap_wasm_hash",
+              "ledger_wasm_hash",
+              "governance_wasm_hash",
+              "index_wasm_hash"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "mark_failed_at_seconds",
+          "checking_upgrade_lock",
+          "proposal_id"
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

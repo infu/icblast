@@ -46,6 +46,18 @@ Forum post: https://forum.dfinity.org/t/icblast-opinionated-client-library-undef
 
 # Usage
 
+## Deno Single-File (minimal)
+
+- File: `icb_deno.ts` — identity-from-hash, DID via metadata only, JS idl via PG, actress-style transforms.
+- Run: `deno run -A icb_deno.ts`
+- Env overrides:
+  - `CANISTER_ID` (default `togwv-zqaaa-aaaal-qr7aa-cai`)
+  - `HASH_SEED` (seed for deterministic identity; default `demo-pass`)
+
+## Deno Tasks
+
+- `deno task build:blast`: Compiles `icb_deno.ts` into a single binary named `blast` with the local DID compiler WASM embedded.
+
 ## 🦄 Simple - Node
 
 ```js

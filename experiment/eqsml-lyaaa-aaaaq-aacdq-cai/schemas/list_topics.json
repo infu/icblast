@@ -1,0 +1,602 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "prefixItems": [
+      {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    ],
+    "minItems": 1,
+    "maxItems": 1
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "uncategorized_functions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "bigint as string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "function_type": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "NativeNervousSystemFunction": {
+                      "type": "object",
+                      "properties": {},
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "NativeNervousSystemFunction"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "GenericNervousSystemFunction": {
+                      "type": "object",
+                      "properties": {
+                        "topic": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "DappCanisterManagement": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "DappCanisterManagement"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "DaoCommunitySettings": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "DaoCommunitySettings"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "ApplicationBusinessLogic": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "ApplicationBusinessLogic"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "CriticalDappOperations": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "CriticalDappOperations"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "TreasuryAssetManagement": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "TreasuryAssetManagement"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "Governance": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "Governance"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "SnsFrameworkManagement": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "SnsFrameworkManagement"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "validator_canister_id": {
+                          "type": "string",
+                          "description": "principal text"
+                        },
+                        "target_canister_id": {
+                          "type": "string",
+                          "description": "principal text"
+                        },
+                        "validator_method_name": {
+                          "type": "string"
+                        },
+                        "target_method_name": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "GenericNervousSystemFunction"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "topics": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "native_functions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "bigint as string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "function_type": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "NativeNervousSystemFunction": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "NativeNervousSystemFunction"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "GenericNervousSystemFunction": {
+                            "type": "object",
+                            "properties": {
+                              "topic": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "DappCanisterManagement": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "DappCanisterManagement"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "DaoCommunitySettings": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "DaoCommunitySettings"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "ApplicationBusinessLogic": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "ApplicationBusinessLogic"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "CriticalDappOperations": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "CriticalDappOperations"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "TreasuryAssetManagement": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "TreasuryAssetManagement"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "Governance": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "Governance"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "SnsFrameworkManagement": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "SnsFrameworkManagement"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              },
+                              "validator_canister_id": {
+                                "type": "string",
+                                "description": "principal text"
+                              },
+                              "target_canister_id": {
+                                "type": "string",
+                                "description": "principal text"
+                              },
+                              "validator_method_name": {
+                                "type": "string"
+                              },
+                              "target_method_name": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "GenericNervousSystemFunction"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "name"
+                ]
+              }
+            },
+            "topic": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "DappCanisterManagement": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "DappCanisterManagement"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "DaoCommunitySettings": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "DaoCommunitySettings"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "ApplicationBusinessLogic": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "ApplicationBusinessLogic"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "CriticalDappOperations": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "CriticalDappOperations"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "TreasuryAssetManagement": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "TreasuryAssetManagement"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "Governance": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "Governance"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "SnsFrameworkManagement": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "SnsFrameworkManagement"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "is_critical": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "custom_functions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "bigint as string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "function_type": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "NativeNervousSystemFunction": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "NativeNervousSystemFunction"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "GenericNervousSystemFunction": {
+                            "type": "object",
+                            "properties": {
+                              "topic": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "DappCanisterManagement": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "DappCanisterManagement"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "DaoCommunitySettings": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "DaoCommunitySettings"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "ApplicationBusinessLogic": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "ApplicationBusinessLogic"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "CriticalDappOperations": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "CriticalDappOperations"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "TreasuryAssetManagement": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "TreasuryAssetManagement"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "Governance": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "Governance"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "SnsFrameworkManagement": {
+                                        "type": "null"
+                                      }
+                                    },
+                                    "required": [
+                                      "SnsFrameworkManagement"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              },
+                              "validator_canister_id": {
+                                "type": "string",
+                                "description": "principal text"
+                              },
+                              "target_canister_id": {
+                                "type": "string",
+                                "description": "principal text"
+                              },
+                              "validator_method_name": {
+                                "type": "string"
+                              },
+                              "target_method_name": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "GenericNervousSystemFunction"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "name"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

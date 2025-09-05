@@ -20,3 +20,5 @@ identity.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+didc_rust/target

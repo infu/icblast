@@ -1,0 +1,13 @@
+[package]
+name = "didc_rust"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+candid = "0.10"
+candid_parser = "0.1"
+getrandom = { version = "0.2", features = ["js"] }
+wasm-bindgen = "0.2"

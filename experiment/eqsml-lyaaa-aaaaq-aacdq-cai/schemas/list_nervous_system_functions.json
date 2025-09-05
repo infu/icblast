@@ -1,0 +1,184 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "minItems": 0,
+    "maxItems": 0
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "reserved_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "bigint as string"
+        }
+      },
+      "functions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "bigint as string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "function_type": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "NativeNervousSystemFunction": {
+                      "type": "object",
+                      "properties": {},
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "NativeNervousSystemFunction"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "GenericNervousSystemFunction": {
+                      "type": "object",
+                      "properties": {
+                        "topic": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "DappCanisterManagement": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "DappCanisterManagement"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "DaoCommunitySettings": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "DaoCommunitySettings"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "ApplicationBusinessLogic": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "ApplicationBusinessLogic"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "CriticalDappOperations": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "CriticalDappOperations"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "TreasuryAssetManagement": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "TreasuryAssetManagement"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "Governance": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "Governance"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "SnsFrameworkManagement": {
+                                  "type": "null"
+                                }
+                              },
+                              "required": [
+                                "SnsFrameworkManagement"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "validator_canister_id": {
+                          "type": "string",
+                          "description": "principal text"
+                        },
+                        "target_canister_id": {
+                          "type": "string",
+                          "description": "principal text"
+                        },
+                        "validator_method_name": {
+                          "type": "string"
+                        },
+                        "target_method_name": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "GenericNervousSystemFunction"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "name"
+          ]
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "reserved_ids",
+      "functions"
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

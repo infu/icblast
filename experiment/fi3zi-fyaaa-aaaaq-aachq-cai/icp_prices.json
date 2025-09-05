@@ -1,0 +1,1 @@
+{"error":{"status":{"timestamp":"2025-08-31T17:27:56.049+00:00","error_code":10012,"error_message":"Your request exceeds the allowed time range. Public API users are limited to querying historical data within the past 365 days. Upgrade to a paid plan to enjoy full historical data access: https://www.coingecko.com/en/api/pricing. "}}}

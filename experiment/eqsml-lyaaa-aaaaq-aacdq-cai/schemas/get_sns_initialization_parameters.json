@@ -1,0 +1,28 @@
+{
+  "input": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "prefixItems": [
+      {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    ],
+    "minItems": 1,
+    "maxItems": 1
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "sns_initialization_parameters": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "sns_initialization_parameters"
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}
