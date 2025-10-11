@@ -1,5 +1,7 @@
 # Blast (icblast)
 
+<img width="219" height="246" alt="Screenshot from 2025-10-11 15-16-15" src="https://github.com/user-attachments/assets/f16034f3-ddd4-415d-bb10-fe82958a8bcd" />
+
 Explore Internet Computer canisters from your terminal at velocity.
 
 Blast is a small Deno-powered CLI that discovers a canister’s Candid interface on the fly, lets you inspect methods, call them with JSON, and validate I/O against generated JSON Schemas. Binaries are produced via `deno compile` and shipped for Linux and macOS.
