@@ -1,0 +1,91 @@
+name: Build (Linux and macOS)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+          cache: true
+
+      - name: Show versions
+        run: |
+          deno --version
+          uname -a || true
+
+      - name: Build CLI (blast)
+        run: deno task build:blast
+
+      - name: Verify build output
+        run: |
+          ls -la dist
+          file dist/blast || true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: blast-${{ runner.os }}-${{ runner.arch }}
+          path: dist/blast
+          if-no-files-found: error
+
+  release:
+    name: Publish Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release assets
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          shopt -s nullglob
+          for d in artifacts/*; do
+            base=$(basename "$d")            # e.g., blast-Linux-X64
+            lower=$(printf "%s" "$base" | tr '[:upper:]' '[:lower:]')
+            # Find the binary within the artifact folder
+            if [[ -f "$d/blast" ]]; then
+              cp "$d/blast" "release/${lower}"
+            elif [[ -f "$d/dist/blast" ]]; then
+              cp "$d/dist/blast" "release/${lower}"
+            else
+              echo "No blast binary found in $d" >&2
+              exit 1
+            fi
+            chmod +x "release/${lower}" || true
+          done
+          ls -la release
+
+      - name: Create GitHub Release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: release/*
