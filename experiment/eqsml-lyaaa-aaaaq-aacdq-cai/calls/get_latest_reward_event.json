@@ -1,9 +1,0 @@
-{
-  "rounds_since_last_distribution": "1",
-  "actual_timestamp_seconds": "1756644494",
-  "end_timestamp_seconds": "1756644488",
-  "total_available_e8s_equivalent": "154660876875",
-  "distributed_e8s_equivalent": "0",
-  "round": "622",
-  "settled_proposals": []
-}
