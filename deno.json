@@ -2,5 +2,5 @@
   "tasks": {
     "build:blast": "deno compile --no-check --allow-net --allow-read --allow-write --allow-env --include=didc_wasm_pkg/didc_rust.js --include=didc_wasm_pkg/didc_rust_bg.bin -o dist/blast src/icb_cli.ts"
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": true
 }
