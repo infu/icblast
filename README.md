@@ -4,7 +4,7 @@
 
 Explore Internet Computer canisters from your terminal at velocity.
 
-Blast is a small Deno-powered CLI that discovers a canister’s Candid interface on the fly, lets you inspect methods, call them with JSON, and validate I/O against generated JSON Schemas. Binaries are produced via `deno compile` and shipped for Linux and macOS.
+Blast is a small Node.js CLI that discovers a canister’s Candid interface on the fly, lets you inspect methods, call them with JSON, and validate I/O against generated JSON Schemas. It’s distributed as an npm package with a global `blast` command.
 
 ## Features
 - Discover Candid via canister metadata; compile to an `idlFactory` locally
@@ -15,13 +15,10 @@ Blast is a small Deno-powered CLI that discovers a canister’s Candid interface
 - Deterministic Ed25519 identity derived from a passphrase
 
 ## Install
-- From Releases: download the binary for your OS from the repo’s Releases page (files are named like `blast-linux-x64`, `blast-macos-arm64`).
-- From source (requires Deno 1.x):
-  - `deno --version` should be 1.x
-  - Build: `deno task build:blast`
-  - Binary: `./dist/blast`
+- Global (from npm registry): `npm i -g icblast` (once published)
+- Global (from a local checkout): `npm i -g .`
 
-The build uses `deno compile` with embedded `didc_wasm_pkg/*` assets so no network fetch is needed at runtime for DID→JS compilation.
+This installs a `blast` executable on your PATH. You can also run it via `npx icblast` once published.
 
 ## Usage
 ```
@@ -43,8 +40,10 @@ Notes
 - Output is normalized for readability: bigints as strings, byte arrays as hex, etc.
 
 ## Identity and Host
-- Identity: derived from a passphrase using SHA-256 → Ed25519.
-  - Order of sources: `--id <secret>` flag, then `ICB_ID`, then `HASH_SEED`, else `"demo-pass"`.
+- Identity: derived deterministically from a local secret + an `--id` number.
+  - The CLI stores a random hex secret in a config file (Linux: `~/.config/blast/secret`; macOS: `~/Library/Application Support/blast/secret`; Windows: `%APPDATA%/blast/secret`).
+  - You pass `--id <n>` where `n` is 0–65535. Blast takes a slice of the secret based on `n`, concatenates `n`, hashes with SHA-256, and derives an Ed25519 identity from that hash.
+  - If `--id` is omitted, `0` is used.
 - Host: defaults to `https://icp0.io`; override with `--host`.
 
 Security
@@ -57,31 +56,21 @@ Security
 - JSON Schema is synthesized from the Candid types and validated via Ajv 2020.
 
 ## Building
-- Prerequisite: Deno 1.x
-- Build command: `deno task build:blast`
-- Output: `dist/blast`
-
-The `deno.json` task ensures the `didc_wasm_pkg` assets are embedded:
-```
-"deno compile ... --include=didc_wasm_pkg/didc_rust.js --include=didc_wasm_pkg/didc_rust_bg.bin -o dist/blast src/icb_cli.ts"
-```
+- Prerequisite: Node.js 18+
+- Local package tarball: `npm pack`
 
 ## CI and Releases
-- CI builds on Linux and macOS for tag pushes matching `v*`.
-- Artifacts are attached to a GitHub Release automatically with generated notes.
+- CI packs the npm tarball on tag pushes matching `v*`.
+- The `*.tgz` tarball is attached to the GitHub Release automatically with generated notes.
 
 Release flow
 1. `git tag v0.1.0 && git push origin v0.1.0`
 2. GitHub Actions builds matrix binaries and publishes them to the `v0.1.0` release.
 
 ## Development
-- Run without compiling: `deno run -A src/icb_cli.ts ...`
+- Run the CLI locally: `node bin/blast.js ...`
 - Useful env vars: `ICB_ID` or `HASH_SEED` for identity; `HTTPS_PROXY` if your network requires it.
 
 ## Limitations
 - Minimal actor wrapping; complex types are mapped best-effort.
 - Some canisters may not expose Candid metadata; in such cases discovery can fail.
-
----
-
-Made with Deno; binaries include local DID→JS compilation via embedded WASM for portability.
