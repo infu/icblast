@@ -15,6 +15,9 @@ Blast is a small Node.js CLI that discovers a canister’s Candid interface on t
 - Deterministic Ed25519 identity derived from a local secret + numeric id
 
 ## Install
+
+Audit: https://chatgpt.com/share/68ebd325-f31c-8003-9556-9d7aeab49d6b
+
 - Global (from npm registry): `npm i -g icblast` (once published)
 - Global (from a local checkout): `npm i -g .`
 
