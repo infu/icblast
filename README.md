@@ -52,13 +52,7 @@ Notes
 - Uses an embedded WASM (`didc_wasm_pkg/didc_rust_bg.bin`) and JS glue to compile Candid to JS locally, extract an `idlFactory`, and wrap an actor with light input/output converters.
 - JSON Schema is synthesized from the Candid types and validated via Ajv 2020.
 
-## Building
-- Prerequisite: Node.js 18+
-- Local package tarball: `npm pack`
 
-## CI and Releases
-- CI packs the npm tarball on tag pushes matching `v*`.
-- The `*.tgz` tarball is attached to the GitHub Release automatically with generated notes.
 
 Release flow
 1. `git tag v0.1.0 && git push origin v0.1.0`

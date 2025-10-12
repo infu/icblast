@@ -17,6 +17,7 @@ Usage:
   blast schema <canister_id> <method> ${pc.gray("[--host <url>] [--id <0-65535>]")}
   blast validate <canister_id> <method> ${pc.gray("[args_json] [--host <url>] [--id <0-65535>]")}
   blast principal ${pc.gray("[--id <0-65535>]")}
+  blast mcp ${pc.gray("# start MCP server on stdio")}
 `;
 }
 
@@ -185,6 +186,11 @@ async function main() {
       case undefined:
         console.log(usage());
         break;
+      case "mcp": {
+        const { startMcpServer } = await import("../lib/mcp_server.js");
+        await startMcpServer();
+        break;
+      }
       case "principal": {
         const idNum = parseIdNumber(opts.id);
         const id = await hashIdentity(idNum);
