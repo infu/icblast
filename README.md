@@ -12,7 +12,7 @@ Blast is a small Node.js CLI that discovers a canister’s Candid interface on t
 - Call methods with JSON arguments; normalized JSON output
 - Generate JSON Schema for a method’s input/output
 - Validate inputs and outputs using Ajv 2020
-- Deterministic Ed25519 identity derived from a passphrase
+- Deterministic Ed25519 identity derived from a local secret + numeric id
 
 ## Install
 - Global (from npm registry): `npm i -g icblast` (once published)
@@ -20,12 +20,24 @@ Blast is a small Node.js CLI that discovers a canister’s Candid interface on t
 
 This installs a `blast` executable on your PATH. You can also run it via `npx icblast` once published.
 
+## Codex integration
+
+Add to Codex config
+```
+[mcp_servers.blast]
+command = "blast"
+args = ["mcp"]
+```
+
 ## Usage
+
 ```
 blast scan <canister_id> [--host <url>] [--id <0-65535>]
 blast call <canister_id> <method> [args_json] [--host <url>] [--id <0-65535>]
 blast schema <canister_id> <method> [--host <url>] [--id <0-65535>]
 blast validate <canister_id> <method> [args_json] [--host <url>] [--id <0-65535>]
+blast principal [--id <0-65535>]
+blast mcp    # start MCP server on stdio
 ```
 
 Examples
@@ -38,29 +50,53 @@ Examples
 Notes
 - JSON arguments must be a JSON array; wrap single args too, e.g. `'[123]'`.
 - Output is normalized for readability: bigints as strings, byte arrays as hex, etc.
-- ICRC-1 accounts are represented as strings (icrc1 text) in both inputs and outputs. When a method expects an account record `{ owner, subaccount? }`, pass a single string instead (e.g., `'["aaaaa-...-cai"]'`). Nested account fields in responses are also strings.
+- Principals: anywhere a Principal is expected, you can pass a number 0–65535.
+  - `0` resolves to the current run’s principal (derived from `--id`), `n>0` resolves to principal for id `n`.
+- ICRC‑1 accounts (input and output) are strings:
+  - Pass full ICRC‑1 text (e.g., `"aaaaa-...-cai-<sub>"`) or the shorthand `"id[-sub]"`, where `sub` is a decimal encoded as a 32‑byte big‑endian subaccount.
+  - Responses also show account records as ICRC‑1 text.
 
 ## Identity and Host
 - Identity: derived deterministically from a local secret + an `--id` number.
-  - On first run, Blast creates a random hex secret in (Linux) `~/.config/blast/secret`, (macOS) `~/Library/Application Support/blast/secret`, or (Windows) `%APPDATA%/blast/secret`.
-  - You pass `--id <n>` where `n` is 0–65535. Blast takes a deterministic slice of the secret based on `n`, concatenates `n`, hashes with SHA-256, and derives an Ed25519 identity from that hash.
-  - If `--id` is omitted, `0` is used.
+  - On first run, Blast creates a random hex secret in (Linux) `~/.config/blast/secret` or (macOS) `~/Library/Application Support/blast/secret`.
+  - You pass `--id <n>` where `n` is 0–65535. Blast takes a deterministic slice of the secret based on `n`, concatenates `n`, hashes with SHA‑256, and derives an Ed25519 identity from that hash. Omitted `--id` defaults to `0`.
 - Host: defaults to `https://icp0.io`; override with `--host`.
 
 ## How it works (high level)
-- Discovers Candid via `CanisterStatus` metadata, with fallbacks.
+- Discovers Candid via canister metadata (`CanisterStatus`) only.
 - Uses an embedded WASM (`didc_wasm_pkg/didc_rust_bg.bin`) and JS glue to compile Candid to JS locally, extract an `idlFactory`, and wrap an actor with light input/output converters.
 - JSON Schema is synthesized from the Candid types and validated via Ajv 2020.
 
+## Schema Cache
+- `scan` refreshes and writes a full schema cache per canister.
+- `schema`/`validate` read from cache and only fall back to live generation if missing.
+- Locations:
+  - Linux: `~/.cache/blast/schemas/<canister>.json`
+  - macOS: `~/Library/Caches/blast/schemas/<canister>.json`
+
+## MCP Server Mode
+- Start server: `blast mcp` (stdio transport). Tools exposed:
+  - `principal({ id? })` → text principal
+  - `scan({ canister, host?, id? })` → text list, refreshes schema cache
+  - `schema({ canister, method, host?, id? })` → structuredContent: JSON schema
+  - `call({ canister, method, args?, host?, id? })` → structuredContent: `{ result: ... }`
+  - `validate({ canister, method, args?, host?, id? })` → structuredContent: `{ ok, inputValid, outputValid, errors? }`
+
+## Examples
+- Query balance with shorthand account:
+  - `blast call f54if-eqaaa-aaaaq-aacea-cai icrc1_balance_of '["0"]' --id 0`
+- Query balance with full ICRC‑1 text account:
+  - `blast call f54if-eqaaa-aaaaq-aacea-cai icrc1_balance_of '["togwv-zqaaa-aaaal-qr7aa-cai-oq7ilwi.2e10e7b42023f667a1db51ff9c7c88f08fb9022d6453bf0c5b0696666e41f048"]' --id 0`
 
 
-Release flow
-1. `git tag v0.1.0 && git push origin v0.1.0`
-2. GitHub Actions builds matrix binaries and publishes them to the `v0.1.0` release.
+
+## CI and Releases
+- CI packs the npm tarball on tag pushes matching `v*` and attaches it to the GitHub Release.
+  - Tag: `git tag v0.1.0 && git push origin v0.1.0`
 
 ## Development
 - Run the CLI locally: `node bin/blast.js ...`
-- Useful env vars: `ICB_ID` or `HASH_SEED` for identity; `HTTPS_PROXY` if your network requires it.
+- Debug conversions: `--debug` flag or `BLAST_DEBUG=1`.
 
 ## Limitations
 - Minimal actor wrapping; complex types are mapped best-effort.
