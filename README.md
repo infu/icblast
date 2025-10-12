@@ -22,10 +22,10 @@ This installs a `blast` executable on your PATH. You can also run it via `npx ic
 
 ## Usage
 ```
-blast scan <canister_id> [--host <url>] [--id <secret>]
-blast call <canister_id> <method> [args_json] [--host <url>] [--id <secret>]
-blast schema <canister_id> <method> [--host <url>] [--id <secret>]
-blast validate <canister_id> <method> [args_json] [--host <url>] [--id <secret>]
+blast scan <canister_id> [--host <url>] [--id <0-65535>]
+blast call <canister_id> <method> [args_json] [--host <url>] [--id <0-65535>]
+blast schema <canister_id> <method> [--host <url>] [--id <0-65535>]
+blast validate <canister_id> <method> [args_json] [--host <url>] [--id <0-65535>]
 ```
 
 Examples
@@ -38,17 +38,14 @@ Examples
 Notes
 - JSON arguments must be a JSON array; wrap single args too, e.g. `'[123]'`.
 - Output is normalized for readability: bigints as strings, byte arrays as hex, etc.
+- ICRC-1 accounts are represented as strings (icrc1 text) in both inputs and outputs. When a method expects an account record `{ owner, subaccount? }`, pass a single string instead (e.g., `'["aaaaa-...-cai"]'`). Nested account fields in responses are also strings.
 
 ## Identity and Host
 - Identity: derived deterministically from a local secret + an `--id` number.
-  - The CLI stores a random hex secret in a config file (Linux: `~/.config/blast/secret`; macOS: `~/Library/Application Support/blast/secret`; Windows: `%APPDATA%/blast/secret`).
-  - You pass `--id <n>` where `n` is 0–65535. Blast takes a slice of the secret based on `n`, concatenates `n`, hashes with SHA-256, and derives an Ed25519 identity from that hash.
+  - On first run, Blast creates a random hex secret in (Linux) `~/.config/blast/secret`, (macOS) `~/Library/Application Support/blast/secret`, or (Windows) `%APPDATA%/blast/secret`.
+  - You pass `--id <n>` where `n` is 0–65535. Blast takes a deterministic slice of the secret based on `n`, concatenates `n`, hashes with SHA-256, and derives an Ed25519 identity from that hash.
   - If `--id` is omitted, `0` is used.
 - Host: defaults to `https://icp0.io`; override with `--host`.
-
-Security
-- The passphrase is used to deterministically derive a key; treat it like a secret.
-- Prefer setting it via env var in shells/history-safe ways: `ICB_ID=$(pass show my/secret) ./blast ...`.
 
 ## How it works (high level)
 - Discovers Candid via `CanisterStatus` metadata, with fallbacks.

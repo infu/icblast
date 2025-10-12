@@ -13,6 +13,7 @@ Usage:
   blast call <canister_id> <method> ${pc.gray("[args_json] [--host <url>] [--id <0-65535>]")}
   blast schema <canister_id> <method> ${pc.gray("[--host <url>] [--id <0-65535>]")}
   blast validate <canister_id> <method> ${pc.gray("[args_json] [--host <url>] [--id <0-65535>]")}
+  blast principal ${pc.gray("[--id <0-65535>]")}
 `;
 }
 
@@ -23,6 +24,7 @@ function parseOptions(argv) {
     const a = argv[i];
     if (a === "--host" && i + 1 < argv.length) { opts.host = argv[++i]; continue; }
     if (a === "--id" && i + 1 < argv.length) { opts.id = argv[++i]; continue; }
+    if (a === "--debug") { opts.debug = true; continue; }
     rest.push(a);
   }
   return { opts, rest };
@@ -37,10 +39,11 @@ function parseIdNumber(val) {
   return n;
 }
 
-async function getClient(host, idVal) {
+async function getClient(host, idVal, debugFlag) {
   const idNum = parseIdNumber(idVal);
   const id = await hashIdentity(idNum);
-  const getIC = await ic({ identity: id, host });
+  const debug = Boolean(process.env.BLAST_DEBUG) || Boolean(debugFlag);
+  const getIC = await ic({ identity: id, host, idNum, debug });
   return getIC;
 }
 
@@ -127,20 +130,30 @@ async function main() {
       case undefined:
         console.log(usage());
         break;
+      case "principal": {
+        const idNum = parseIdNumber(opts.id);
+        const id = await hashIdentity(idNum);
+        console.log(id.getPrincipal().toText());
+        break;
+      }
       case "scan":
         if (params.length < 1) { console.log(usage()); process.exit(1); }
+        if (opts.debug) process.env.BLAST_DEBUG = "1";
         await cmdList(params[0], opts.host, opts.id);
         break;
       case "call":
         if (params.length < 2) { console.log(usage()); process.exit(1); }
+        if (opts.debug) process.env.BLAST_DEBUG = "1";
         await cmdCall(params[0], params[1], params[2], opts.host, opts.id);
         break;
       case "schema":
         if (params.length < 2) { console.log(usage()); process.exit(1); }
+        if (opts.debug) process.env.BLAST_DEBUG = "1";
         await cmdSchema(params[0], params[1], opts.host, opts.id);
         break;
       case "validate":
         if (params.length < 2) { console.log(usage()); process.exit(1); }
+        if (opts.debug) process.env.BLAST_DEBUG = "1";
         await cmdValidate(params[0], params[1], params[2], opts.host, opts.id);
         break;
       default:
