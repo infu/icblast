@@ -3,6 +3,9 @@
 import pc from "picocolors";
 import Ajv2020 from "ajv/dist/2020.js";
 import { ic, hashIdentity, toState, explainMethodSchema } from "../lib/icb_node.js";
+import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
 
 function usage() {
   const banner = `${pc.bold(pc.magenta("🛡️⚔️ Blast ⚔️🛡️"))}: ${pc.bold(pc.cyan("Explore the chain at terminal velocity."))}`;
@@ -28,6 +31,31 @@ function parseOptions(argv) {
     rest.push(a);
   }
   return { opts, rest };
+}
+
+// ========== Schema cache (Linux/macOS) ==========
+function cacheBaseDir() {
+  const home = os.homedir();
+  if (process.platform === "darwin") {
+    return path.join(home, "Library", "Caches", "blast");
+  }
+  const xdg = process.env.XDG_CACHE_HOME || path.join(home, ".cache");
+  return path.join(xdg, "blast");
+}
+function schemaCachePath(canisterId) {
+  return path.join(cacheBaseDir(), "schemas", `${canisterId}.json`);
+}
+async function loadSchemaCache(canisterId) {
+  const p = schemaCachePath(canisterId);
+  try {
+    const txt = await readFile(p, "utf8");
+    return JSON.parse(txt);
+  } catch { return null; }
+}
+async function saveSchemaCache(canisterId, payload) {
+  const p = schemaCachePath(canisterId);
+  await mkdir(path.dirname(p), { recursive: true });
+  await writeFile(p, JSON.stringify(payload, null, 2), "utf8");
 }
 
 function parseIdNumber(val) {
@@ -67,6 +95,20 @@ async function cmdList(canId, host, idSecret) {
     const kindCol = m.kind === "query" ? pc.green("query") : m.kind === "oneway" ? pc.red("oneway") : pc.magenta("update");
     console.log(`${nameCol} ${kindCol}`);
   }
+  // Refresh schema cache for this canister (best-effort, does not affect stdout)
+  try {
+    const schemaMap = {};
+    for (const m of methods) {
+      try {
+        const sch = explainMethodSchema(actor, m.name);
+        schemaMap[m.name] = sch;
+      } catch (e) {
+        // skip methods that fail schema generation
+      }
+    }
+    const payload = { canister: canId, updatedAt: new Date().toISOString(), methods: schemaMap };
+    await saveSchemaCache(canId, payload);
+  } catch (_) { /* ignore cache errors */ }
 }
 
 async function cmdCall(canId, method, argsJson, host, idSecret) {
@@ -87,6 +129,12 @@ async function cmdCall(canId, method, argsJson, host, idSecret) {
 }
 
 async function cmdSchema(canId, method, host, idSecret) {
+  // Prefer cached schema, fallback to live
+  const cache = await loadSchemaCache(canId);
+  if (cache && cache.methods && cache.methods[method]) {
+    console.log(JSON.stringify(cache.methods[method], null, 2));
+    return;
+  }
   const getIC = await getClient(host, idSecret);
   const actor = await getIC(canId);
   const schema = explainMethodSchema(actor, method);
@@ -94,9 +142,16 @@ async function cmdSchema(canId, method, host, idSecret) {
 }
 
 async function cmdValidate(canId, method, argsJson, host, idSecret) {
+  // Load schema from cache (fallback to live), but always build actor to invoke
+  let schema;
+  const cache = await loadSchemaCache(canId);
   const getIC = await getClient(host, idSecret);
   const actor = await getIC(canId);
-  const schema = explainMethodSchema(actor, method);
+  if (cache && cache.methods && cache.methods[method]) {
+    schema = cache.methods[method];
+  } else {
+    schema = explainMethodSchema(actor, method);
+  }
   const ajv = new Ajv2020({ allErrors: true, strict: false });
 
   let args = [];
