@@ -65,6 +65,9 @@ Notes
   - You pass `--id <n>` where `n` is 0–65535. Blast takes a deterministic slice of the secret based on `n`, concatenates `n`, hashes with SHA‑256, and derives an Ed25519 identity from that hash. Omitted `--id` defaults to `0`.
 - Host: defaults to `https://icp0.io`; override with `--host`.
 
+Environment override
+- Set `SECRET=<string>` (min 32 chars) to override the local secret file for identity derivation. Useful for ephemeral or CI contexts. If `SECRET` is present and shorter than 32 characters, Blast will error.
+
 ## How it works (high level)
 - Discovers Candid via canister metadata (`CanisterStatus`) only.
 - Uses an embedded WASM (`didc_wasm_pkg/didc_rust_bg.bin`) and JS glue to compile Candid to JS locally, extract an `idlFactory`, and wrap an actor with light input/output converters.

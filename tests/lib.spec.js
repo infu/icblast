@@ -12,6 +12,27 @@ describe('icblast library API', () => {
     expect(p0).toBe(p0b);
   }, 30000);
 
+  it('environment SECRET overrides file secret and requires minimum length', async () => {
+    const prev = process.env.SECRET;
+    try {
+      // Too short should throw
+      process.env.SECRET = 'shortsecret-shortsecret'; // < 32
+      await expect(icblast.principal(0)).rejects.toThrow(/at least 32/);
+
+      // Long secrets produce deterministic and different principals (>=32)
+      process.env.SECRET = 'abcdefghijklmnopqrstuvwxyz123456';
+      const a1 = await icblast.principal(0);
+      const a2 = await icblast.principal(0);
+      expect(a1).toBe(a2);
+
+      process.env.SECRET = 'UVWXYZabcdefghijklmnopqrstuvwxyz123456';
+      const b1 = await icblast.principal(0);
+      expect(b1).not.toBe(a1);
+    } finally {
+      if (prev === undefined) delete process.env.SECRET; else process.env.SECRET = prev;
+    }
+  }, 30000);
+
   it('scan returns methods and refreshes cache', async () => {
     const methods = await icblast.scan(LEDGER, { id: 0 });
     expect(Array.isArray(methods)).toBe(true);
