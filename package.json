@@ -1,17 +1,30 @@
 {
   "name": "icblast",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Blast: Explore Internet Computer canisters from your terminal.",
   "type": "module",
+  "sideEffects": false,
   "bin": {
     "blast": "bin/blast.js",
     "icblast": "bin/blast.js"
   },
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./types/index.d.ts"
+    },
+    "./mcp": {
+      "import": "./lib/mcp_server.js",
+      "types": "./types/mcp_server.d.ts"
+    }
+  },
+  "types": "types/index.d.ts",
   "files": [
     "bin",
     "lib",
     "didc_wasm_pkg",
-    "README.md"
+    "README.md",
+    "types"
   ],
   "engines": {
     "node": ">=18"

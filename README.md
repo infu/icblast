@@ -29,7 +29,7 @@ command = "blast"
 args = ["mcp"]
 ```
 
-## Usage
+## CLI Usage
 
 ```
 blast scan <canister_id> [--host <url>] [--id <0-65535>]
@@ -74,13 +74,48 @@ Notes
   - Linux: `~/.cache/blast/schemas/<canister>.json`
   - macOS: `~/Library/Caches/blast/schemas/<canister>.json`
 
-## MCP Server Mode
+## MCP Usage
 - Start server: `blast mcp` (stdio transport). Tools exposed:
   - `principal({ id? })` → text principal
   - `scan({ canister, host?, id? })` → text list, refreshes schema cache
   - `schema({ canister, method, host?, id? })` → structuredContent: JSON schema
   - `call({ canister, method, args?, host?, id? })` → structuredContent: `{ result: ... }`
   - `validate({ canister, method, args?, host?, id? })` → structuredContent: `{ ok, inputValid, outputValid, errors? }`
+
+- Example (Node MCP client using SDK):
+```
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+
+const transport = new StdioClientTransport({ command: 'blast', args: ['mcp'] });
+const client = new Client({ name: 'demo', version: '0.0.0' });
+await client.connect(transport);
+const res = await client.callTool({ name: 'schema', arguments: { canister: 'f54if-eqaaa-aaaaq-aacea-cai', method: 'icrc1_balance_of' } });
+console.log(res.structuredContent);
+```
+
+## Library Usage (import)
+- ESM (Node 18+):
+```
+import icblast from 'icblast';
+
+// Identity
+const p = await icblast.principal(0);
+
+// Discover + cache
+const methods = await icblast.scan('f54if-eqaaa-aaaaq-aacea-cai', { id: 0 });
+
+// Schemas (uses cache; falls back to live)
+const sch = await icblast.schema('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_of', { id: 0 });
+
+// Calls (principal shorthand + ICRC-1 accounts supported)
+const bal1 = await icblast.call('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_of', ['0'], { id: 0 });
+const acct = 'togwv-zqaaa-aaaal-qr7aa-cai-oq7ilwi.2e10e7b42023f667a1db51ff9c7c88f08fb9022d6453bf0c5b0696666e41f048';
+const bal2 = await icblast.call('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_of', [acct], { id: 0 });
+
+// Validate I/O
+const v = await icblast.validate('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_of', ['0'], { id: 0 });
+```
 
 ## Examples
 - Query balance with shorthand account:

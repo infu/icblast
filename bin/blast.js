@@ -3,9 +3,10 @@
 import pc from "picocolors";
 import Ajv2020 from "ajv/dist/2020.js";
 import { ic, hashIdentity, toState, explainMethodSchema } from "../lib/icb_node.js";
-import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
+import { stat } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
+import { loadSchemaCache, saveSchemaCache } from "../lib/cache.js";
 
 function usage() {
   const banner = `${pc.bold(pc.magenta("🛡️⚔️ Blast ⚔️🛡️"))}: ${pc.bold(pc.cyan("Explore the chain at terminal velocity."))}`;
@@ -34,30 +35,7 @@ function parseOptions(argv) {
   return { opts, rest };
 }
 
-// ========== Schema cache (Linux/macOS) ==========
-function cacheBaseDir() {
-  const home = os.homedir();
-  if (process.platform === "darwin") {
-    return path.join(home, "Library", "Caches", "blast");
-  }
-  const xdg = process.env.XDG_CACHE_HOME || path.join(home, ".cache");
-  return path.join(xdg, "blast");
-}
-function schemaCachePath(canisterId) {
-  return path.join(cacheBaseDir(), "schemas", `${canisterId}.json`);
-}
-async function loadSchemaCache(canisterId) {
-  const p = schemaCachePath(canisterId);
-  try {
-    const txt = await readFile(p, "utf8");
-    return JSON.parse(txt);
-  } catch { return null; }
-}
-async function saveSchemaCache(canisterId, payload) {
-  const p = schemaCachePath(canisterId);
-  await mkdir(path.dirname(p), { recursive: true });
-  await writeFile(p, JSON.stringify(payload, null, 2), "utf8");
-}
+// Schema cache helpers imported from ../lib/cache.js
 
 function parseIdNumber(val) {
   if (val === undefined) return 0;
