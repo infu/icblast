@@ -64,6 +64,7 @@ Notes
   - On first run, Blast creates a random hex secret in (Linux) `~/.config/blast/secret` or (macOS) `~/Library/Application Support/blast/secret`.
   - You pass `--id <n>` where `n` is 0–65535. Blast takes a deterministic slice of the secret based on `n`, concatenates `n`, hashes with SHA‑256, and derives an Ed25519 identity from that hash. Omitted `--id` defaults to `0`.
 - Host: defaults to `https://icp0.io`; override with `--host`.
+  - Local replica: set `--host http://localhost:8080`.
 
 Environment override
 - Set `SECRET=<string>` (min 32 chars) to override the local secret file for identity derivation. Useful for ephemeral or CI contexts. If `SECRET` is present and shorter than 32 characters, Blast will error.
@@ -88,6 +89,9 @@ Environment override
   - `call({ canister, method, args?, host?, id? })` → structuredContent: `{ result: ... }`
   - `validate({ canister, method, args?, host?, id? })` → structuredContent: `{ ok, inputValid, outputValid, errors? }`
 
+Tip for local replicas
+- When connecting to a local canister via MCP tools, include `host: 'http://localhost:8080'` in the tool arguments. The agent automatically fetches the local root key.
+
 - Example (Node MCP client using SDK):
 ```
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
@@ -96,8 +100,20 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 const transport = new StdioClientTransport({ command: 'blast', args: ['mcp'] });
 const client = new Client({ name: 'demo', version: '0.0.0' });
 await client.connect(transport);
+// Example: mainnet
 const res = await client.callTool({ name: 'schema', arguments: { canister: 'f54if-eqaaa-aaaaq-aacea-cai', method: 'icrc1_balance_of' } });
 console.log(res.structuredContent);
+
+// Example: local replica (DFX)
+const resLocal = await client.callTool({
+  name: 'schema',
+  arguments: {
+    canister: 'uxrrr-q7777-77774-qaaaq-cai',
+    method: 'greet',
+    host: 'http://localhost:8080',
+  },
+});
+console.log(resLocal.structuredContent);
 ```
 
 ## Library Usage (import)
