@@ -39,8 +39,8 @@ describe('MCP Server tools', () => {
     expect(res.structuredContent).toHaveProperty('output');
   }, 40000);
 
-  it('schema returns for add_supported_ledger', async () => {
-    const res = await client.callTool({ name: 'schema', arguments: { canister: 'togwv-zqaaa-aaaal-qr7aa-cai', method: 'add_supported_ledger' } });
+  it('schema returns for admin_add_supported_ledger', async () => {
+    const res = await client.callTool({ name: 'schema', arguments: { canister: 'togwv-zqaaa-aaaal-qr7aa-cai', method: 'admin_add_supported_ledger' } });
     expect(res.structuredContent).toBeTruthy();
     expect(res.structuredContent).toHaveProperty('input');
     expect(res.structuredContent).toHaveProperty('output');

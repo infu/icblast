@@ -1,4 +1,10 @@
 export type MethodSchema = { input: Record<string, unknown>; output: Record<string, unknown> };
+export type MethodSchemaMap = Record<string, MethodSchema>;
+export type MethodInputValidation = {
+  ok: boolean;
+  schema: Record<string, unknown>;
+  errors?: unknown;
+};
 
 export interface ScanMethod {
   name: string;
@@ -9,6 +15,13 @@ export interface IcblastOptions {
   host?: string;
   id?: number;
   debug?: boolean;
+}
+
+export interface ExistingIcblastIdentity {
+  identity: any;
+  id: number;
+  principal: string;
+  secretPath: string;
 }
 
 declare const icblast: {
@@ -24,9 +37,21 @@ declare const icblast: {
   ): Promise<{ ok: boolean; inputValid: boolean; outputValid: boolean; errors?: unknown }>;
   ic(opts?: IcblastOptions): Promise<(canister: string) => Promise<any>>;
   hashIdentity(passOrId?: unknown): Promise<any>;
+  loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
   toState(x: unknown): unknown;
   explainMethodSchema(source: any, method: string): MethodSchema;
+  explainServiceSchema(source: any): MethodSchemaMap;
+  validateMethodInput(source: any, method: string, args?: unknown[]): MethodInputValidation;
+  validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 };
 
-export default icblast;
+export function ic(opts?: IcblastOptions): Promise<(canister: string) => Promise<any>>;
+export function hashIdentity(passOrId?: unknown): Promise<any>;
+export function loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
+export function toState(x: unknown): unknown;
+export function explainMethodSchema(source: any, method: string): MethodSchema;
+export function explainServiceSchema(source: any): MethodSchemaMap;
+export function validateMethodInput(source: any, method: string, args?: unknown[]): MethodInputValidation;
+export function validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 
+export default icblast;

@@ -18,10 +18,10 @@ Blast is a small Node.js CLI that discovers a canister’s Candid interface on t
 
 Audit: https://chatgpt.com/share/68ebd325-f31c-8003-9556-9d7aeab49d6b
 
-- Global (from npm registry): `npm i -g icblast` (once published)
+- Global (from npm registry): `npm i -g icblast`
 - Global (from a local checkout): `npm i -g .`
 
-This installs a `blast` executable on your PATH. You can also run it via `npx icblast` once published.
+This installs a `blast` executable on your PATH. You can also run it via `npx icblast`.
 
 ## Codex integration
 
@@ -68,6 +68,7 @@ Notes
 
 Environment override
 - Set `SECRET=<string>` (min 32 chars) to override the local secret file for identity derivation. Useful for ephemeral or CI contexts. If `SECRET` is present and shorter than 32 characters, Blast will error.
+- Deployment tooling can use `loadExistingIdentity(id)` instead. This fail-closed API rejects `SECRET`, missing or weakly permissioned files, symlinks, and hard links; it never generates or replaces a secret.
 
 ## How it works (high level)
 - Discovers Candid via canister metadata (`CanisterStatus`) only.
@@ -123,6 +124,9 @@ import icblast from 'icblast';
 
 // Identity
 const p = await icblast.principal(0);
+
+// Existing numbered deployment identity (never creates or overrides a key)
+const { identity, principal, secretPath } = await icblast.loadExistingIdentity(0);
 
 // Discover + cache
 const methods = await icblast.scan('f54if-eqaaa-aaaaq-aacea-cai', { id: 0 });
