@@ -65,6 +65,17 @@ const principalInputService = ({ IDL: Candid }) => Candid.Service({
   })], [], []),
 });
 
+const recursiveService = ({ IDL: Candid }) => {
+  const tree = Candid.Rec();
+  tree.fill(Candid.Variant({
+    branch: Candid.Record({ left: tree, right: tree }),
+    leaf: Candid.Nat,
+  }));
+  return Candid.Service({
+    tree: Candid.Func([tree], [tree], ['query']),
+  });
+};
+
 describe('browser numbered-Principal policy', () => {
   it('can reject numeric Principal conveniences without touching browser storage', async () => {
     const methods = explainer(principalInputService);
@@ -146,6 +157,79 @@ describe.each([
   it('keeps numeric shorthand enabled by default', () => {
     expect(validate(explain(principalInputService, 'principal'), [7]).ok).toBe(true);
   });
+});
+
+describe.each([
+  ['node', explainNodeMethodSchema, validateNodeMethodInputSchema],
+  ['browser', explainBrowserMethodSchema, validateBrowserMethodInputSchema],
+])('%s recursive Candid schemas', (_name, explain, validate) => {
+  it('uses local references for a valid recursive signature', () => {
+    const methodSchema = explain(recursiveService, 'tree');
+    const root = methodSchema.input.prefixItems[0];
+    const branch = root.oneOf.find((item) => item.required[0] === 'branch');
+
+    expect(methodSchema.input.$defs.candidType1).toEqual(root);
+    expect(branch.properties.branch.properties.left).toEqual({
+      $ref: '#/$defs/candidType1',
+    });
+    expect(branch.properties.branch.properties.right).toEqual({
+      $ref: '#/$defs/candidType1',
+    });
+    expect(validate(methodSchema, [{
+      branch: {
+        left: { leaf: '1' },
+        right: { branch: {
+          left: { leaf: '2' },
+          right: { leaf: '3' },
+        } },
+      },
+    }]).ok).toBe(true);
+    expect(validate(
+      { input: methodSchema.output },
+      { branch: {
+        left: { leaf: '4' },
+        right: { leaf: '5' },
+      } },
+    ).ok).toBe(true);
+    expect(methodSchema.output).toEqual(expect.objectContaining({
+      $schema: 'https://json-schema.org/draft/2020-12/schema',
+      $defs: {
+        candidType1: expect.any(Object),
+      },
+    }));
+  });
+
+  it('bounds acyclic schema depth and type items', () => {
+    const deepService = ({ IDL: Candid }) => Candid.Service({
+      deep: Candid.Func(
+        [Candid.Vec(Candid.Vec(Candid.Vec(Candid.Vec(Candid.Text))))],
+        [],
+        ['query'],
+      ),
+    });
+    const wideService = ({ IDL: Candid }) => Candid.Service({
+      wide: Candid.Func(
+        [Candid.Tuple(Candid.Text, Candid.Text, Candid.Text)],
+        [],
+        ['query'],
+      ),
+    });
+
+    expect(() => explain(deepService, 'deep', {
+      maxCandidTypeDepth: 4,
+    })).toThrow('Candid type graph exceeds 4 depth');
+    expect(() => explain(wideService, 'wide', {
+      maxCandidTypeItems: 3,
+    })).toThrow('Candid type table exceeds 3 items');
+  });
+});
+
+it('keeps recursive schema generation identical in Node and browsers', () => {
+  const nodeSchema = explainNodeMethodSchema(recursiveService, 'tree');
+  const browserSchema = explainBrowserMethodSchema(recursiveService, 'tree');
+
+  expect(browserSchema).toEqual(nodeSchema);
+  expect(() => JSON.stringify(browserSchema)).not.toThrow();
 });
 
 describe.each([

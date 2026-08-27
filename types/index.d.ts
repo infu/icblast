@@ -78,6 +78,11 @@ export interface IcblastOptions {
   allowNumberedPrincipals?: boolean;
 }
 
+export type SchemaOptions = Pick<
+  IcblastOptions,
+  'allowNumberedPrincipals' | 'maxCandidTypeItems' | 'maxCandidTypeDepth'
+>;
+
 export interface ExistingIcblastIdentity {
   identity: any;
   id: number;
@@ -100,9 +105,9 @@ declare const icblast: {
   hashIdentity(passOrId?: unknown): Promise<any>;
   loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
   toState(x: unknown): unknown;
-  explainMethodSchema(source: any, method: string, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchema;
-  explainServiceSchema(source: any, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchemaMap;
-  validateMethodInput(source: any, method: string, args?: unknown[], options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodInputValidation;
+  explainMethodSchema(source: any, method: string, options?: SchemaOptions): MethodSchema;
+  explainServiceSchema(source: any, options?: SchemaOptions): MethodSchemaMap;
+  validateMethodInput(source: any, method: string, args?: unknown[], options?: SchemaOptions): MethodInputValidation;
   validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 };
 
@@ -110,9 +115,9 @@ export function ic(opts?: IcblastOptions): Promise<(canister: string) => Promise
 export function hashIdentity(passOrId?: unknown): Promise<any>;
 export function loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
 export function toState(x: unknown): unknown;
-export function explainMethodSchema(source: any, method: string, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchema;
-export function explainServiceSchema(source: any, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchemaMap;
-export function validateMethodInput(source: any, method: string, args?: unknown[], options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodInputValidation;
+export function explainMethodSchema(source: any, method: string, options?: SchemaOptions): MethodSchema;
+export function explainServiceSchema(source: any, options?: SchemaOptions): MethodSchemaMap;
+export function validateMethodInput(source: any, method: string, args?: unknown[], options?: SchemaOptions): MethodInputValidation;
 export function validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 export function idlFactoryFromCandid(
   candid: string,

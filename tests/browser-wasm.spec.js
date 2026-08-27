@@ -170,4 +170,27 @@ describe("browser-local Candid conversion", () => {
       }),
     ).resolves.toMatchObject({ stderr: "" });
   });
+
+  test("loads a bundler Wasm URL with a generic MIME type without a streaming warning", async () => {
+    const script = String.raw`
+      import { readFile } from "node:fs/promises";
+      import { IDL } from "@dfinity/candid";
+      import { idlFactoryFromCandid } from "./lib/browser.js";
+      const bytes = await readFile("./didc_wasm_pkg/didc_rust_bg.bin");
+      const didcWasm = "data:application/octet-stream;base64," + bytes.toString("base64");
+      const factory = await idlFactoryFromCandid(
+        "service : { ping : () -> (text) query; }",
+        { didcWasm },
+      );
+      const service = factory({ IDL });
+      if (service._fields[0]?.[0] !== "ping") {
+        throw new Error("Wasm URL produced the wrong interface");
+      }
+    `;
+    await expect(
+      execFileAsync(process.execPath, ["--input-type=module", "--eval", script], {
+        cwd: repositoryRoot,
+      }),
+    ).resolves.toMatchObject({ stderr: "" });
+  });
 });
