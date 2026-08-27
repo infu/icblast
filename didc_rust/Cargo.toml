@@ -1,7 +1,15 @@
+# Adapted from the Apache-2.0 Candid wasm-bindgen example manifest.
+# Modified by icblast to pin package metadata, WebAssembly randomness support,
+# dependencies, and the non-publication policy for this source crate.
+
 [package]
 name = "didc_rust"
 version = "0.1.0"
 edition = "2021"
+description = "Local Candid binding generator embedded by icblast"
+license = "Apache-2.0"
+repository = "https://github.com/infu/icblast"
+publish = false
 
 [lib]
 crate-type = ["cdylib"]

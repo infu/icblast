@@ -1,7 +1,17 @@
 {
   "name": "icblast",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "description": "Blast: Explore Internet Computer canisters from your terminal.",
+  "author": "infu",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infu/icblast.git"
+  },
+  "homepage": "https://github.com/infu/icblast#readme",
+  "bugs": {
+    "url": "https://github.com/infu/icblast/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "bin": {
@@ -14,6 +24,7 @@
       "import": "./lib/index.js",
       "types": "./types/index.d.ts"
     },
+    "./didc-wasm": "./didc_wasm_pkg/didc_rust_bg.bin",
     "./mcp": {
       "import": "./lib/mcp_server.js",
       "types": "./types/mcp_server.d.ts"
@@ -21,16 +32,27 @@
   },
   "types": "types/index.d.ts",
   "files": [
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES.md",
     "bin",
+    "didc_rust",
     "lib",
     "didc_wasm_pkg",
     "README.md",
+    "scripts/generate-rust-license-bundle.mjs",
+    "scripts/verify-release-state.mjs",
+    "third_party/licenses",
     "types"
   ],
   "engines": {
     "node": ">=18"
   },
   "scripts": {
+    "licenses:rust": "node scripts/generate-rust-license-bundle.mjs",
+    "verify:licenses": "vitest run tests/package.spec.js --reporter=basic",
+    "prepack": "npm run verify:licenses",
+    "prepublishOnly": "npm test && node scripts/verify-release-state.mjs",
     "start": "node bin/blast.js",
     "pack:local": "npm pack",
     "test": "vitest run --reporter=basic"

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  convert as convertBrowser,
   convertBack,
   explainMethodSchema as explainBrowserMethodSchema,
   explainer,
@@ -47,6 +48,30 @@ const resultService = ({ IDL: Candid }) => Candid.Service({
 
 const multipleOutputService = ({ IDL: Candid }) => Candid.Service({
   values: Candid.Func([], [Candid.Nat, Candid.Opt(Candid.Text)], ['query']),
+});
+
+const principalInputService = ({ IDL: Candid }) => Candid.Service({
+  principal: Candid.Func([Candid.Principal], [], []),
+  account: Candid.Func([Candid.Record({
+    owner: Candid.Principal,
+    subaccount: Candid.Opt(Candid.Vec(Candid.Nat8)),
+  })], [], []),
+});
+
+describe('browser numbered-Principal policy', () => {
+  it('can reject numeric Principal conveniences without touching browser storage', async () => {
+    const methods = explainer(principalInputService);
+    await expect(
+      convertBrowser([7], methods.principal.input, {
+        allowNumberedPrincipals: false,
+      }),
+    ).rejects.toContain('numbered principals disabled');
+    await expect(
+      convertBrowser(['7-1'], methods.account.input, {
+        allowNumberedPrincipals: false,
+      }),
+    ).rejects.toContain('numbered principals disabled');
+  });
 });
 
 describe.each([

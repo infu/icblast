@@ -143,6 +143,32 @@ const bal2 = await icblast.call('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_of
 const v = await icblast.validate('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_of', ['0'], { id: 0 });
 ```
 
+### Browser bundles
+
+The browser entrypoint performs Candid-to-JavaScript conversion locally with
+the packaged Wasm compiler. It does not call a conversion canister. When a
+bundler relocates assets, import the Wasm subpath with the bundler's file/URL
+loader and pass the emitted URL explicitly:
+
+```js
+import icblast from 'icblast';
+import didcWasm from 'icblast/didc-wasm';
+
+const getActor = await icblast.ic({
+  didcWasm,
+  identity,
+  host,
+});
+const actor = await getActor(canister);
+```
+
+The configured `host` is used consistently for status metadata, the supported
+Candid fallback, and actor calls; discovery does not silently switch gateways.
+
+Set `allowNumberedPrincipals: false` when an application supplies its own
+identity policy and must reject ICBlast's numeric Principal and numeric
+ICRC-account conveniences.
+
 ## Examples
 - Query balance with shorthand account:
   - `blast call f54if-eqaaa-aaaaq-aacea-cai icrc1_balance_of '["0"]' --id 0`
@@ -151,9 +177,14 @@ const v = await icblast.validate('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_o
 
 
 
-## CI and Releases
-- CI packs the npm tarball on tag pushes matching `v*` and attaches it to the GitHub Release.
-  - Tag: `git tag v0.1.0 && git push origin v0.1.0`
+## Releases
+
+Run the tests and inspect the exact npm tarball before committing and tagging a
+release. Publishing is a separate authenticated maintainer action; the
+repository does not currently provide an automated tag-publish workflow.
+Publish only with `npm publish` from the clean, reviewed release checkout.
+Do not publish a prebuilt `.tgz`: npm does not run this package's release-state
+and license verification hooks for that path.
 
 ## Development
 - Run the CLI locally: `node bin/blast.js ...`
@@ -162,3 +193,18 @@ const v = await icblast.validate('f54if-eqaaa-aaaaq-aacea-cai', 'icrc1_balance_o
 ## Limitations
 - Minimal actor wrapping; complex types are mapped best-effort.
 - Some canisters may not expose Candid metadata; in such cases discovery can fail.
+
+## License
+
+The first-party portions of icblast 4.3.1 are licensed under the Apache
+License, Version 2.0. See [LICENSE](./LICENSE). Earlier releases and repository
+history retain the terms under which they were distributed; this release does
+not retroactively relabel them.
+
+The local generator in `didc_rust/` is an Apache-licensed adaptation of the
+Candid wasm-bindgen example. The embedded compiler in `didc_wasm_pkg/` also
+contains third-party Rust components that remain under their original
+permissive licenses. The bounded dependency inventory, build provenance, and
+exact accompanying legal material are in
+[THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) and the content-addressed map
+under `third_party/licenses/rust/`.

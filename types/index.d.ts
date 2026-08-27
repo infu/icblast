@@ -13,8 +13,20 @@ export interface ScanMethod {
 
 export interface IcblastOptions {
   host?: string;
+  local?: boolean;
+  local_host?: string;
   id?: number;
   debug?: boolean;
+  identity?: any;
+  agentOptions?: Record<string, unknown>;
+  actorOptions?: Record<string, unknown>;
+  /**
+   * Browser Wasm source accepted by the packaged wasm-bindgen initializer.
+   * Bundlers may pass an emitted asset URL; tests may pass bytes directly.
+   */
+  didcWasm?: unknown;
+  /** Disable numeric Principal and numeric ICRC-account conveniences. */
+  allowNumberedPrincipals?: boolean;
 }
 
 export interface ExistingIcblastIdentity {
@@ -53,5 +65,9 @@ export function explainMethodSchema(source: any, method: string): MethodSchema;
 export function explainServiceSchema(source: any): MethodSchemaMap;
 export function validateMethodInput(source: any, method: string, args?: unknown[]): MethodInputValidation;
 export function validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
+export function idlFactoryFromCandid(
+  candid: string,
+  options?: Pick<IcblastOptions, 'didcWasm'>
+): Promise<(context: { IDL: unknown }) => unknown>;
 
 export default icblast;
