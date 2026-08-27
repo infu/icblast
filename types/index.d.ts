@@ -6,6 +6,41 @@ export type MethodInputValidation = {
   errors?: unknown;
 };
 
+export type JsonPrimitive = string | number | boolean | null;
+export type JsonValue =
+  | JsonPrimitive
+  | readonly JsonValue[]
+  | { readonly [key: string]: JsonValue };
+
+export interface PreparedCall<Result = unknown> {
+  /** Canonical, detached, deeply frozen JSON arguments for review. */
+  readonly args: readonly JsonValue[];
+  /** Dispatches the privately snapshotted Candid arguments exactly once. */
+  readonly invoke: () => Promise<Result>;
+}
+
+export interface IcblastMethod<Result = unknown> {
+  (...args: unknown[]): Promise<Result>;
+  prepare(...args: unknown[]): Promise<PreparedCall<Result>>;
+  encodeArgs?: (...args: unknown[]) => Promise<number[]>;
+  decodeResult?: (bytes: ArrayLike<number>) => Result;
+}
+
+export interface IcblastMethodTable {
+  readonly size: number;
+  get(name: string): IcblastMethod | undefined;
+  has(name: string): boolean;
+  entries(): IterableIterator<[string, IcblastMethod]>;
+  keys(): IterableIterator<string>;
+  values(): IterableIterator<IcblastMethod>;
+  [Symbol.iterator](): IterableIterator<[string, IcblastMethod]>;
+}
+
+export interface IcblastActor {
+  [key: string]: any;
+  readonly $methods: IcblastMethodTable;
+}
+
 export interface ScanMethod {
   name: string;
   kind: 'query' | 'update' | 'oneway';
@@ -29,6 +64,16 @@ export interface IcblastOptions {
   maxCandidSourceBytes?: number;
   /** Maximum UTF-8 bytes accepted for generated JavaScript. Defaults to 2 MiB. */
   maxGeneratedJavaScriptBytes?: number;
+  /** Maximum bytes accepted for an HTTP response before Agent decode. Defaults to 4 MiB. */
+  maxHttpResponseBytes?: number;
+  /** Maximum Candid wire elements accepted per reply, including blob bytes. Defaults to 100,000. */
+  maxDecodedCandidItems?: number;
+  /** Maximum nested Candid decode depth. Defaults to 256. */
+  maxDecodedCandidDepth?: number;
+  /** Maximum structural items in a generated Candid type graph. Defaults to 100,000. */
+  maxCandidTypeItems?: number;
+  /** Maximum depth of a generated Candid type graph. Defaults to maxDecodedCandidDepth. */
+  maxCandidTypeDepth?: number;
   /** Disable numeric Principal and numeric ICRC-account conveniences. */
   allowNumberedPrincipals?: boolean;
 }
@@ -51,7 +96,7 @@ declare const icblast: {
     args?: unknown[],
     opts?: IcblastOptions & { useCache?: boolean }
   ): Promise<{ ok: boolean; inputValid: boolean; outputValid: boolean; errors?: unknown }>;
-  ic(opts?: IcblastOptions): Promise<(canister: string) => Promise<any>>;
+  ic(opts?: IcblastOptions): Promise<(canister: string) => Promise<IcblastActor>>;
   hashIdentity(passOrId?: unknown): Promise<any>;
   loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
   toState(x: unknown): unknown;
@@ -61,7 +106,7 @@ declare const icblast: {
   validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 };
 
-export function ic(opts?: IcblastOptions): Promise<(canister: string) => Promise<any>>;
+export function ic(opts?: IcblastOptions): Promise<(canister: string) => Promise<IcblastActor>>;
 export function hashIdentity(passOrId?: unknown): Promise<any>;
 export function loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
 export function toState(x: unknown): unknown;

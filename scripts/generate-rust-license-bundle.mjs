@@ -2,6 +2,8 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
   access,
+  chmod,
+  lstat,
   mkdtemp,
   mkdir,
   readFile,
@@ -137,10 +139,78 @@ const RUST_DISTRIBUTION = Object.freeze({
     "9934873304420fc1720c09cd92ad272240508da2ea69279d638a7820db4415ff",
 });
 
+const VENDORED_PATCHES = Object.freeze([
+  {
+    name: "pretty",
+    version: "0.12.4",
+    checksum: "ac98773b7109bc75f475ab5a134c9b64b87e59d776d31098d8f346922396a477",
+    declared_license: "MIT",
+    selected_license: "MIT",
+    authors: [
+      "Jonathan Sterling <jon@jonmsterling.com>",
+      "Darin Morrison <darinmorrison+git@gmail.com>",
+      "Markus Westerlind <marwes91@gmail.com>",
+    ],
+    repository: "https://github.com/Marwes/pretty.rs",
+    source_revision: "bd138e503ee3f679b26c838c9f148fbdaf6d2b7c",
+    path: "didc_rust/vendor/pretty-0.12.4",
+    files: [
+      {
+        path: "didc_rust/vendor/pretty-0.12.4/Cargo.toml",
+        status: "modified",
+        upstream_path: "Cargo.toml.orig",
+        upstream_sha256:
+          "dce1dc27b2c006ec081737e57811db186e401bb952bbb75207980886dca6b503",
+      },
+      {
+        path: "didc_rust/vendor/pretty-0.12.4/LICENSE",
+        status: "unchanged",
+        upstream_path: "LICENSE",
+        upstream_sha256:
+          "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+      },
+      {
+        path: "didc_rust/vendor/pretty-0.12.4/PATCH.md",
+        status: "added",
+      },
+      {
+        path: "didc_rust/vendor/pretty-0.12.4/src/block.rs",
+        status: "unchanged",
+        upstream_path: "src/block.rs",
+        upstream_sha256:
+          "3eb483202171f737e94a3bae2ec18b6afa3b6ca53ae9b19c4a7140963aad860b",
+      },
+      {
+        path: "didc_rust/vendor/pretty-0.12.4/src/lib.rs",
+        status: "modified",
+        upstream_path: "src/lib.rs",
+        upstream_sha256:
+          "203f8aa1949a4594fb89ac32cc31958d732e9ad6f4a84f13c3de537b2a59d87e",
+      },
+      {
+        path: "didc_rust/vendor/pretty-0.12.4/src/render.rs",
+        status: "unchanged",
+        upstream_path: "src/render.rs",
+        upstream_sha256:
+          "b8622e3bdc7c8963c4922f013d34b2151a6e92f08a8a2e2343dd9db04bfbc643",
+      },
+    ],
+  },
+]);
+
+const RELEASE_FILE_PATHS = Object.freeze([
+  "didc_rust/Cargo.lock",
+  "didc_rust/Cargo.toml",
+  "didc_rust/src/lib.rs",
+  "didc_wasm_pkg/didc_rust.js",
+  "didc_wasm_pkg/didc_rust_bg.bin",
+  ...VENDORED_PATCHES.flatMap(({ files }) => files.map(({ path: file }) => file)),
+].sort());
+
 const sha256 = (bytes) =>
   createHash("sha256").update(bytes).digest("hex");
 
-function parseCargoLock(text) {
+function parseCargoPackages(text) {
   return text
     .split(/\n\[\[package\]\]\n/u)
     .slice(1)
@@ -150,14 +220,9 @@ function parseCargoLock(text) {
       source: block.match(/^source = "([^"]+)"$/mu)?.[1],
       checksum: block.match(/^checksum = "([a-f0-9]{64})"$/mu)?.[1],
     }))
-    .filter(({ source }) => source?.startsWith("registry+"))
     .map((entry) => {
-      if (
-        entry.name === undefined ||
-        entry.version === undefined ||
-        entry.checksum === undefined
-      ) {
-        throw new Error("Malformed registry package in didc_rust/Cargo.lock");
+      if (entry.name === undefined || entry.version === undefined) {
+        throw new Error("Malformed package in didc_rust/Cargo.lock");
       }
       return entry;
     })
@@ -166,6 +231,19 @@ function parseCargoLock(text) {
         `${right.name}@${right.version}`,
       ),
     );
+}
+
+function parseRegistryCargoPackages(packages) {
+  return packages
+    .filter(({ source }) => source?.startsWith("registry+"))
+    .map((entry) => {
+      if (entry.checksum === undefined) {
+        throw new Error(
+          `Registry package lacks checksum: ${entry.name}@${entry.version}`,
+        );
+      }
+      return entry;
+    });
 }
 
 function cargoMetadata() {
@@ -361,21 +439,249 @@ async function collectCrateLegalMaterials(component, temporaryRoot) {
 async function storeMaterial(bytes) {
   const digest = sha256(bytes);
   const relativePath = path.posix.join("material", `${digest}.txt`);
-  await writeFile(path.join(activeOutputRoot, relativePath), bytes, { flag: "wx" })
+  const materialPath = path.join(activeOutputRoot, relativePath);
+  await writeFile(materialPath, bytes, { flag: "wx" })
     .catch(async (error) => {
       if (error?.code !== "EEXIST") throw error;
-      const existing = await readFile(path.join(activeOutputRoot, relativePath));
+      const existing = await readFile(materialPath);
       if (!existing.equals(bytes)) {
         throw new Error(`Content-address collision at ${relativePath}`);
       }
     });
+  await chmod(materialPath, 0o644);
   return { bundled_path: relativePath, sha256: digest, bytes: bytes.length };
+}
+
+async function localFileEvidence(relativePath) {
+  const bytes = await readFile(path.join(ROOT, ...relativePath.split("/")));
+  return {
+    path: relativePath,
+    sha256: sha256(bytes),
+    bytes: bytes.length,
+  };
+}
+
+async function localFileTree(relativeRoot) {
+  const absoluteRoot = path.join(ROOT, ...relativeRoot.split("/"));
+  if ((await lstat(absoluteRoot)).isSymbolicLink()) {
+    throw new Error(`Vendored package root may not be a symlink: ${relativeRoot}`);
+  }
+  const files = [];
+  async function visit(directory) {
+    const entries = await readdir(directory, { withFileTypes: true });
+    entries.sort((left, right) => left.name.localeCompare(right.name));
+    for (const entry of entries) {
+      const target = path.join(directory, entry.name);
+      if (entry.isSymbolicLink()) {
+        throw new Error(`Vendored package may not contain symlinks: ${target}`);
+      }
+      if (entry.isDirectory()) {
+        await visit(target);
+      } else if (entry.isFile()) {
+        files.push(path.relative(ROOT, target).split(path.sep).join("/"));
+      } else {
+        throw new Error(`Unsupported vendored package entry: ${target}`);
+      }
+    }
+  }
+  await visit(absoluteRoot);
+  return files.sort();
+}
+
+async function collectVendoredPatch(component, temporaryRoot) {
+  const { bytes: archive, url } = await crateArchive(
+    component.name,
+    component.version,
+    component.checksum,
+  );
+  const archivePath = path.join(
+    temporaryRoot,
+    `${component.name}-${component.version}.crate`,
+  );
+  await writeFile(archivePath, archive);
+  const archiveRoot = `${component.name}-${component.version}`;
+  const vcsInfoArchivePath = `${archiveRoot}/.cargo_vcs_info.json`;
+  const vcsInfoBytes = readArchiveEntry(archivePath, vcsInfoArchivePath);
+  let vcsInfo;
+  try {
+    vcsInfo = JSON.parse(vcsInfoBytes.toString("utf8"));
+  } catch (error) {
+    throw new Error(
+      `Invalid VCS metadata for ${component.name}@${component.version}`,
+      { cause: error },
+    );
+  }
+  if (vcsInfo?.git?.sha1 !== component.source_revision) {
+    throw new Error(
+      `VCS revision mismatch for ${component.name}@${component.version}: expected ${component.source_revision}, got ${vcsInfo?.git?.sha1}`,
+    );
+  }
+  const materials = [];
+  for (const archiveEntry of archiveLegalPaths(archivePath)) {
+    materials.push({
+      kind: "crate-archive",
+      archive_path: archiveEntry,
+      ...(await storeMaterial(readArchiveEntry(archivePath, archiveEntry))),
+    });
+  }
+  const files = [];
+  for (const file of component.files) {
+    if (file.upstream_path !== undefined) {
+      const upstreamBytes = readArchiveEntry(
+        archivePath,
+        `${archiveRoot}/${file.upstream_path}`,
+      );
+      const upstreamDigest = sha256(upstreamBytes);
+      if (upstreamDigest !== file.upstream_sha256) {
+        throw new Error(
+          `Upstream source mismatch for ${file.path}: expected ${file.upstream_sha256}, got ${upstreamDigest}`,
+        );
+      }
+    }
+    const evidence = { ...file, ...(await localFileEvidence(file.path)) };
+    if (
+      file.status === "unchanged" &&
+      evidence.sha256 !== file.upstream_sha256
+    ) {
+      throw new Error(`Unmodified vendor file differs upstream: ${file.path}`);
+    }
+    if (
+      file.status === "modified" &&
+      evidence.sha256 === file.upstream_sha256
+    ) {
+      throw new Error(`Modified vendor file unexpectedly matches upstream: ${file.path}`);
+    }
+    files.push(evidence);
+  }
+  const actualFiles = await localFileTree(component.path);
+  const expectedFiles = files.map(({ path: file }) => file).sort();
+  if (JSON.stringify(actualFiles) !== JSON.stringify(expectedFiles)) {
+    throw new Error(
+      `Vendored package file closure differs: ${JSON.stringify(actualFiles)}`,
+    );
+  }
+  const localLicense = files.find(({ path: file }) => file.endsWith("/LICENSE"));
+  if (
+    localLicense === undefined ||
+    !materials.some(({ sha256: digest }) => digest === localLicense.sha256)
+  ) {
+    throw new Error(`Vendored license differs from ${component.name} archive`);
+  }
+  return {
+    name: component.name,
+    version: component.version,
+    path: component.path,
+    declared_license: component.declared_license,
+    selected_license: component.selected_license,
+    authors: component.authors,
+    repository: component.repository,
+    source_revision: component.source_revision,
+    source_revision_evidence: {
+      archive_path: vcsInfoArchivePath,
+      sha256: sha256(vcsInfoBytes),
+      bytes: vcsInfoBytes.length,
+    },
+    crate_archive_url: url,
+    crate_archive_sha256: component.checksum,
+    files,
+    file_tree_sha256: sha256(Buffer.from(
+      files
+        .map(({ path: file, sha256: digest, bytes }) =>
+          `${file}\0${digest}\0${bytes}\n`)
+        .join(""),
+      "utf8",
+    )),
+    file_tree_hash_format: "path\\0sha256\\0bytes\\n",
+    materials,
+  };
 }
 
 async function generateBundle() {
   const cargoLock = await readFile(path.join(CARGO_ROOT, "Cargo.lock"));
-  const locked = parseCargoLock(cargoLock.toString("utf8"));
+  const cargoPackages = parseCargoPackages(cargoLock.toString("utf8"));
+  const locked = parseRegistryCargoPackages(cargoPackages);
+  const localPackages = cargoPackages
+    .filter(({ source }) => source === undefined)
+    .map(({ name, version }) => ({ name, version }));
+  const unsupportedPackages = cargoPackages
+    .filter(
+      ({ source }) =>
+        source !== undefined && !source.startsWith("registry+"),
+    )
+    .map(({ name, version, source }) => ({ name, version, source }));
+  if (unsupportedPackages.length > 0) {
+    throw new Error(
+      `Unsupported non-registry Cargo packages: ${JSON.stringify(unsupportedPackages)}`,
+    );
+  }
+  const expectedLocalPackages = [
+    { name: "didc_rust", version: "0.1.0" },
+    ...VENDORED_PATCHES.map(({ name, version }) => ({ name, version })),
+  ].sort((left, right) =>
+    `${left.name}@${left.version}`.localeCompare(
+      `${right.name}@${right.version}`,
+    ),
+  );
+  if (JSON.stringify(localPackages) !== JSON.stringify(expectedLocalPackages)) {
+    throw new Error(
+      `Unexpected local Cargo packages: ${JSON.stringify(localPackages)}`,
+    );
+  }
   const metadata = cargoMetadata();
+  const metadataLocalPackages = metadata.packages
+    .filter(({ source }) => source === null)
+    .map(({ name, version, manifest_path: manifestPath }) => ({
+      name,
+      version,
+      manifest_path: path.resolve(manifestPath),
+    }))
+    .sort((left, right) =>
+      `${left.name}@${left.version}`.localeCompare(
+        `${right.name}@${right.version}`,
+      ),
+    );
+  const expectedMetadataLocalPackages = expectedLocalPackages.map(
+    ({ name, version }) => ({
+      name,
+      version,
+      manifest_path: name === "didc_rust"
+        ? path.join(CARGO_ROOT, "Cargo.toml")
+        : path.join(
+            ROOT,
+            ...VENDORED_PATCHES.find((component) => component.name === name)
+              .path.split("/"),
+            "Cargo.toml",
+          ),
+    }),
+  );
+  if (
+    JSON.stringify(metadataLocalPackages) !==
+    JSON.stringify(expectedMetadataLocalPackages)
+  ) {
+    throw new Error(
+      `Cargo metadata resolves unexpected local packages: ${JSON.stringify(metadataLocalPackages)}`,
+    );
+  }
+  for (const component of VENDORED_PATCHES) {
+    const manifestPath = path.join(
+      ROOT,
+      ...component.path.split("/"),
+      "Cargo.toml",
+    );
+    const resolved = metadata.packages.find(
+      ({ source, manifest_path: resolvedManifestPath }) =>
+        source === null && path.resolve(resolvedManifestPath) === manifestPath,
+    );
+    if (
+      resolved?.license !== component.declared_license ||
+      resolved.repository !== component.repository ||
+      JSON.stringify(resolved.authors) !== JSON.stringify(component.authors)
+    ) {
+      throw new Error(
+        `Vendored Cargo metadata differs from legal inventory: ${component.name}@${component.version}`,
+      );
+    }
+  }
   const metadataById = new Map(
     metadata.packages
       .filter(({ source }) => source?.startsWith("registry+"))
@@ -383,6 +689,7 @@ async function generateBundle() {
   );
   const temporaryRoot = await mkdtemp(path.join(tmpdir(), "icblast-licenses-"));
   const packages = [];
+  const vendoredPatches = [];
 
   try {
     for (const entry of locked) {
@@ -469,6 +776,19 @@ async function generateBundle() {
     );
   }
 
+  const vendoredTemporaryRoot = await mkdtemp(
+    path.join(tmpdir(), "icblast-vendored-licenses-"),
+  );
+  try {
+    for (const component of VENDORED_PATCHES) {
+      vendoredPatches.push(
+        await collectVendoredPatch(component, vendoredTemporaryRoot),
+      );
+    }
+  } finally {
+    await rm(vendoredTemporaryRoot, { recursive: true, force: true });
+  }
+
   const linkedRuntimeCrates = [];
   const runtimeTemporaryRoot = await mkdtemp(
     path.join(tmpdir(), "icblast-runtime-licenses-"),
@@ -539,10 +859,15 @@ async function generateBundle() {
   }
 
   const result = {
-    schema: 1,
+    schema: 2,
     cargo_lock_sha256: sha256(cargoLock),
     registry_package_count: packages.length,
     packages,
+    vendored_package_count: vendoredPatches.length,
+    vendored_packages: vendoredPatches,
+    release_files: await Promise.all(
+      RELEASE_FILE_PATHS.map((file) => localFileEvidence(file)),
+    ),
     linked_runtime: {
       evidence: "didc_wasm_pkg/didc_rust_bg.bin producer and symbol metadata",
       rust: {
@@ -557,10 +882,9 @@ async function generateBundle() {
       components: generatedCodeComponents,
     },
   };
-  await writeFile(
-    path.join(activeOutputRoot, "map.json"),
-    `${JSON.stringify(result, null, 2)}\n`,
-  );
+  const mapPath = path.join(activeOutputRoot, "map.json");
+  await writeFile(mapPath, `${JSON.stringify(result, null, 2)}\n`);
+  await chmod(mapPath, 0o644);
 }
 
 async function exists(targetPath) {
@@ -581,8 +905,10 @@ async function main() {
   const stagedOutputRoot = await mkdtemp(
     path.join(OUTPUT_PARENT, ".rust-staging-"),
   );
+  await chmod(stagedOutputRoot, 0o755);
   activeOutputRoot = stagedOutputRoot;
   await mkdir(path.join(stagedOutputRoot, "material"), { recursive: true });
+  await chmod(path.join(stagedOutputRoot, "material"), 0o755);
 
   try {
     await generateBundle();

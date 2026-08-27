@@ -17,7 +17,7 @@ async function readBytes(relativePath) {
   return readFile(path.join(ROOT, relativePath));
 }
 
-function lockedRegistryPackages(cargoLock) {
+function lockedCargoPackages(cargoLock) {
   return cargoLock
     .split(/\n\[\[package\]\]\n/u)
     .slice(1)
@@ -27,13 +27,32 @@ function lockedRegistryPackages(cargoLock) {
       source: block.match(/^source = "([^"]+)"$/mu)?.[1],
       checksum: block.match(/^checksum = "([a-f0-9]{64})"$/mu)?.[1],
     }))
-    .filter(({ source }) => source?.startsWith("registry+"))
     .sort((left, right) =>
       `${left.name}@${left.version}`.localeCompare(
         `${right.name}@${right.version}`,
       ),
     );
 }
+
+const vendoredPrettyFiles = [
+  "didc_rust/vendor/pretty-0.12.4/Cargo.toml",
+  "didc_rust/vendor/pretty-0.12.4/LICENSE",
+  "didc_rust/vendor/pretty-0.12.4/PATCH.md",
+  "didc_rust/vendor/pretty-0.12.4/src/block.rs",
+  "didc_rust/vendor/pretty-0.12.4/src/lib.rs",
+  "didc_rust/vendor/pretty-0.12.4/src/render.rs",
+];
+
+const exactDfinityDependencies = Object.freeze({
+  "@dfinity/agent": "3.4.3",
+  "@dfinity/auth-client": "3.4.3",
+  "@dfinity/candid": "3.4.3",
+  "@dfinity/cbor": "0.2.2",
+  "@dfinity/identity": "3.4.3",
+  "@dfinity/ledger-icrc": "4.1.0",
+  "@dfinity/principal": "3.4.3",
+  "@dfinity/utils": "3.2.0",
+});
 
 function noticeInventory(notices) {
   return [...notices.matchAll(
@@ -57,6 +76,7 @@ describe("npm release metadata", () => {
     const manifest = JSON.parse(await read("package.json"));
     const lock = JSON.parse(await read("package-lock.json"));
     const cargoManifest = await read("didc_rust/Cargo.toml");
+    const cargoLock = await readBytes("didc_rust/Cargo.lock");
     const license = await readFile(path.join(ROOT, "LICENSE"));
     const notices = await read("THIRD_PARTY_NOTICES.md");
     const wasmGlue = await readBytes("didc_wasm_pkg/didc_rust.js");
@@ -65,14 +85,15 @@ describe("npm release metadata", () => {
 
     expect(manifest).toMatchObject({
       name: "icblast",
-      version: "4.3.2",
+      version: "4.3.3",
       license: "Apache-2.0",
       repository: {
         type: "git",
         url: "git+https://github.com/infu/icblast.git",
       },
       scripts: {
-        prepack: "npm run verify:licenses",
+        "build:didc": "node scripts/build-didc-wasm.mjs",
+        prepack: "npm run verify:didc && npm run verify:licenses",
         prepublishOnly:
           "npm test && node scripts/verify-release-state.mjs",
       },
@@ -83,17 +104,26 @@ describe("npm release metadata", () => {
         },
       },
       dependencies: {
+        ...exactDfinityDependencies,
         "@modelcontextprotocol/sdk": "^1.30.0",
         ajv: "^8.20.0",
         "fast-uri": "^3.1.5",
       },
     });
-    expect(lock.version).toBe("4.3.2");
+    expect(lock.version).toBe("4.3.3");
     expect(lock.packages[""]).toMatchObject({
       name: "icblast",
-      version: "4.3.2",
+      version: "4.3.3",
       license: "Apache-2.0",
+      dependencies: {
+        ...exactDfinityDependencies,
+      },
     });
+    for (const [dependency, version] of Object.entries(
+      exactDfinityDependencies,
+    )) {
+      expect(lock.packages[`node_modules/${dependency}`].version).toBe(version);
+    }
     expect(lock.packages["node_modules/@modelcontextprotocol/sdk"].version).toBe(
       "1.30.0",
     );
@@ -104,28 +134,35 @@ describe("npm release metadata", () => {
     expect(cargoManifest).toContain(
       "Adapted from the Apache-2.0 Candid wasm-bindgen example manifest.",
     );
+    expect(cargoManifest).toContain(
+      'pretty = { path = "vendor/pretty-0.12.4" }',
+    );
     expect(createHash("sha256").update(license).digest("hex")).toBe(
       "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     );
     const evidence = [
       [
         wasmGlue,
-        "e06df6dd916e5b1daf8b610a1f5a340c318b21c13e1ce203607419636663fc39",
+        "02847c0d670b9291bdadb173de69285a14acec864f2d0f000bd232c465d5d8cd",
       ],
       [
         wasm,
-        "97a68d8a1e901b282fb04534d131363edd6ea4f7f6343fa15a9d93cab84e72b7",
+        "4235e33cd96b3fde282514cfd73b96041c0290aea02e3e786ba715ac3eb01508",
       ],
       [
         rustSource,
-        "4c35cf05162fad5b6ee31c78cb0aab57a1324737177d1696428b97dce7317be0",
+        "86d0534c847ace34b213ea526b0a732f106f765f276afc859047a88b3946d8e5",
       ],
       [
         Buffer.from(cargoManifest, "utf8"),
-        "bbe6ee7ee79c15f87cae1f53f1f8776133df72398ffc6f24c6aed8c89e24330a",
+        "63a0e3630ceef952f2936e5acf867c8b987353c26a68d0c8efeed7ab1182917f",
+      ],
+      [
+        cargoLock,
+        "b4b34b369d706fb199c320995c1a2c0c6287fa09925d670e5faffb1df2252e02",
       ],
     ];
-    expect(wasm).toHaveLength(951_093);
+    expect(wasm).toHaveLength(870_492);
     for (const [bytes, digest] of evidence) {
       expect(createHash("sha256").update(bytes).digest("hex")).toBe(digest);
       expect(notices).toContain(digest);
@@ -144,17 +181,37 @@ describe("npm release metadata", () => {
     expect(rustSource.toString("utf8")).toContain(
       "ebc9c615db87aa26cf8e9c9716e1ac18d63763a4",
     );
+    expect(rustSource.toString("utf8")).toContain(
+      "bindings::javascript::compile",
+    );
+    expect(rustSource.toString("utf8")).not.toContain("bindings::typescript");
+    expect(rustSource.toString("utf8")).not.toContain("bindings::motoko");
   });
 
-  it("inventories every locked Rust registry package exactly once", async () => {
+  it("inventories every locked and vendored Rust package exactly once", async () => {
     const cargoLock = await readBytes("didc_rust/Cargo.lock");
-    const locked = lockedRegistryPackages(cargoLock.toString("utf8"));
+    const cargoPackages = lockedCargoPackages(cargoLock.toString("utf8"));
+    const locked = cargoPackages.filter(({ source }) =>
+      source?.startsWith("registry+")
+    );
+    const local = cargoPackages
+      .filter(({ source }) => source === undefined)
+      .map(({ name, version }) => ({ name, version }));
+    const unsupported = cargoPackages.filter(
+      ({ source }) =>
+        source !== undefined && !source.startsWith("registry+"),
+    );
     const inventoried = noticeInventory(await read("THIRD_PARTY_NOTICES.md"));
     const licenseMap = JSON.parse(
       await read("third_party/licenses/rust/map.json"),
     );
 
-    expect(locked).toHaveLength(124);
+    expect(locked).toHaveLength(123);
+    expect(local).toEqual([
+      { name: "didc_rust", version: "0.1.0" },
+      { name: "pretty", version: "0.12.4" },
+    ]);
+    expect(unsupported).toEqual([]);
     expect(inventoried).toHaveLength(locked.length);
     expect(
       inventoried.map(({ name, version, checksum }) => ({
@@ -173,11 +230,12 @@ describe("npm release metadata", () => {
       true,
     );
     expect(licenseMap).toMatchObject({
-      schema: 1,
+      schema: 2,
       cargo_lock_sha256: createHash("sha256")
         .update(cargoLock)
         .digest("hex"),
       registry_package_count: locked.length,
+      vendored_package_count: 1,
     });
     expect(
       licenseMap.packages.map(({ name, version, cargo_checksum_sha256 }) => ({
@@ -206,9 +264,89 @@ describe("npm release metadata", () => {
       })),
     );
 
+    expect(licenseMap.vendored_packages).toHaveLength(1);
+    const [vendoredPretty] = licenseMap.vendored_packages;
+    expect(vendoredPretty).toMatchObject({
+      name: "pretty",
+      version: "0.12.4",
+      path: "didc_rust/vendor/pretty-0.12.4",
+      declared_license: "MIT",
+      selected_license: "MIT",
+      repository: "https://github.com/Marwes/pretty.rs",
+      source_revision: "bd138e503ee3f679b26c838c9f148fbdaf6d2b7c",
+      crate_archive_sha256:
+        "ac98773b7109bc75f475ab5a134c9b64b87e59d776d31098d8f346922396a477",
+      file_tree_hash_format: "path\\0sha256\\0bytes\\n",
+    });
+    expect(vendoredPretty.source_revision_evidence).toMatchObject({
+      archive_path: "pretty-0.12.4/.cargo_vcs_info.json",
+      sha256:
+        "fc260a37012bfab8fb435d38602ce4ed35624d18ac1af79afc2808a939026c64",
+      bytes: 94,
+    });
+    expect(vendoredPretty.files.map(({ path: file }) => file)).toEqual(
+      vendoredPrettyFiles,
+    );
+    expect(
+      vendoredPretty.files.map(({ path: file, status }) => [file, status]),
+    ).toEqual([
+      [vendoredPrettyFiles[0], "modified"],
+      [vendoredPrettyFiles[1], "unchanged"],
+      [vendoredPrettyFiles[2], "added"],
+      [vendoredPrettyFiles[3], "unchanged"],
+      [vendoredPrettyFiles[4], "modified"],
+      [vendoredPrettyFiles[5], "unchanged"],
+    ]);
+    for (const evidence of vendoredPretty.files) {
+      const bytes = await readBytes(evidence.path);
+      expect(bytes).toHaveLength(evidence.bytes);
+      expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+        evidence.sha256,
+      );
+    }
+    const vendorTreeHash = createHash("sha256")
+      .update(
+        vendoredPretty.files
+          .map(({ path: file, sha256, bytes }) =>
+            `${file}\0${sha256}\0${bytes}\n`)
+          .join(""),
+      )
+      .digest("hex");
+    expect(vendorTreeHash).toBe(
+      "653e18d0e6d1c04791f4d3c3d7483e42dbb1bebea343fe6f6581bfabb804ae09",
+    );
+    expect(vendoredPretty.file_tree_sha256).toBe(vendorTreeHash);
+    expect(
+      vendoredPretty.files.find(({ path: file }) => file.endsWith("/LICENSE")),
+    ).toMatchObject({
+      sha256: "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+      upstream_sha256:
+        "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+    });
+
+    const releaseFilePaths = [
+      "didc_rust/Cargo.lock",
+      "didc_rust/Cargo.toml",
+      "didc_rust/src/lib.rs",
+      "didc_wasm_pkg/didc_rust.js",
+      "didc_wasm_pkg/didc_rust_bg.bin",
+      ...vendoredPrettyFiles,
+    ].sort();
+    expect(licenseMap.release_files.map(({ path: file }) => file)).toEqual(
+      releaseFilePaths,
+    );
+    for (const evidence of licenseMap.release_files) {
+      const bytes = await readBytes(evidence.path);
+      expect(bytes).toHaveLength(evidence.bytes);
+      expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+        evidence.sha256,
+      );
+    }
+
     const materialByPath = new Map();
     for (const component of [
       ...licenseMap.packages,
+      ...licenseMap.vendored_packages,
       ...licenseMap.linked_runtime.crates,
       ...licenseMap.generated_code.components,
       licenseMap.linked_runtime.rust,
@@ -322,6 +460,7 @@ describe("npm release metadata", () => {
     );
     const components = [
       ...licenseMap.packages,
+      ...licenseMap.vendored_packages,
       ...licenseMap.linked_runtime.crates,
       ...licenseMap.generated_code.components,
       licenseMap.linked_runtime.rust,
@@ -334,7 +473,7 @@ describe("npm release metadata", () => {
       ),
     )].sort();
 
-    expect(packed).toMatchObject({ name: "icblast", version: "4.3.2" });
+    expect(packed).toMatchObject({ name: "icblast", version: "4.3.3" });
     expect(paths).toEqual(expect.arrayContaining([
       "LICENSE",
       "NOTICE",
@@ -343,9 +482,11 @@ describe("npm release metadata", () => {
       "didc_rust/Cargo.lock",
       "didc_rust/Cargo.toml",
       "didc_rust/src/lib.rs",
+      ...vendoredPrettyFiles,
       "didc_wasm_pkg/didc_rust.js",
       "didc_wasm_pkg/didc_rust_bg.bin",
       "package.json",
+      "scripts/build-didc-wasm.mjs",
       "scripts/generate-rust-license-bundle.mjs",
       "scripts/verify-release-state.mjs",
       "third_party/licenses/rust/map.json",
@@ -356,6 +497,9 @@ describe("npm release metadata", () => {
     ]));
     expect(paths).not.toContain("package-lock.json");
     expect(paths.some((filePath) => filePath.includes("node_modules"))).toBe(
+      false,
+    );
+    expect(paths.some((filePath) => filePath.startsWith("didc_rust/target/"))).toBe(
       false,
     );
     expect(
@@ -369,5 +513,5 @@ describe("npm release metadata", () => {
         !filePath.startsWith("third_party/licenses/rust/"),
       ),
     ).toEqual([]);
-  });
+  }, 15_000);
 });

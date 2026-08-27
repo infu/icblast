@@ -38,6 +38,18 @@ describe("browser-local Candid conversion", () => {
     }
   });
 
+  test("does not truncate a quoted method containing export const", async () => {
+    const didcWasm = new Uint8Array(await readFile(wasmPath));
+    const factory = await idlFactoryFromCandid(
+      'service : { "contains export const text" : () -> (text) query; }',
+      { didcWasm },
+    );
+
+    expect(factory({ IDL })._fields.map(([name]) => name)).toEqual([
+      "contains export const text",
+    ]);
+  });
+
   test("rejects invalid Candid locally", async () => {
     const didcWasm = new Uint8Array(await readFile(wasmPath));
     await expect(
@@ -89,6 +101,37 @@ describe("browser-local Candid conversion", () => {
       }),
     ).rejects.toThrow("Generated Candid JavaScript exceeds 1 UTF-8 bytes");
   });
+
+  test("compiles the full 65,536-method service without poisoning the Wasm instance", async () => {
+    const didcWasm = new Uint8Array(await readFile(wasmPath));
+    const source = `service : { ${Array.from(
+      { length: 65_536 },
+      (_, index) =>
+        index === 32_768
+          ? `"__proto__" : () -> ();`
+          : `m${index} : () -> ();`,
+    ).join(" ")} }`;
+
+    await expect(
+      idlFactoryFromCandid(source, {
+        didcWasm,
+        maxCandidSourceBytes: Number.MAX_SAFE_INTEGER,
+      }),
+    ).rejects.toThrow(
+      "Generated Candid JavaScript exceeds 2097152 UTF-8 bytes",
+    );
+
+    const factory = await idlFactoryFromCandid(source, {
+      didcWasm,
+      maxCandidSourceBytes: Number.MAX_SAFE_INTEGER,
+      maxGeneratedJavaScriptBytes: Number.MAX_SAFE_INTEGER,
+    });
+    const methods = new Set(factory({ IDL })._fields.map(([name]) => name));
+    expect(methods.size).toBe(65_536);
+    expect(methods.has("m0")).toBe(true);
+    expect(methods.has("__proto__")).toBe(true);
+    expect(methods.has("m65535")).toBe(true);
+  }, 30_000);
 
   test("rejects invalid local compiler byte limits", async () => {
     await expect(

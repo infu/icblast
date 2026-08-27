@@ -37,7 +37,7 @@ if (currentManifest !== committedManifest) {
 }
 
 const manifest = JSON.parse(currentManifest);
-if (manifest.version !== "4.3.2" || manifest.license !== "Apache-2.0") {
+if (manifest.version !== "4.3.3" || manifest.license !== "Apache-2.0") {
   throw new Error(
     "Refusing to publish an unexpected icblast release identity.",
   );

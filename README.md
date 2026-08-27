@@ -167,9 +167,43 @@ Candid fallback, and actor calls; discovery does not silently switch gateways.
 
 Browser Candid compilation rejects source above 128 KiB before initializing
 Wasm and rejects generated JavaScript above 2 MiB before evaluation. These are
-safety defaults for untrusted canister metadata, not network response limits.
-Trusted callers that already bind the interface bytes may set
-`maxCandidSourceBytes` and `maxGeneratedJavaScriptBytes` explicitly.
+safety defaults for untrusted canister metadata. Browser and Node Agent HTTP
+responses are separately limited to 4 MiB and structurally checked before the
+agent decodes them.
+Trusted callers may set `maxCandidSourceBytes`,
+`maxGeneratedJavaScriptBytes`, and `maxHttpResponseBytes` explicitly to
+positive safe-integer byte counts. A custom `agentOptions.fetch` still receives
+the original request and `AbortSignal`.
+
+Decoded replies default to 100,000 logical Candid items (including blob bytes)
+and a nesting depth of 256. Generated service graphs default to 100,000
+structural type items. Trusted large interfaces may raise
+`maxDecodedCandidItems`, `maxCandidTypeItems`, and `maxCandidTypeDepth`
+explicitly.
+
+Every wrapped actor exposes its complete method set through the read-only
+Map-style `actor.$methods.get(methodName)`. The table itself is safe to await.
+Non-conflicting names remain available directly on the actor. Use the table for
+a Candid method named `then`, for names that
+collide with actor metadata or raw-Candid helpers, and for any other unusual
+service label. The canonical raw helpers are
+`actor.$methods.get(methodName).encodeArgs` and `.decodeResult`; legacy
+`method$`/`$method` aliases remain when they do not collide with a real method.
+
+Consent-sensitive callers can prepare a call before dispatch:
+
+```js
+const prepared = await actor.$methods.get(methodName).prepare(...args);
+await review(prepared.args);
+const result = await prepared.invoke();
+```
+
+`prepare` converts and Candid-roundtrips the arguments once. Its `args` are a
+detached, deeply frozen JSON review value: integers use canonical decimal
+strings, Principals use canonical text, byte vectors use lowercase hex, and
+Candid options remain `[]` or `[value]`. The private Candid snapshot cannot be
+replaced through `args`. `invoke` accepts no arguments and is atomically
+single-use; legacy direct method calls remain unchanged.
 
 Set `allowNumberedPrincipals: false` when an application supplies its own
 identity policy and must reject ICBlast's numeric Principal and numeric
@@ -180,8 +214,6 @@ ICRC-account conveniences.
   - `blast call f54if-eqaaa-aaaaq-aacea-cai icrc1_balance_of '["0"]' --id 0`
 - Query balance with full ICRC‑1 text account:
   - `blast call f54if-eqaaa-aaaaq-aacea-cai icrc1_balance_of '["togwv-zqaaa-aaaal-qr7aa-cai-oq7ilwi.2e10e7b42023f667a1db51ff9c7c88f08fb9022d6453bf0c5b0696666e41f048"]' --id 0`
-
-
 
 ## Releases
 
@@ -196,16 +228,36 @@ and license verification hooks for that path.
 - Run the CLI locally: `node bin/blast.js ...`
 - Debug conversions: `--debug` flag or `BLAST_DEBUG=1`.
 
+The checked-in browser compiler is reproducible with Rust 1.89.0 and
+`wasm-bindgen-cli` 0.2.100. Point `ICBLAST_WASM_BINDGEN` at a 0.2.100 binary
+built with that Rust toolchain. One setup path is:
+
+```sh
+rustup toolchain install 1.89.0 --profile minimal --target wasm32-unknown-unknown
+rustup run 1.89.0 cargo install wasm-bindgen-cli --version 0.2.100 --locked
+```
+
+Then run:
+
+```sh
+npm run build:didc
+npm run verify:didc
+```
+
+The build fails if the resulting Wasm producer metadata does not carry both
+pinned versions; verification also requires byte-for-byte equality with the
+checked-in glue and Wasm.
+
 ## Limitations
 - Minimal actor wrapping; complex types are mapped best-effort.
 - Some canisters may not expose Candid metadata; in such cases discovery can fail.
 
 ## License
 
-The first-party portions of icblast 4.3.2 are licensed under the Apache
-License, Version 2.0. See [LICENSE](./LICENSE). Earlier releases and repository
-history retain the terms under which they were distributed; this release does
-not retroactively relabel them.
+The first-party portions of this release are licensed under the Apache License,
+Version 2.0. See [LICENSE](./LICENSE). Earlier releases and repository history
+retain the terms under which they were distributed; this release does not
+retroactively relabel them.
 
 The local generator in `didc_rust/` is an Apache-licensed adaptation of the
 Candid wasm-bindgen example. The embedded compiler in `didc_wasm_pkg/` also

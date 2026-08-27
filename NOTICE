@@ -1,7 +1,7 @@
 icblast
 Copyright 2022-2026 icblast contributors
 
-The Apache-2.0 grant applies to the first-party portions of icblast 4.3.2.
+The Apache-2.0 grant applies to the first-party portions of icblast 4.3.3.
 Earlier releases and repository history retain the terms under which they
 were distributed and are not retroactively relabeled by this release.
 
@@ -12,11 +12,12 @@ from their respective authors and copyright holders.
 The local Candid generator is an Apache-licensed adaptation of DFINITY's Candid
 wasm-bindgen example. The embedded compiler artifacts in didc_wasm_pkg/ are
 mixed works; incorporated third-party code remains under its original
-permissive terms. THIRD_PARTY_NOTICES.md contains
-the conservative lockfile-bounded inventory, artifact hashes, license
-selections, and links to the exact upstream crate releases. Canonical license
-texts and upstream notices are provided through the content-addressed map in
-third_party/licenses/rust/.
+permissive terms. This release includes an MIT-licensed patch to the vendored
+pretty 0.12.4 source that balances large document trees. THIRD_PARTY_NOTICES.md
+contains the conservative lockfile and vendored-source inventory, artifact
+hashes, license selections, and links to the exact upstream releases.
+Canonical license texts and upstream notices are provided through the
+content-addressed map in third_party/licenses/rust/.
 
 Third-party names and marks are used only to identify their software and do
 not imply endorsement of icblast.

@@ -1,7 +1,7 @@
 {
-  "schema": 1,
-  "cargo_lock_sha256": "e549c66e90549edb955a0081d1f1fcbfbc99c7a3ccddf4eb27e31f3d22d3c1bc",
-  "registry_package_count": 124,
+  "schema": 2,
+  "cargo_lock_sha256": "b4b34b369d706fb199c320995c1a2c0c6287fa09925d670e5faffb1df2252e02",
+  "registry_package_count": 123,
   "packages": [
     {
       "name": "aho-corasick",
@@ -1758,28 +1758,6 @@
       ]
     },
     {
-      "name": "pretty",
-      "version": "0.12.4",
-      "cargo_checksum_sha256": "ac98773b7109bc75f475ab5a134c9b64b87e59d776d31098d8f346922396a477",
-      "crate_archive_url": "https://crates.io/api/v1/crates/pretty/0.12.4/download",
-      "declared_license": "MIT",
-      "authors": [
-        "Jonathan Sterling <jon@jonmsterling.com>",
-        "Darin Morrison <darinmorrison+git@gmail.com>",
-        "Markus Westerlind <marwes91@gmail.com>"
-      ],
-      "repository": "https://github.com/Marwes/pretty.rs",
-      "materials": [
-        {
-          "kind": "crate-archive",
-          "archive_path": "pretty-0.12.4/LICENSE",
-          "bundled_path": "material/1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef.txt",
-          "sha256": "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
-          "bytes": 1102
-        }
-      ]
-    },
-    {
       "name": "proc-macro2",
       "version": "1.0.101",
       "cargo_checksum_sha256": "89ae43fd86e4158d6db51ad8e2b80f313af9cc74f5c0e03ccb87de09998732de",
@@ -3362,6 +3340,146 @@
           "bytes": 1141
         }
       ]
+    }
+  ],
+  "vendored_package_count": 1,
+  "vendored_packages": [
+    {
+      "name": "pretty",
+      "version": "0.12.4",
+      "path": "didc_rust/vendor/pretty-0.12.4",
+      "declared_license": "MIT",
+      "selected_license": "MIT",
+      "authors": [
+        "Jonathan Sterling <jon@jonmsterling.com>",
+        "Darin Morrison <darinmorrison+git@gmail.com>",
+        "Markus Westerlind <marwes91@gmail.com>"
+      ],
+      "repository": "https://github.com/Marwes/pretty.rs",
+      "source_revision": "bd138e503ee3f679b26c838c9f148fbdaf6d2b7c",
+      "source_revision_evidence": {
+        "archive_path": "pretty-0.12.4/.cargo_vcs_info.json",
+        "sha256": "fc260a37012bfab8fb435d38602ce4ed35624d18ac1af79afc2808a939026c64",
+        "bytes": 94
+      },
+      "crate_archive_url": "https://crates.io/api/v1/crates/pretty/0.12.4/download",
+      "crate_archive_sha256": "ac98773b7109bc75f475ab5a134c9b64b87e59d776d31098d8f346922396a477",
+      "files": [
+        {
+          "path": "didc_rust/vendor/pretty-0.12.4/Cargo.toml",
+          "status": "modified",
+          "upstream_path": "Cargo.toml.orig",
+          "upstream_sha256": "dce1dc27b2c006ec081737e57811db186e401bb952bbb75207980886dca6b503",
+          "sha256": "52b9023bbee0cc466845eba73e3c9dbaeec54474597a24ea6a79fb00bc663a22",
+          "bytes": 643
+        },
+        {
+          "path": "didc_rust/vendor/pretty-0.12.4/LICENSE",
+          "status": "unchanged",
+          "upstream_path": "LICENSE",
+          "upstream_sha256": "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+          "sha256": "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+          "bytes": 1102
+        },
+        {
+          "path": "didc_rust/vendor/pretty-0.12.4/PATCH.md",
+          "status": "added",
+          "sha256": "e6ef01716c1cd3c34c3044d4e17f9d609cbd51e65c3b5fc9ad205d50ecfb5007",
+          "bytes": 755
+        },
+        {
+          "path": "didc_rust/vendor/pretty-0.12.4/src/block.rs",
+          "status": "unchanged",
+          "upstream_path": "src/block.rs",
+          "upstream_sha256": "3eb483202171f737e94a3bae2ec18b6afa3b6ca53ae9b19c4a7140963aad860b",
+          "sha256": "3eb483202171f737e94a3bae2ec18b6afa3b6ca53ae9b19c4a7140963aad860b",
+          "bytes": 5811
+        },
+        {
+          "path": "didc_rust/vendor/pretty-0.12.4/src/lib.rs",
+          "status": "modified",
+          "upstream_path": "src/lib.rs",
+          "upstream_sha256": "203f8aa1949a4594fb89ac32cc31958d732e9ad6f4a84f13c3de537b2a59d87e",
+          "sha256": "2a5109a0ce46eaf8aeeebb87313a65cfffc63e7e21753aba7b0013af625e4a38",
+          "bytes": 62712
+        },
+        {
+          "path": "didc_rust/vendor/pretty-0.12.4/src/render.rs",
+          "status": "unchanged",
+          "upstream_path": "src/render.rs",
+          "upstream_sha256": "b8622e3bdc7c8963c4922f013d34b2151a6e92f08a8a2e2343dd9db04bfbc643",
+          "sha256": "b8622e3bdc7c8963c4922f013d34b2151a6e92f08a8a2e2343dd9db04bfbc643",
+          "bytes": 16871
+        }
+      ],
+      "file_tree_sha256": "653e18d0e6d1c04791f4d3c3d7483e42dbb1bebea343fe6f6581bfabb804ae09",
+      "file_tree_hash_format": "path\\0sha256\\0bytes\\n",
+      "materials": [
+        {
+          "kind": "crate-archive",
+          "archive_path": "pretty-0.12.4/LICENSE",
+          "bundled_path": "material/1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef.txt",
+          "sha256": "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+          "bytes": 1102
+        }
+      ]
+    }
+  ],
+  "release_files": [
+    {
+      "path": "didc_rust/Cargo.lock",
+      "sha256": "b4b34b369d706fb199c320995c1a2c0c6287fa09925d670e5faffb1df2252e02",
+      "bytes": 28645
+    },
+    {
+      "path": "didc_rust/Cargo.toml",
+      "sha256": "63a0e3630ceef952f2936e5acf867c8b987353c26a68d0c8efeed7ab1182917f",
+      "bytes": 874
+    },
+    {
+      "path": "didc_rust/src/lib.rs",
+      "sha256": "86d0534c847ace34b213ea526b0a732f106f765f276afc859047a88b3946d8e5",
+      "bytes": 1641
+    },
+    {
+      "path": "didc_rust/vendor/pretty-0.12.4/Cargo.toml",
+      "sha256": "52b9023bbee0cc466845eba73e3c9dbaeec54474597a24ea6a79fb00bc663a22",
+      "bytes": 643
+    },
+    {
+      "path": "didc_rust/vendor/pretty-0.12.4/LICENSE",
+      "sha256": "1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef",
+      "bytes": 1102
+    },
+    {
+      "path": "didc_rust/vendor/pretty-0.12.4/PATCH.md",
+      "sha256": "e6ef01716c1cd3c34c3044d4e17f9d609cbd51e65c3b5fc9ad205d50ecfb5007",
+      "bytes": 755
+    },
+    {
+      "path": "didc_rust/vendor/pretty-0.12.4/src/block.rs",
+      "sha256": "3eb483202171f737e94a3bae2ec18b6afa3b6ca53ae9b19c4a7140963aad860b",
+      "bytes": 5811
+    },
+    {
+      "path": "didc_rust/vendor/pretty-0.12.4/src/lib.rs",
+      "sha256": "2a5109a0ce46eaf8aeeebb87313a65cfffc63e7e21753aba7b0013af625e4a38",
+      "bytes": 62712
+    },
+    {
+      "path": "didc_rust/vendor/pretty-0.12.4/src/render.rs",
+      "sha256": "b8622e3bdc7c8963c4922f013d34b2151a6e92f08a8a2e2343dd9db04bfbc643",
+      "bytes": 16871
+    },
+    {
+      "path": "didc_wasm_pkg/didc_rust.js",
+      "sha256": "02847c0d670b9291bdadb173de69285a14acec864f2d0f000bd232c465d5d8cd",
+      "bytes": 6173
+    },
+    {
+      "path": "didc_wasm_pkg/didc_rust_bg.bin",
+      "sha256": "4235e33cd96b3fde282514cfd73b96041c0290aea02e3e786ba715ac3eb01508",
+      "bytes": 870492
     }
   ],
   "linked_runtime": {

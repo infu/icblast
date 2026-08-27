@@ -10,9 +10,9 @@ Apache-licensed adaptation of Candid's wasm-bindgen example in
 third-party portions are not represented as original icblast authorship.
 
 This inventory is deliberately conservative and bounded: it lists every
-registry package in the checked-in `didc_rust/Cargo.lock`, including
-target-specific, build-time, and procedural-macro packages that may not leave
-code in the final WebAssembly. It therefore cannot omit a locked Rust
+registry package in the checked-in `didc_rust/Cargo.lock` and the complete
+source closure of the path-patched `pretty` package, including components that
+may not leave code in the final WebAssembly. It therefore cannot omit a Rust
 dependency merely because optimization removed its symbols. Ordinary npm
 dependencies are not copied into the icblast tarball; npm installs those as
 separate packages carrying their own license metadata and files.
@@ -20,15 +20,15 @@ separate packages carrying their own license metadata and files.
 Artifact evidence for this inventory:
 
 - `didc_wasm_pkg/didc_rust.js`: SHA-256
-  `e06df6dd916e5b1daf8b610a1f5a340c318b21c13e1ce203607419636663fc39`.
-- `didc_wasm_pkg/didc_rust_bg.bin`: 951,093 bytes; SHA-256
-  `97a68d8a1e901b282fb04534d131363edd6ea4f7f6343fa15a9d93cab84e72b7`.
+  `02847c0d670b9291bdadb173de69285a14acec864f2d0f000bd232c465d5d8cd`.
+- `didc_wasm_pkg/didc_rust_bg.bin`: 870,492 bytes; SHA-256
+  `4235e33cd96b3fde282514cfd73b96041c0290aea02e3e786ba715ac3eb01508`.
 - `didc_rust/Cargo.lock`: SHA-256
-  `e549c66e90549edb955a0081d1f1fcbfbc99c7a3ccddf4eb27e31f3d22d3c1bc`.
+  `b4b34b369d706fb199c320995c1a2c0c6287fa09925d670e5faffb1df2252e02`.
 - `didc_rust/Cargo.toml`: SHA-256
-  `bbe6ee7ee79c15f87cae1f53f1f8776133df72398ffc6f24c6aed8c89e24330a`.
+  `63a0e3630ceef952f2936e5acf867c8b987353c26a68d0c8efeed7ab1182917f`.
 - `didc_rust/src/lib.rs`: SHA-256
-  `4c35cf05162fad5b6ee31c78cb0aab57a1324737177d1696428b97dce7317be0`.
+  `86d0534c847ace34b213ea526b0a732f106f765f276afc859047a88b3946d8e5`.
 - The WebAssembly producer section records Rust
   `1.89.0 (29483883e 2025-08-04)`, wasm-bindgen `0.2.100`, and
   walrus `0.23.3`.
@@ -45,11 +45,10 @@ available only under MIT, CC0-1.0, or the additional Unicode-3.0 terms remain
 under those terms.
 
 The root `LICENSE` contains Apache-2.0. The machine-readable
-`third_party/licenses/rust/map.json` binds each locked crate, its exact
-crates.io archive checksum, every legal file path captured from that archive,
-and the SHA-256 of the corresponding content-addressed file under
-`third_party/licenses/rust/material/`. Eight crates whose published archives
-omit legal files are mapped to checksum-pinned legal material from their exact
+`third_party/licenses/rust/map.json` binds each locked registry crate, the
+vendored patch, the exact shipped compiler source and outputs, legal material,
+byte length, and SHA-256. Eight registry crates whose published archives omit
+legal files are mapped to checksum-pinned legal material from their exact
 source revision or to the locked parent package from the same project. The map
 also identifies the Rust 1.89.0 runtime material and four outside-lock runtime
 crates visible in the shipped WebAssembly. It separately identifies the
@@ -60,9 +59,10 @@ their respective holders.
 The bundle is reproducible with
 `node scripts/generate-rust-license-bundle.mjs`. Generation verifies every
 downloaded `.crate` against `didc_rust/Cargo.lock`, verifies every source
-fallback by SHA-256, and fails if a locked crate lacks mapped legal material.
+fallback and vendored file by SHA-256, rejects unknown local dependencies or
+vendor files, and fails if a Rust component lacks mapped legal material.
 
-The 124 locked registry packages have these license expressions:
+The 123 locked registry packages have these license expressions:
 
 - `(MIT OR Apache-2.0) AND Unicode-3.0`: 1
 - `Apache-2.0`: 5
@@ -71,11 +71,31 @@ The 124 locked registry packages have these license expressions:
 - `Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT`: 1
 - `Apache-2.0/MIT`: 2
 - `CC0-1.0`: 1
-- `MIT`: 15
+- `MIT`: 14
 - `MIT OR Apache-2.0`: 76
 - `MIT/Apache-2.0`: 10
 - `Unlicense OR MIT`: 5
 - `Unlicense/MIT`: 2
+
+### Vendored pretty patch
+
+`pretty@0.12.4` is compiled from
+`didc_rust/vendor/pretty-0.12.4`, not directly from the registry archive. The
+baseline crates.io archive has SHA-256
+`ac98773b7109bc75f475ab5a134c9b64b87e59d776d31098d8f346922396a477`
+and its archived VCS metadata identifies upstream revision
+`bd138e503ee3f679b26c838c9f148fbdaf6d2b7c`. icblast
+balances `DocAllocator` concatenation so a large valid service cannot overflow
+the WebAssembly stack while its `RcDoc` is destroyed; it also trims the vendor
+manifest to the library target. Rendering output is unchanged.
+
+The complete six-file vendor tree has SHA-256
+`653e18d0e6d1c04791f4d3c3d7483e42dbb1bebea343fe6f6581bfabb804ae09`
+using the format documented in the machine-readable map. The modified files
+are `Cargo.toml` and `src/lib.rs`; `PATCH.md` is added; `LICENSE`,
+`src/block.rs`, and `src/render.rs` match the archive. The exact upstream MIT
+license is retained at `didc_rust/vendor/pretty-0.12.4/LICENSE` with SHA-256
+`1f95f905a449519d5ce48bc994c01aa033375046bca261c44270e0e131adb0ef`.
 
 The embedded WebAssembly also contains Rust standard-library material and the
 outside-lock runtime crates `compiler_builtins@0.1.160`, `dlmalloc@0.2.9`,
@@ -168,7 +188,6 @@ the npm payload.
 | [`phf_shared`](https://crates.io/crates/phf_shared/0.11.3) | `0.11.3` | `MIT` | `67eabc2ef2a60eb7faa00097bd1ffdb5bd28e62bf39990626a582201b7a754e5` |
 | [`pico-args`](https://crates.io/crates/pico-args/0.5.0) | `0.5.0` | `MIT` | `5be167a7af36ee22fe3115051bc51f6e6c7054c9348e28deb4f49bd6f705a315` |
 | [`precomputed-hash`](https://crates.io/crates/precomputed-hash/0.1.1) | `0.1.1` | `MIT` | `925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c` |
-| [`pretty`](https://crates.io/crates/pretty/0.12.4) | `0.12.4` | `MIT` | `ac98773b7109bc75f475ab5a134c9b64b87e59d776d31098d8f346922396a477` |
 | [`proc-macro2`](https://crates.io/crates/proc-macro2/1.0.101) | `1.0.101` | `MIT OR Apache-2.0` | `89ae43fd86e4158d6db51ad8e2b80f313af9cc74f5c0e03ccb87de09998732de` |
 | [`psm`](https://crates.io/crates/psm/0.1.26) | `0.1.26` | `MIT OR Apache-2.0` | `6e944464ec8536cd1beb0bbfd96987eb5e3b72f2ecdafdc5c769a37f1fa2ae1f` |
 | [`quote`](https://crates.io/crates/quote/1.0.40) | `1.0.40` | `MIT OR Apache-2.0` | `1885c039570dc00dcb4ff087a89e185fd56bae234ddc7f056a945bf36467248d` |

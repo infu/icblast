@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { Principal } from '@dfinity/principal';
 import {
   convert as convertBrowser,
   convertBack,
@@ -8,6 +9,7 @@ import {
   validateMethodInputSchema as validateBrowserMethodInputSchema,
 } from '../lib/browser.js';
 import {
+  convert as convertNode,
   convertBack as convertNodeBack,
   explainMethodSchema as explainNodeMethodSchema,
   explainer as nodeExplainer,
@@ -106,6 +108,34 @@ describe('browser numbered-Principal policy', () => {
         [{ owners: ['2vxsx-fae', null] }],
       ).ok,
     ).toBe(true);
+  });
+});
+
+describe.each([
+  [
+    'browser',
+    convertBrowser,
+    { idNum: 0, selfPrincipal: Principal.anonymous() },
+  ],
+  ['node', convertNode, {}],
+])('%s ICRC shorthand subaccount bounds', (_name, convertInput, ctx) => {
+  it('accepts 2^256 - 1 and rejects 2^256 without truncation', async () => {
+    const signature = (_name === 'browser' ? explainer : nodeExplainer)(
+      principalInputService,
+    ).account;
+    const max = (1n << 256n) - 1n;
+    const overflow = 1n << 256n;
+
+    const [account] = await convertInput(
+      [`0-${max}`],
+      signature.input,
+      ctx,
+    );
+    expect(account.subaccount).toHaveLength(1);
+    expect([...account.subaccount[0]]).toEqual(new Array(32).fill(255));
+    await expect(
+      convertInput([`0-${overflow}`], signature.input, ctx),
+    ).rejects.toContain('subaccount exceeds 32 bytes');
   });
 });
 
