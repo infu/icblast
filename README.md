@@ -165,6 +165,10 @@ const actor = await getActor(canister);
 The configured `host` is used consistently for status metadata, the supported
 Candid fallback, and actor calls; discovery does not silently switch gateways.
 
+Browser Candid compilation rejects source above 128 KiB before initializing
+Wasm and rejects generated JavaScript above 2 MiB before evaluation. These are
+safety limits for untrusted canister metadata, not network response limits.
+
 Set `allowNumberedPrincipals: false` when an application supplies its own
 identity policy and must reject ICBlast's numeric Principal and numeric
 ICRC-account conveniences.

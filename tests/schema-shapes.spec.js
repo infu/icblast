@@ -5,12 +5,14 @@ import {
   explainMethodSchema as explainBrowserMethodSchema,
   explainer,
   toState as browserToState,
+  validateMethodInputSchema as validateBrowserMethodInputSchema,
 } from '../lib/browser.js';
 import {
   convertBack as convertNodeBack,
   explainMethodSchema as explainNodeMethodSchema,
   explainer as nodeExplainer,
   toState as nodeToState,
+  validateMethodInputSchema as validateNodeMethodInputSchema,
 } from '../lib/icb_node.js';
 
 const service = ({ IDL: Candid }) => Candid.Service({
@@ -56,6 +58,9 @@ const principalInputService = ({ IDL: Candid }) => Candid.Service({
     owner: Candid.Principal,
     subaccount: Candid.Opt(Candid.Vec(Candid.Nat8)),
   })], [], []),
+  nested: Candid.Func([Candid.Record({
+    owners: Candid.Vec(Candid.Opt(Candid.Principal)),
+  })], [], []),
 });
 
 describe('browser numbered-Principal policy', () => {
@@ -71,6 +76,45 @@ describe('browser numbered-Principal policy', () => {
         allowNumberedPrincipals: false,
       }),
     ).rejects.toContain('numbered principals disabled');
+  });
+
+  it('emits validation schemas that match the disabled shorthand policy', () => {
+    const principal = explainBrowserMethodSchema(
+      principalInputService,
+      'principal',
+      { allowNumberedPrincipals: false },
+    );
+    const account = explainBrowserMethodSchema(
+      principalInputService,
+      'account',
+      { allowNumberedPrincipals: false },
+    );
+    const nested = explainBrowserMethodSchema(
+      principalInputService,
+      'nested',
+      { allowNumberedPrincipals: false },
+    );
+
+    expect(validateBrowserMethodInputSchema(principal, [7]).ok).toBe(false);
+    expect(validateBrowserMethodInputSchema(principal, ['2vxsx-fae']).ok).toBe(true);
+    expect(validateBrowserMethodInputSchema(account, ['7-1']).ok).toBe(false);
+    expect(validateBrowserMethodInputSchema(account, ['2vxsx-fae']).ok).toBe(true);
+    expect(validateBrowserMethodInputSchema(nested, [{ owners: [7] }]).ok).toBe(false);
+    expect(
+      validateBrowserMethodInputSchema(
+        nested,
+        [{ owners: ['2vxsx-fae', null] }],
+      ).ok,
+    ).toBe(true);
+  });
+});
+
+describe.each([
+  ['node', explainNodeMethodSchema, validateNodeMethodInputSchema],
+  ['browser', explainBrowserMethodSchema, validateBrowserMethodInputSchema],
+])('%s numbered-Principal schema compatibility', (_name, explain, validate) => {
+  it('keeps numeric shorthand enabled by default', () => {
+    expect(validate(explain(principalInputService, 'principal'), [7]).ok).toBe(true);
   });
 });
 

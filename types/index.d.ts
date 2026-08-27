@@ -51,9 +51,9 @@ declare const icblast: {
   hashIdentity(passOrId?: unknown): Promise<any>;
   loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
   toState(x: unknown): unknown;
-  explainMethodSchema(source: any, method: string): MethodSchema;
-  explainServiceSchema(source: any): MethodSchemaMap;
-  validateMethodInput(source: any, method: string, args?: unknown[]): MethodInputValidation;
+  explainMethodSchema(source: any, method: string, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchema;
+  explainServiceSchema(source: any, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchemaMap;
+  validateMethodInput(source: any, method: string, args?: unknown[], options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodInputValidation;
   validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 };
 
@@ -61,9 +61,9 @@ export function ic(opts?: IcblastOptions): Promise<(canister: string) => Promise
 export function hashIdentity(passOrId?: unknown): Promise<any>;
 export function loadExistingIdentity(id?: number): Promise<ExistingIcblastIdentity>;
 export function toState(x: unknown): unknown;
-export function explainMethodSchema(source: any, method: string): MethodSchema;
-export function explainServiceSchema(source: any): MethodSchemaMap;
-export function validateMethodInput(source: any, method: string, args?: unknown[]): MethodInputValidation;
+export function explainMethodSchema(source: any, method: string, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchema;
+export function explainServiceSchema(source: any, options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodSchemaMap;
+export function validateMethodInput(source: any, method: string, args?: unknown[], options?: Pick<IcblastOptions, 'allowNumberedPrincipals'>): MethodInputValidation;
 export function validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 export function idlFactoryFromCandid(
   candid: string,

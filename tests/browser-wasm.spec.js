@@ -45,6 +45,32 @@ describe("browser-local Candid conversion", () => {
     ).rejects.toThrow();
   });
 
+  test("rejects oversized Candid before initializing Wasm", async () => {
+    const oversized = `service : { ${"x : () -> ();".repeat(11_000)} }`;
+    await expect(
+      idlFactoryFromCandid(oversized, {
+        didcWasm: "data:application/wasm;base64,AA==",
+      }),
+    ).rejects.toThrow("Candid interface exceeds 131072 UTF-8 bytes");
+  });
+
+  test("accepts the exact Candid byte boundary and rejects one byte more", async () => {
+    const didcWasm = new Uint8Array(await readFile(wasmPath));
+    const limit = 128 * 1024;
+    const suffix = "*/ service : {}";
+    const exact = `/*${"x".repeat(
+      limit - Buffer.byteLength(`/*${suffix}`, "utf8"),
+    )}${suffix}`;
+
+    expect(Buffer.byteLength(exact, "utf8")).toBe(limit);
+    await expect(
+      idlFactoryFromCandid(exact, { didcWasm }),
+    ).resolves.toBeTypeOf("function");
+    await expect(
+      idlFactoryFromCandid(`${exact} `, { didcWasm }),
+    ).rejects.toThrow("Candid interface exceeds 131072 UTF-8 bytes");
+  });
+
   test("initializes a fresh browser compiler from a bundler-style Wasm URL", async () => {
     const script = String.raw`
       import { readFile } from "node:fs/promises";

@@ -76,6 +76,17 @@ describe("npm release metadata", () => {
         prepublishOnly:
           "npm test && node scripts/verify-release-state.mjs",
       },
+      exports: {
+        "./didc-wasm": {
+          types: "./types/didc-wasm.d.ts",
+          default: "./didc_wasm_pkg/didc_rust_bg.bin",
+        },
+      },
+      dependencies: {
+        "@modelcontextprotocol/sdk": "^1.30.0",
+        ajv: "^8.20.0",
+        "fast-uri": "^3.1.5",
+      },
     });
     expect(lock.version).toBe("4.3.1");
     expect(lock.packages[""]).toMatchObject({
@@ -83,6 +94,11 @@ describe("npm release metadata", () => {
       version: "4.3.1",
       license: "Apache-2.0",
     });
+    expect(lock.packages["node_modules/@modelcontextprotocol/sdk"].version).toBe(
+      "1.30.0",
+    );
+    expect(lock.packages["node_modules/ajv"].version).toBe("8.20.0");
+    expect(lock.packages["node_modules/fast-uri"].version).toBe("3.1.6");
     expect(cargoManifest).toMatch(/^license = "Apache-2.0"$/mu);
     expect(cargoManifest).toMatch(/^publish = false$/mu);
     expect(cargoManifest).toContain(
@@ -336,6 +352,7 @@ describe("npm release metadata", () => {
       "third_party/licenses/rust/material/ab6eec6caf0fa5775e411c7a8bc6a45c4ef2956b0980b157ab74fc5cd62a928b.txt",
       "third_party/licenses/rust/material/b68ef2ab36c010ae7a63756d07f34e36054ed4574a3b0f09b778e29dd9706a91.txt",
       "third_party/licenses/rust/material/9934873304420fc1720c09cd92ad272240508da2ea69279d638a7820db4415ff.txt",
+      "types/didc-wasm.d.ts",
     ]));
     expect(paths).not.toContain("package-lock.json");
     expect(paths.some((filePath) => filePath.includes("node_modules"))).toBe(
@@ -346,5 +363,11 @@ describe("npm release metadata", () => {
         filePath.startsWith("third_party/licenses/rust/material/"),
       ),
     ).toEqual(mappedMaterialPaths);
+    expect(
+      paths.filter((filePath) =>
+        filePath.startsWith("third_party/licenses/") &&
+        !filePath.startsWith("third_party/licenses/rust/"),
+      ),
+    ).toEqual([]);
   });
 });

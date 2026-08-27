@@ -24,7 +24,10 @@
       "import": "./lib/index.js",
       "types": "./types/index.d.ts"
     },
-    "./didc-wasm": "./didc_wasm_pkg/didc_rust_bg.bin",
+    "./didc-wasm": {
+      "types": "./types/didc-wasm.d.ts",
+      "default": "./didc_wasm_pkg/didc_rust_bg.bin"
+    },
     "./mcp": {
       "import": "./lib/mcp_server.js",
       "types": "./types/mcp_server.d.ts"
@@ -42,7 +45,7 @@
     "README.md",
     "scripts/generate-rust-license-bundle.mjs",
     "scripts/verify-release-state.mjs",
-    "third_party/licenses",
+    "third_party/licenses/rust",
     "types"
   ],
   "engines": {
@@ -68,9 +71,10 @@
     "@dfinity/principal": "^3.2.3",
     "@dfinity/ledger-icrc": "^4.1.0",
     "@dfinity/utils": "^3.2.0",
-    "ajv": "^8.12.0",
+    "ajv": "^8.20.0",
+    "fast-uri": "^3.1.5",
     "picocolors": "^1.0.0",
-    "@modelcontextprotocol/sdk": "^1.2.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "zod": "^3.23.8"
   }
 }
