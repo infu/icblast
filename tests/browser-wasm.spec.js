@@ -71,6 +71,40 @@ describe("browser-local Candid conversion", () => {
     ).rejects.toThrow("Candid interface exceeds 131072 UTF-8 bytes");
   });
 
+  test("allows callers to raise both local compiler byte limits explicitly", async () => {
+    const didcWasm = new Uint8Array(await readFile(wasmPath));
+    const source = `/*${"x".repeat(128 * 1024)}*/ service : {};`;
+    const sourceBytes = Buffer.byteLength(source, "utf8");
+
+    await expect(
+      idlFactoryFromCandid(source, {
+        didcWasm,
+        maxCandidSourceBytes: sourceBytes,
+      }),
+    ).resolves.toBeTypeOf("function");
+    await expect(
+      idlFactoryFromCandid("service : {};", {
+        didcWasm,
+        maxGeneratedJavaScriptBytes: 1,
+      }),
+    ).rejects.toThrow("Generated Candid JavaScript exceeds 1 UTF-8 bytes");
+  });
+
+  test("rejects invalid local compiler byte limits", async () => {
+    await expect(
+      idlFactoryFromCandid("service : {};", {
+        maxCandidSourceBytes: 0,
+      }),
+    ).rejects.toThrow("maxCandidSourceBytes must be a positive safe integer");
+    await expect(
+      idlFactoryFromCandid("service : {};", {
+        maxGeneratedJavaScriptBytes: Number.POSITIVE_INFINITY,
+      }),
+    ).rejects.toThrow(
+      "maxGeneratedJavaScriptBytes must be a positive safe integer",
+    );
+  });
+
   test("initializes a fresh browser compiler from a bundler-style Wasm URL", async () => {
     const script = String.raw`
       import { readFile } from "node:fs/promises";

@@ -25,6 +25,10 @@ export interface IcblastOptions {
    * Bundlers may pass an emitted asset URL; tests may pass bytes directly.
    */
   didcWasm?: unknown;
+  /** Maximum UTF-8 bytes accepted for a Candid source. Defaults to 128 KiB. */
+  maxCandidSourceBytes?: number;
+  /** Maximum UTF-8 bytes accepted for generated JavaScript. Defaults to 2 MiB. */
+  maxGeneratedJavaScriptBytes?: number;
   /** Disable numeric Principal and numeric ICRC-account conveniences. */
   allowNumberedPrincipals?: boolean;
 }
@@ -67,7 +71,10 @@ export function validateMethodInput(source: any, method: string, args?: unknown[
 export function validateMethodInputSchema(methodSchema: MethodSchema, args?: unknown[]): MethodInputValidation;
 export function idlFactoryFromCandid(
   candid: string,
-  options?: Pick<IcblastOptions, 'didcWasm'>
+  options?: Pick<
+    IcblastOptions,
+    'didcWasm' | 'maxCandidSourceBytes' | 'maxGeneratedJavaScriptBytes'
+  >
 ): Promise<(context: { IDL: unknown }) => unknown>;
 
 export default icblast;

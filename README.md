@@ -167,7 +167,9 @@ Candid fallback, and actor calls; discovery does not silently switch gateways.
 
 Browser Candid compilation rejects source above 128 KiB before initializing
 Wasm and rejects generated JavaScript above 2 MiB before evaluation. These are
-safety limits for untrusted canister metadata, not network response limits.
+safety defaults for untrusted canister metadata, not network response limits.
+Trusted callers that already bind the interface bytes may set
+`maxCandidSourceBytes` and `maxGeneratedJavaScriptBytes` explicitly.
 
 Set `allowNumberedPrincipals: false` when an application supplies its own
 identity policy and must reject ICBlast's numeric Principal and numeric
@@ -200,7 +202,7 @@ and license verification hooks for that path.
 
 ## License
 
-The first-party portions of icblast 4.3.1 are licensed under the Apache
+The first-party portions of icblast 4.3.2 are licensed under the Apache
 License, Version 2.0. See [LICENSE](./LICENSE). Earlier releases and repository
 history retain the terms under which they were distributed; this release does
 not retroactively relabel them.

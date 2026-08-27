@@ -65,7 +65,7 @@ describe("npm release metadata", () => {
 
     expect(manifest).toMatchObject({
       name: "icblast",
-      version: "4.3.1",
+      version: "4.3.2",
       license: "Apache-2.0",
       repository: {
         type: "git",
@@ -88,10 +88,10 @@ describe("npm release metadata", () => {
         "fast-uri": "^3.1.5",
       },
     });
-    expect(lock.version).toBe("4.3.1");
+    expect(lock.version).toBe("4.3.2");
     expect(lock.packages[""]).toMatchObject({
       name: "icblast",
-      version: "4.3.1",
+      version: "4.3.2",
       license: "Apache-2.0",
     });
     expect(lock.packages["node_modules/@modelcontextprotocol/sdk"].version).toBe(
@@ -334,7 +334,7 @@ describe("npm release metadata", () => {
       ),
     )].sort();
 
-    expect(packed).toMatchObject({ name: "icblast", version: "4.3.1" });
+    expect(packed).toMatchObject({ name: "icblast", version: "4.3.2" });
     expect(paths).toEqual(expect.arrayContaining([
       "LICENSE",
       "NOTICE",
